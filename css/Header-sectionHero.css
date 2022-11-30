@@ -1,0 +1,25 @@
+.navbar {
+  right: 6rem;
+  top: 01rem;
+  z-index: 10;
+  position: absolute;
+  width: 80%;
+}
+.carousel-item {
+  height: 100vh;
+}
+.img {
+  filter: brightness(0.5);
+}
+#img1 {
+  transition: transform 12s;
+  transform: scale(1.1);
+}
+.carousel-caption {
+  text-align: right;
+  top: 40%;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: 10%;
+}
