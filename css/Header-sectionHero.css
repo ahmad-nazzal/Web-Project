@@ -3,7 +3,7 @@
   top: 01rem;
   z-index: 10;
   position: absolute;
-  width: 80%;
+  width: 85%;
 }
 .carousel-item {
   height: 100vh;
@@ -22,4 +22,16 @@
 .carousel-control-prev,
 .carousel-control-next {
   width: 10%;
+}
+.icons {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+body.modal-open .bg,
+.modal-backdrop.fade.show {
+  z-index: 1;
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  background-color: #3b3939d9;
 }
