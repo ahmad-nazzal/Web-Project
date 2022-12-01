@@ -1,7 +1,26 @@
 {
+  "name": "web-project",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "sass scss/style.scss:css/style.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmad-nazzal/Web-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahmad-nazzal/Web-Project/issues"
+  },
   "dependencies": {
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
-    "bootstrap-scss": "^5.2.2"
-  }
+    "bootstrap-scss": "^5.2.2",
+    "sass": "^1.56.1"
+  },
+  "homepage": "https://github.com/ahmad-nazzal/Web-Project#readme"
 }
