@@ -28,6 +28,7 @@
   cursor: pointer;
 }
 
+/*///////////////////////////// modal \\\\\\\\\\\\\\\\\\*/
 body.modal-open .bg,
 .modal-backdrop.fade.show {
   z-index: 1;
@@ -35,3 +36,53 @@ body.modal-open .bg,
   filter: blur(5px);
   background-color: #3b3939d9;
 }
+
+.remove-separator-modal {
+  border: 0;
+}
+.modal-footer {
+  justify-content: center;
+}
+.sign-in-btnn {
+  background-color: #fa6338;
+  color: white;
+  width: 100%;
+  border-radius: 20px;
+  font-size: 1.4rem;
+  margin-top: 5%;
+}
+.sign-in-btnn:hover,
+.sign-in-btnn:focus {
+  background-color: #e35d38 !important;
+}
+.sign-up-btnn:link,
+.sign-up-btnn:visited {
+  text-decoration: none;
+}
+.sign-up-btnn:hover,
+.sign-up-btnn:active {
+  border-bottom: 1px #1b77fd solid;
+}
+
+.modal-body > p,
+.modal-body > a {
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+.modal-body > a:hover,
+.modal-footbodyer > a:active {
+  border-bottom: 1px #555 solid;
+}
+
+.forgot-password:link,
+.forgot-password:visited {
+  text-decoration: none;
+  color: #1b77fd;
+  font-size: 0.8rem;
+}
+.forgot-password:hover,
+.forgot-password:active {
+  border-bottom: 1px #1b77fd solid;
+}
+
+/* ///////////////////////////////////////////////// */

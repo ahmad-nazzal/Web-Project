@@ -33,26 +33,47 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modalblur">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="head-label">Modal</h1>
+        <div class="modal-content">
+          <div class="modal-header remove-separator-modal">
             <button
               type="button"
-              class="btn-close"
+              class="btn-close sign-in-btn"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-body">
+            <h1 class="color-333 text-center bold pb-3 bold">
+              تسجيل الدخول إلى آجار
+            </h1>
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingInput"
+                placeholder="name@example.com"
+              />
+              <label for="floatingInput" class="color-333"
+                >البريد الإلكتروني</label
+              >
+            </div>
+            <div class="form-floating">
+              <input
+                type="password"
+                class="form-control password-field"
+                id="floatingPassword"
+                placeholder="Password"
+              />
+              <label for="floatingPassword" class="color-333">كلمة السر</label>
+            </div>
+            <button type="button" class="btn sign-in-btnn">تسجيل الدخول</button>
+            <p class="text-center pt-3">
+              <a class="forgot-password" href="#">هل نسيت كلمة السر؟</a>
+            </p>
+            <p class="text-black-50 text-center">
+              هل لديك حساب؟
+              <a href="#" class="sign-up-btnn">التسجيل في آجار</a>
+            </p>
           </div>
         </div>
       </div>
@@ -71,7 +92,7 @@
               </li>
               <li class="nav-item">
                 <i
-                  class="fa bi-person-fill icons"
+                  class="bi-person-fill icons"
                   data-bs-toggle="modal"
                   data-bs-target="#sign-in-modal"
                 ></i>
@@ -166,7 +187,7 @@
           </div>
         </section>
       </main>
-      <footer><button class="btn btn-primary">fdsfdsaf</button></footer>
+      <footer></footer>
     </div>
   </body>
 </html>
