@@ -1,16 +1,28 @@
+/* 
+test
+  color: #fa6338
+body background: #ffefeb
+
+
+main
+bg #E3F3FF
+color:#183d6d
+*/
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: #fff;
 }
 
 body {
+  background-color: #e3f3ff;
+  color: #183d6d;
   font-family: sans-serif;
   line-height: 1;
 }
 .color-333 {
-  color: #333;
+  color: #183d6d;
 }
 textarea:focus,
 input[type="text"]:focus,
@@ -33,4 +45,14 @@ input[type="color"]:focus,
 }
 .bold {
   font-weight: 700;
+}
+i {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  font-style: normal;
+}
+.btn,
+.btn:hover {
+  color: white;
 }
