@@ -1,16 +1,35 @@
 .navbar {
-  right: 6rem;
-  top: 01rem;
-  z-index: 10;
-  position: absolute;
+  padding: 0;
+  background-image: linear-gradient(
+    85.19deg,
+    #ff2a64 -133.27%,
+    #ffaf48 105.93%
+  );
+}
+.container-fluid {
+  width: 90%;
+  margin: auto;
+}
+.main-container {
   width: 85%;
+  margin: auto;
+}
+.carousel {
+  padding-top: 2.4rem;
 }
 .carousel-item {
-  height: 100vh;
+  height: 40vh;
+}
+.carousel-inner {
+  border-radius: 5px;
+}
+.carousel-indicators {
+  bottom: -3rem;
 }
 .img {
-  filter: brightness(0.5);
+  filter: brightness(0.7);
 }
+
 #img1 {
   transition: transform 12s;
   transform: scale(1.1);
@@ -36,18 +55,18 @@ body.modal-open .bg,
   filter: blur(5px);
   background-color: #3b3939d9;
 }
-#floatingInput {
-  text-align: right;
+.modal-header {
+  flex-direction: column;
 }
 .remove-separator-modal {
   border: 0;
 }
-.modal-footer {
-  justify-content: center;
-}
 .sign-in-btnn {
-  background-color: #fa6338;
-  color: white;
+  background-image: linear-gradient(
+    85.19deg,
+    #ff2a64 -133.27%,
+    #ffaf48 105.93%
+  );
   width: 100%;
   border-radius: 20px;
   font-size: 1.4rem;
@@ -75,16 +94,23 @@ body.modal-open .bg,
 .modal-footbodyer > a:active {
   border-bottom: 1px #555 solid;
 }
-
+.tab-pane > h1 {
+  font-size: 1.8rem;
+}
 .forgot-password:link,
 .forgot-password:visited {
   text-decoration: none;
   color: #1b77fd;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 .forgot-password:hover,
 .forgot-password:active {
   border-bottom: 1px #1b77fd solid;
 }
-
+.have-acount {
+  font-size: 0.8rem;
+}
+.name-container {
+  gap: 1.2rem;
+}
 /* ///////////////////////////////////////////////// */
