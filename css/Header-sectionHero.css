@@ -36,7 +36,9 @@ body.modal-open .bg,
   filter: blur(5px);
   background-color: #3b3939d9;
 }
-
+#floatingInput {
+  text-align: right;
+}
 .remove-separator-modal {
   border: 0;
 }
