@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap");
+html {
+  font-family: "Noto Naskh Arabic", serif;
+}
 .navbar {
   padding: 0;
   background-image: linear-gradient(
@@ -71,6 +75,7 @@ body.modal-open .bg,
   border-radius: 20px;
   font-size: 1.4rem;
   margin-top: 5%;
+  font-weight: 700;
 }
 .sign-in-btnn:hover,
 .sign-in-btnn:focus {

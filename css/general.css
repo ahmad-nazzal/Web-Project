@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap");
+
 /* 
 test
   color: #fa6338
@@ -14,16 +16,19 @@ color:#183d6d
   margin: 0;
   box-sizing: border-box;
 }
-
+html {
+  font-family: "Noto Naskh Arabic", serif;
+}
 body {
   background-color: #e3f3ff;
-  color: #183d6d;
+  color: #333;
   font-family: sans-serif;
   line-height: 1;
 }
 .color-333 {
-  color: #183d6d;
+  color: #333;
 }
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
