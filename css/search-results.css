@@ -1,0 +1,12 @@
+.star-container {
+  display: flex;
+  gap: 2px;
+}
+.item-info {
+  display: flex;
+  justify-content: space-between;
+}
+.price {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
