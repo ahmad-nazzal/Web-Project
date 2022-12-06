@@ -206,11 +206,15 @@
         <nav class="navbar navbar-dark navbar-expand-sm">
           <div class="container-fluid">
             <a class="navbar-brand logo" href="#"><h3>آجار</h3></a>
-            <input
-              class="form-control search-bar"
-              type="text"
-              placeholder="بحث..."
-            />
+            <form action="search-results.php" method="get" class="form-search">
+              <input
+                class="form-control search-bar"
+                type="text"
+                placeholder="بحث..."
+                name="search-field"
+              />
+              <input type="submit" class="search-btn btn" title="بحث" />
+            </form>
             <ul class="navbar-nav gap-2">
               <li class="nav-item">
                 <a class="nav-link" href="#">الصفحة الرئيسية</a>
