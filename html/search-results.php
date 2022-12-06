@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -240,7 +240,7 @@
       </section>
     </div>
     <section>
-      <ul class="pagination justify-content-center mt-3">
+      <ul class="pagination modal-3 justify-content-center mt-3">
         <li class= "page-item"><a href="#"  class ="page-link">
         <i class="bi bi-caret-left-fill"></i>
         </a></li>

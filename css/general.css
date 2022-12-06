@@ -7,7 +7,7 @@ body background: #ffefeb
 
 
 main
-bg #E3F3FF
+bg #fff
 color:#183d6d
 */
 
@@ -20,7 +20,7 @@ html {
   font-family: "Noto Naskh Arabic", serif;
 }
 body {
-  background-color: #e3f3ff;
+  background-color: #fff;
   color: #333;
   font-family: sans-serif;
   line-height: 1;
@@ -60,4 +60,15 @@ i {
 .btn,
 .btn:hover {
   color: white;
+}
+
+.nav-link {
+  color: #000; /*this is better contrast than white, check coolers.com*/
+}
+.nav-item {
+  font-weight: 500;
+  font-size: 1em;
+}
+.logo {
+  color: #222;
 }
