@@ -60,7 +60,6 @@ input[type="color"]:focus,
 i {
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
   font-style: normal;
 }
 .btn,
@@ -69,7 +68,10 @@ i {
 }
 
 .nav-link {
-  color: #000; /*this is better contrast than white, check coolers.com*/
+  color: white; /*this is better contrast than white, check coolers.com response : here is not fuck you*/
+}
+.navbar-nav {
+  color: white;
 }
 .nav-item {
   font-weight: 500;
@@ -83,4 +85,9 @@ i {
   height: 40px;
   background-color: #ffefeb;
   margin-right: 25%;
+}
+.icons {
+  font-size: 1.8rem;
+  cursor: pointer;
+  gap: 4px;
 }
