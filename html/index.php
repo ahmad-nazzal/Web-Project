@@ -1,7 +1,7 @@
 <?php
 
-use LDAP\Result;
 session_start();
+use LDAP\Result;
 require 'database.php';
 require 'functions.php';
 $isuser=false;
@@ -17,8 +17,9 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
   $userName=$_POST['upFirstName'].' '.$_POST['upLastName'];
   if($con->query($query)){
     $isuser=true;
-    $session['username']=$user_email;
-    $session['password']=$user_pass;
+    $_SESSION['useremail']=$user_email;
+    $_SESSION['username']=$username;
+    $_SESSION['userPhone']=$upPhone;
   }
 }
 
@@ -34,8 +35,10 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
     $userName=$user_data['first_name'].' '.$user_data['last_name'];
     if($user_data['pass']===sha1($user_pass)){
       $isuser=true;
-      $session['username']=$user_email;
-      $session['password']=$user_pass;
+      $_SESSION['useremail']=$user_email;
+      $_SESSION['username']=$userName;
+      $_SESSION['userPhone']=$user_data['phone'];
+
 
     }
 
@@ -318,7 +321,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
     <!-- main page -->
     <div class="base-container bg">
       <header>
-        <nav class="navbar navbar-dark navbar-expand-sm">
+        <nav id="navbar_top"class="navbar navbar-dark navbar-expand-sm">
           <div class="container-fluid">
             <a class="navbar-brand" href="index.php">
               <h3>آجار</h3>
@@ -330,9 +333,9 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                 placeholder="بحث..."
                 name="search-field"
               />
-              <input type="submit" class="search-btn btn" title="بحث" />
+              <!-- <input type="submit" class="search-btn btn" title="بحث" /> -->
             </form>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ">
               <li class="nav-item">
                 <a class="nav-link" href="#">الصفحة الرئيسية</a>
               </li>
@@ -356,7 +359,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                   }
                   else{
                   ?>
-                  <a href="#" id="avatar" >
+                  <a href="profile.php" id="avatar" >
                     <i class="bi bi-person-circle icons">
                       <span class="fs-6">
                         <?php
@@ -491,15 +494,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                        ON images.item_id=items.ID),items_tags where items.ID= items_tags.item_id and items_tags.tag_category='$cate'";
                       $resultt=$con->query($queryCard);
                       while($cardData=mysqli_fetch_assoc($resultt)){
-
-                      
-
-
-
                     ?>
-
-
-
                       <div class="card swiper-slide"  style="width: 18rem;">
                       <span class="ratig-card">
                         <i class="bi bi-star-fill star-icon">
