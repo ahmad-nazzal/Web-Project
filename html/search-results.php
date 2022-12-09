@@ -1,6 +1,8 @@
 <?php
   include_once("../php_duplicate_code/classes/items_results.php");
   include_once("../php_duplicate_code/classes/nav_bar.php");
+  include_once("../php_duplicate_code/stylesheets_import.php");
+
   // include_once("../php_duplicate_code/nav_bar.php");
   $flag = false;
   $user_input = "";
@@ -57,20 +59,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search</title>
 
-  <link
-      rel="stylesheet"
-      href="../node_modules/bootstrap/dist/css/bootstrap.rtl.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <link href="../css/Header-sectionHero.css" rel="stylesheet" />
-  
-    <script defer src="../js/test.js"></script>
+  <?php
+    getStyles();
+  ?>
     <link rel="stylesheet" href="../css/search-results.css">
-    <link rel="stylesheet" href="../css/general.css">
 </head>
 <body>
 <?php
