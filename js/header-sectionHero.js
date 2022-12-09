@@ -91,27 +91,18 @@ function validate() {
   const form = document.getElementById("form-sign");
   // && email.search(/\B@\B/) != -1
   if (pass != "" && email != "") {
-    // const xhttp = new XMLHttpRequest();
-    // const flag = "lqlq";
-
-    // alert("dsad");
-    // xhttp.onload = function () {
-    //   flag = this.responseText;
-    //   alert(flag + "fdfa");
-    // };
-    // xhttp.open("POST", "api.php", false);
-    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.send("emailIn=" + email + "&passIn=" + pass + '"');
-
-    // alert(flag);
-    // alert(flag == "false");
-    // if (flag == "false") {
-    //   return false;
-    // } else {
-    //   alert("fsad");
-    //   return true;
-    // }
-    return true;
+    // api works and enter the if but it retrns true i dont know why
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+      if (this.responseText.localeCompare("false")) {
+        return false;
+      } else {
+        return true;
+      }
+    };
+    xhttp.open("POST", "api.php", false);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("emailIn=" + email + "&passIn=" + pass + '"');
   } else {
     form.classList.add("was-validated");
     return false;

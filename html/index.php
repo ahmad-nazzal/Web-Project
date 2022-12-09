@@ -1,7 +1,6 @@
 <?php
 
 use LDAP\Result;
-
 session_start();
 require 'database.php';
 require 'functions.php';
@@ -45,8 +44,6 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
   
   
 }
-$con->close();
-
 
 ?>
 <!DOCTYPE html>
@@ -55,6 +52,7 @@ $con->close();
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <!-- direct connect with bootstrap  -->
     <!--<link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
@@ -465,28 +463,59 @@ $con->close();
           </div>
         </section>
         <section class="cards">
+        <?php
+                  $sql='select * from tags';
+                  $result = $con->query($sql);
+                  while($tagsData= mysqli_fetch_assoc($result)){
+                    
+                
+                ?>
           <div class="slide-container swiper">
               <div class="slide-content">
-                <h1 class="cat-name">cat1</h1>
+                
+                <h1 class="cat-name pb-2"><?php echo $tagsData['category'] ?></h1>
                   <div class="card-wrapper swiper-wrapper">
+                    <?php
+                      $cate=$tagsData['category'];
+                      $queryCard="SELECT Title, price_per_day,avgRate,image_url from ( (items INNER JOIN (SELECT AVG(rating) as
+                       avgRate,item_id from reviews GROUP BY item_id) rate ON id=item_id ) INNER JOIN images 
+                       ON images.item_id=items.ID),items_tags where items.ID= items_tags.item_id and items_tags.tag_category='$cate'";
+                      $resultt=$con->query($queryCard);
+                      while($cardData=mysqli_fetch_assoc($resultt)){
+
+                      
+
+
+
+                    ?>
+
+
+
                       <div class="card swiper-slide"  style="width: 18rem;">
                       <span class="ratig-card">
                         <i class="bi bi-star-fill star-icon">
-                          <span style="font-size:0.8rem;">4.7</span>
+                          <span style="font-size:0.8rem;"><?php echo number_format($cardData['avgRate'], 1, '.', '');?></span>
                         </i>
                       </span>
-                        <img src="../assets/imgs/web images/shoes240.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="<?php echo $cardData['image_url'];?>"  onclick="location.href='#'" class="card-img-top" alt="...">
                         <div class="card-body">
-                          <h5 class="card-title text-center">Shoes</h5>
+                          <h5 class="card-title text-center"><?php echo $cardData['Title'];?></h5>
                           <div class="card-content">
                             <div class="price">
-                              <p class="card-text">$99.9</p>
+                              <p class="card-text">$<?php echo $cardData['price_per_day'];?></p>
                               <p class="card-text every-day">لكل يوم</p>
                             </div>
                             <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
                           </div>
                         </div>
                       </div>
+
+                      <?php
+                      }
+                      ?>
+
+
+
                       <div class="card swiper-slide"  style="width: 18rem;">
                       <span class="ratig-card">
                         <i class="bi bi-star-fill star-icon">
@@ -585,14 +614,16 @@ $con->close();
                  
                      
                   </div>
+                  
               </div>
-
               <div class="swiper-button-next swiper-navBtn"></div>
               <div class="swiper-button-prev swiper-navBtn"></div>
               <div class="swiper-pagination"></div>
           </div>
         
-
+          <?php
+                    }
+                    ?>
 
         </section>
       </main>
@@ -618,7 +649,7 @@ $con->close();
           prevEl: ".swiper-button-next",
         },
         autoplay: {
-          delay: 2500,
+          delay: 5000,
           disableOnInteraction: false,
         },
         breakpoints: {
@@ -633,6 +664,7 @@ $con->close();
           },
         },
       });
+      <?php $con->close(); ?>
       </script>
   </body>
 </html>
