@@ -3,6 +3,7 @@
 /* 
 test
   color: #fa6338
+  tints: #fdb19c #fb8260 
 body background: #ffefeb
 
 gradient:
@@ -80,11 +81,57 @@ i {
 .logo {
   color: #222;
 }
-.search-bar {
+
+.form-check-input:checked {
+  background-color: #fb8260;
+  border-color: #fb8260;
+}
+.btn-primary {
+  background-color: #fa6338;
+  border-color: #fa6338;
+}
+.btn-primary:hover {
+  border-color: #963b22;
+  background-color: #963b22;
+}
+
+.bi-star-fill {
+  color: #fb8260;
+}
+.bi-star {
+  color: #fb8260;
+}
+
+.form-search {
   width: 40%;
+  margin-right: 25%;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.search-btn {
+  color: white;
+  background-color: #4b1e11;
+  font-weight: 500;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.search-btn:hover {
+  background-color: #963b22;
+}
+.search-bar {
+  width: 100%;
   height: 40px;
   background-color: #ffefeb;
-  margin-right: 25%;
+}
+
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #fdb19c;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(253 177 156/ 25%);
 }
 .icons {
   font-size: 1.8rem;
