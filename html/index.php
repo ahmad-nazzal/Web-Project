@@ -320,7 +320,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
       <header>
         <nav class="navbar navbar-dark navbar-expand-sm">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.php">
               <h3>آجار</h3>
             </a>
             <form action="search-results.php" method="get" class="form-search">

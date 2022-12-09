@@ -245,7 +245,7 @@
 <header>
         <nav class="navbar navbar-dark navbar-expand-sm">
           <div class="container-fluid">
-            <a class="navbar-brand logo" href="#"><h3>آجار</h3></a>
+            <a class="navbar-brand logo" href="index.php"><h3>آجار</h3></a>
             <form action="search-results.php" method="get" class="form-search">
               <input
                 class="form-control search-bar"
