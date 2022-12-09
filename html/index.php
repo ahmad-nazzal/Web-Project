@@ -323,6 +323,15 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
             <a class="navbar-brand" href="#">
               <h3>آجار</h3>
             </a>
+            <form action="search-results.php" method="get" class="form-search">
+              <input
+                class="form-control search-bar"
+                type="text"
+                placeholder="بحث..."
+                name="search-field"
+              />
+              <input type="submit" class="search-btn btn" title="بحث" />
+            </form>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="#">الصفحة الرئيسية</a>
