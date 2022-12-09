@@ -26,9 +26,7 @@ html {
 .carousel {
   padding-top: 2.4rem;
 }
-.carousel-item {
-  height: 40vh;
-}
+
 .carousel-inner {
   border-radius: 5px;
 }
@@ -51,12 +49,23 @@ html {
 .carousel-control-next {
   width: 10%;
 }
-.icons {
-  font-size: 1.8rem;
-  cursor: pointer;
-}
 
 /*///////////////////////////// modal \\\\\\\\\\\\\\\\\\*/
+#sign-up-form,
+#sign-in-form,
+#forgot-formm,
+.invalid-feedback {
+  animation: opicity 1s;
+}
+@keyframes opicity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
 body.modal-open .bg,
 .modal-backdrop.fade.show {
   z-index: 1;
@@ -64,8 +73,8 @@ body.modal-open .bg,
   filter: blur(5px);
   background-color: #3b3939d9;
 }
-.modal-header {
-  flex-direction: column;
+.modal-header .btn-close {
+  margin-left: 100%;
 }
 .remove-separator-modal {
   border: 0;
@@ -122,5 +131,12 @@ body.modal-open .bg,
 }
 .name-container {
   gap: 1.2rem;
+}
+#avatar {
+  text-decoration: none;
+  color: white;
+}
+.bi-box-arrow-left {
+  padding-right: 1rem;
 }
 /* ///////////////////////////////////////////////// */

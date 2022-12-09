@@ -61,7 +61,6 @@ input[type="color"]:focus,
 i {
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
   font-style: normal;
 }
 .btn,
@@ -70,7 +69,10 @@ i {
 }
 
 .nav-link {
-  color: #000; /*this is better contrast than white, check coolers.com*/
+  color: white; /*this is better contrast than white, check coolers.com response : here is not fuck you*/
+}
+.navbar-nav {
+  color: white;
 }
 .nav-item {
   font-weight: 500;
@@ -91,13 +93,6 @@ i {
 .btn-primary:hover {
   border-color: #963b22;
   background-color: #963b22;
-}
-
-.bi-star-fill {
-  color: #fb8260;
-}
-.bi-star {
-  color: #fb8260;
 }
 
 .form-search {
@@ -130,4 +125,9 @@ i {
   border-color: #fdb19c;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgb(253 177 156/ 25%);
+}
+.icons {
+  font-size: 1.8rem;
+  cursor: pointer;
+  gap: 4px;
 }

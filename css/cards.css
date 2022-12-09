@@ -1,0 +1,102 @@
+.cat-name {
+  text-align: center;
+  border-bottom: 1px solid #777;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.slide-container {
+  max-width: 1120px;
+  width: 100%;
+  padding: 40px 0;
+}
+.slide-content {
+  margin: 0 40px;
+  overflow: hidden;
+  border-radius: 25px;
+}
+.swiper-wrapper {
+  position: relative;
+}
+.card {
+  border-radius: 25px;
+  background-color: #fff;
+}
+.card-body {
+  cursor: default;
+}
+.ratig-card {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  color: white;
+  background-color: rgb(239, 170, 79);
+  padding: 4px;
+  border-radius: 6px;
+  box-shadow: 0px 3px 10px 1px rgba(51, 51, 51, 0.471);
+}
+.star-icon {
+  font-size: 1rem;
+  gap: 4px;
+}
+.card-img-top {
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+  width: 240px;
+  height: 240px;
+}
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.price {
+  display: flex;
+  flex-direction: column;
+}
+.price > .card-text {
+  margin: 0;
+}
+
+.bi-heart:hover,
+.bi-heart-fill:hover {
+  cursor: pointer;
+  transition: transform 0.5s;
+  transform: translateY(-2px);
+}
+.every-day {
+  font-size: 0.7rem;
+  color: #777;
+}
+.swiper-navBtn {
+  color: #ff9000;
+  transition: color 0.3s ease;
+}
+.swiper-navBtn:hover {
+  color: #ff9000;
+}
+.swiper-navBtn::before,
+.swiper-navBtn::after {
+  font-size: 35px;
+}
+.swiper-button-next {
+  right: 0;
+}
+.swiper-button-prev {
+  left: 0;
+}
+.swiper-pagination-bullet {
+  background-color: #ff91004c;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background-color: #fea531;
+}
+
+@media screen and (max-width: 768px) {
+  .slide-content {
+    margin: 0 10px;
+  }
+  .swiper-navBtn {
+    display: none;
+  }
+}
