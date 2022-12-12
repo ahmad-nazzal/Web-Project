@@ -18,7 +18,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
   if($con->query($query)){
     $isuser=true;
     $_SESSION['useremail']=$user_email;
-    $_SESSION['username']=$username;
+    $_SESSION['username']=$userName;
     $_SESSION['userPhone']=$upPhone;
   }
 }
@@ -337,10 +337,10 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
             </form>
             <ul class="navbar-nav ">
               <li class="nav-item">
-                <a class="nav-link" href="#">الصفحة الرئيسية</a>
+                <a class="nav-link" href="#"><i class="bi bi-cart2 icons"></i></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">الصفحة الرئيسية </a>
+                <a class="nav-link" href="#"> <i class="bi bi-heart icons" id="icon-to-toggle""></i></a>
               </li>
               <li class="nav-item">
                 <?php

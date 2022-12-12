@@ -178,11 +178,6 @@ require 'database.php';
                             items.user_email=users.Email and items.user_email='$emaill'";
                           $resultt=$con->query($queryCard);
                           while($cardData=mysqli_fetch_assoc($resultt)){
-                            
-                        
-                        
-
-
                         ?>
                           <div class="card swiper-slide">
                             <span class="ratig-card">
@@ -202,12 +197,7 @@ require 'database.php';
                               </div>
                             </div>
                          </div>
-
                             <?php }?>
-
-
-
-
                           <div class="card swiper-slide"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
