@@ -179,7 +179,7 @@ require 'database.php';
                           $resultt=$con->query($queryCard);
                           while($cardData=mysqli_fetch_assoc($resultt)){
                         ?>
-                          <div class="card swiper-slide">
+                          <div class="card">
                             <span class="ratig-card">
                               <i class="bi bi-star-fill star-icon">
                                 <span style="font-size:0.8rem;"><?php echo number_format($cardData['avgRate'], 1, '.', '');?></span>
@@ -198,7 +198,7 @@ require 'database.php';
                             </div>
                          </div>
                             <?php }?>
-                          <div class="card swiper-slide"  >
+                          <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -216,7 +216,7 @@ require 'database.php';
                           </div>
                         </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -234,7 +234,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -252,7 +252,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -270,7 +270,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -288,7 +288,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -306,7 +306,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -324,7 +324,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -342,7 +342,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>
@@ -360,7 +360,7 @@ require 'database.php';
                             </div>
                           </div>
                         </div>
-                        <div class="card swiper-slide"  >
+                        <div class="card"  >
                         <span class="ratig-card">
                           <i class="bi bi-star-fill star-icon">
                             <span style="font-size:0.8rem;">4.7</span>

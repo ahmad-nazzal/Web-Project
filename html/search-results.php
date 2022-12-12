@@ -352,7 +352,7 @@
       }
       function getCards($user_input,$page_num,$city_input, $shipping, $local_pickup, $cash_method, $credit_method)
       {
-        $db = new mysqli("localhost", "root", "", "web_project_agar");
+        $db = new mysqli("localhost", "root", "", "web_project_agarr");
         if (isset($db))
         {
                     

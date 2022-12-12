@@ -20,6 +20,10 @@
 .card {
   border-radius: 25px;
   background-color: #fff;
+  box-shadow: 0px 8px 7.8px -8px #777;
+}
+.swiper-slide > .card-img-top {
+  width: 259.25px;
 }
 .card-body {
   cursor: default;
@@ -57,8 +61,7 @@
   margin: 0;
 }
 
-.bi-heart:hover,
-.bi-heart-fill:hover {
+#icon-to-toggle:hover {
   cursor: pointer;
   transition: transform 0.5s;
   transform: translateY(-2px);
@@ -99,4 +102,7 @@
   .swiper-navBtn {
     display: none;
   }
+}
+#slides-group {
+  border-radius: 25px;
 }
