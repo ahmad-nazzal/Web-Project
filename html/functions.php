@@ -1,7 +1,6 @@
 <?php
 
 
-function checkUser($con){
- 
-
+function log_out(){
+  session_destroy();
 }

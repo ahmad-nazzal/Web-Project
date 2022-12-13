@@ -68,12 +68,6 @@ i {
   color: white;
 }
 
-.nav-link {
-  color: white; /*this is better contrast than white, check coolers.com response : here is not fuck you*/
-}
-.navbar-nav {
-  color: white;
-}
 .nav-item {
   font-weight: 500;
   font-size: 1em;
@@ -86,7 +80,11 @@ i {
   background-color: #333;
   border-color: #333;
 }
-.btn-primary {
+
+.btn-primary,
+.btn.show,
+.btn:active,
+.btn:first-child:active {
   background-color: #333;
   border-color: #333;
 }
@@ -127,7 +125,11 @@ i {
   box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
 }
 .icons {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   cursor: pointer;
   gap: 4px;
+}
+.small-grey-text {
+  color: #555;
+  font-size: 1.2rem;
 }

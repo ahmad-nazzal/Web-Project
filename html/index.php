@@ -1,7 +1,10 @@
 <?php
-
-use LDAP\Result;
 session_start();
+if(isset($_GET['destroy_session'])){
+  session_destroy();
+  header('location: index.php');
+}
+use LDAP\Result;
 require 'database.php';
 require 'functions.php';
 $isuser=false;
@@ -17,12 +20,13 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
   $userName=$_POST['upFirstName'].' '.$_POST['upLastName'];
   if($con->query($query)){
     $isuser=true;
-    $session['username']=$user_email;
-    $session['password']=$user_pass;
+    $_SESSION['useremail']=$user_email;
+    $_SESSION['username']=$userName;
+    $_SESSION['userPhone']=$upPhone;
   }
 }
 
-if ( isset($_POST['email']) && isset($_POST['email']) ) {
+if ( isset($_POST['email']) && isset($_POST['password']) ) {
   $user_email=$_POST['email'];
   $user_pass=$_POST['password'];
   $query= "select * from users where email = '".$user_email."'";
@@ -34,15 +38,23 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
     $userName=$user_data['first_name'].' '.$user_data['last_name'];
     if($user_data['pass']===sha1($user_pass)){
       $isuser=true;
-      $session['username']=$user_email;
-      $session['password']=$user_pass;
+      $_SESSION['useremail']=$user_email;
+      $_SESSION['username']=$userName;
+      $_SESSION['userPhone']=$user_data['phone'];
+
 
     }
 
   }
   
+
   
-  
+}
+elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
+  $isuser=true;
+  $userName=$_SESSION['username'];
+  $user_email=$_SESSION['useremail'];
+
 }
 
 ?>
@@ -73,13 +85,14 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
       href="../node_modules/swiper/swiper-bundle.min.css"
     />
 
+    <script src="../js/general.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script> <!-- for dropmenu it must included -->
     <script src="../js/cards.js"></script>
     <link href="../css/cards.css" rel="stylesheet"/>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link href="../css/Header-sectionHero.css" rel="stylesheet" />
     <link href="../css/general.css" rel="stylesheet" />
     <script defer src="../js/header-sectionHero.js"></script>
-    <script src="../js/general.js"></script>
     <title>آجار</title>
   </head>
 
@@ -110,10 +123,10 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                 </h1>
                 <form
                   method="post"
-                  onsubmit="return validate()"
                   action="index.php"
                   id="form-sign"
                   novalidate
+                  
                 >
                   <div class="form-floating mb-3 form-group">
                     <input
@@ -143,12 +156,13 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                     <label for="floatingPassword" class="color-333"
                       >كلمة المرور</label
                     >
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="incorrect-password">
                       كلمة السر التي أدخلتها غير صحيحة.
                     </div>
                   </div>
                   <input
                     type="submit"
+                    id="login-submit"
                     class="btn sign-in-btnn"
                     value="تسجيل الدخول"
                   />
@@ -318,7 +332,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
     <!-- main page -->
     <div class="base-container bg">
       <header>
-        <nav class="navbar navbar-dark navbar-expand-sm">
+        <nav id="navbar_top"class="navbar navbar-expand-sm">
           <div class="container-fluid">
             <a class="navbar-brand" href="index.php">
               <h3>آجار</h3>
@@ -330,21 +344,42 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                 placeholder="بحث..."
                 name="search-field"
               />
-              <input type="submit" class="search-btn btn" title="بحث" />
+              <!-- <input type="submit" class="search-btn btn" title="بحث" /> -->
             </form>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ">
               <li class="nav-item">
-                <a class="nav-link" href="#">الصفحة الرئيسية</a>
+                <a class="nav-link" href="#"><i class="bi bi-cart2 icons">
+                  <span class="small-grey-text">
+                    <?php
+                    if($isuser)
+                    {
+                      $query_action="select likes.numOfLiksRows,carts.numOfCartRows from ((select count(item_id) as numOfLiksRows from action where user_email='$user_email' and type='l') likes
+                      , (select count(item_id) as numOfCartRows from action where user_email='$user_email' and type='c') carts);";
+                      $result_action=$con->query($query_action);
+                      $data_action=mysqli_fetch_assoc($result_action);
+                    }
+                    if(!$isuser){echo 0;}
+                    else echo $data_action['numOfLiksRows'];
+                    ?>                    
+                  </span>
+                </i></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">الصفحة الرئيسية </a>
+                <a class="nav-link" href="#"> <i class="bi bi-heart icons" >
+                  <span class="small-grey-text">
+                    <?php
+                    if(!$isuser){echo 0;}
+                    else echo $data_action['numOfCartRows'];
+                    ?>
+                  </span>
+                </i></a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item ">
                 <?php
                   if (!$isuser){
                 ?>
                 <i
-                  class="bi-person-fill icons"
+                  class="bi bi-person-fill btn btn-primary signin-nav icons"
                   data-bs-toggle="modal"
                   data-bs-target="#sign-in-modal"
                   >
@@ -356,30 +391,31 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                   }
                   else{
                   ?>
-                  <a href="#" id="avatar" >
-                    <i class="bi bi-person-circle icons">
+                <div class="dropdown">
+                  <button class="dropdown-toggle btn btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle arr-down signin-nav icons">
                       <span class="fs-6">
                         <?php
                         echo $userName;
                         ?>
-                      </span></i>
+                      </span>
+                    </i>
+                  </button>
+                  <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="profile.php">حسابي</a></li>
+                    <li><a class="dropdown-item" href="#">مقتنياتي</a></li>
+                    <li>
+                      <a class="dropdown-item log-out" href="index.php?destroy_session=1">
+                          تسجيل الخروج
+                     </a>
+                    </li>
+                  </ul>
+                </div>
                     <?php
                     }
                     ?>
-                  </a>
                   
               </li>
-              <?php
-              if($isuser){
-              ?>
-              <form action="index.php" id="outForm">
-                <li class="nav-item" onclick="out_form()">
-                  <i class="bi bi-box-arrow-left icons" ></i>
-                </li>
-              </form>
-              <?php
-              }
-              ?>
             </ul>
           </div>
         </nav>
@@ -475,32 +511,25 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
         <?php
                   $sql='select * from tags';
                   $result = $con->query($sql);
+                  $numSliders=0;
                   while($tagsData= mysqli_fetch_assoc($result)){
-                    
+                    $numSliders=$numSliders+1;
                 
                 ?>
           <div class="slide-container swiper">
-              <div class="slide-content">
-                
+              <div class="slide-content<?php echo $numSliders ?>" id="slides-group">
+              
                 <h1 class="cat-name pb-2"><?php echo $tagsData['category'] ?></h1>
                   <div class="card-wrapper swiper-wrapper">
                     <?php
                       $cate=$tagsData['category'];
-                      $queryCard="SELECT Title, price_per_day,avgRate,image_url from ( (items INNER JOIN (SELECT AVG(rating) as
+                      $queryCard="SELECT Distinct Title, price_per_day,avgRate,image_url,items_tags.item_id from ( (items INNER JOIN (SELECT AVG(rating) as
                        avgRate,item_id from reviews GROUP BY item_id) rate ON id=item_id ) INNER JOIN images 
                        ON images.item_id=items.ID),items_tags where items.ID= items_tags.item_id and items_tags.tag_category='$cate'";
                       $resultt=$con->query($queryCard);
                       while($cardData=mysqli_fetch_assoc($resultt)){
-
-                      
-
-
-
                     ?>
-
-
-
-                      <div class="card swiper-slide"  style="width: 18rem;">
+                      <div class="card swiper-slide">
                       <span class="ratig-card">
                         <i class="bi bi-star-fill star-icon">
                           <span style="font-size:0.8rem;"><?php echo number_format($cardData['avgRate'], 1, '.', '');?></span>
@@ -514,10 +543,12 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                               <p class="card-text">$<?php echo $cardData['price_per_day'];?></p>
                               <p class="card-text every-day">لكل يوم</p>
                             </div>
-                            <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
+                            <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this,<?php echo $cardData['item_id'] ?>)"></i>
                           </div>
                         </div>
                       </div>
+                      <script src="../node_modules/swiper/swiper-bundle.min.js"></script>
+
 
                       <?php
                       }
@@ -625,11 +656,45 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                   </div>
                   
               </div>
-              <div class="swiper-button-next swiper-navBtn"></div>
-              <div class="swiper-button-prev swiper-navBtn"></div>
-              <div class="swiper-pagination"></div>
+              <div class="swiper-button-next<?php echo $numSliders ?> swiper-button-next swiper-navBtn"></div>
+              <div class="swiper-button-prev<?php echo $numSliders ?> swiper-button-prev swiper-navBtn"></div>
+              <div class="swiper-pagination<?php echo $numSliders ?> swiper-pagination"></div>
           </div>
         
+          <script>
+            var swiper = new Swiper(".slide-content<?php echo $numSliders  ?>", {
+              slidesPerView: 4,
+              spaceBetween: 25,
+              loop: true,
+              centerSlide: "true",
+              fade: "true",
+              grabCursor: "true",
+              pagination: {
+              el: ".swiper-pagination<?php echo $numSliders ?>",
+              clickable: true,
+              dynamicBullets: true,
+              },
+              navigation: {
+              nextEl: ".swiper-button-prev<?php echo $numSliders ?>",
+              prevEl: ".swiper-button-next<?php echo $numSliders ?>",
+              },
+              autoplay: {
+              delay: 5000,
+              disableOnInteraction: false,
+              },
+              breakpoints: {
+              0: {
+                slidesPerView: 1,
+              },
+              520: {
+                slidesPerView: 2,
+              },
+              950: {
+                slidesPerView: 4 ,
+              },
+              },
+            });
+          </script>
           <?php
                     }
                     ?>
@@ -638,42 +703,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
       </main>
       <footer></footer>
     </div>
-          <script src="../node_modules/swiper/swiper-bundle.min.js"></script>
-
-          <script>
-          var swiper = new Swiper(".slide-content", {
-        slidesPerView: 4,
-        spaceBetween: 25,
-        loop: true,
-        centerSlide: "true",
-        fade: "true",
-        grabCursor: "true",
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-          dynamicBullets: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-prev",
-          prevEl: ".swiper-button-next",
-        },
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false,
-        },
-        breakpoints: {
-          0: {
-            slidesPerView: 1,
-          },
-          520: {
-            slidesPerView: 2,
-          },
-          950: {
-            slidesPerView: 4 ,
-          },
-        },
-      });
+          
       <?php $con->close(); ?>
-      </script>
   </body>
 </html>

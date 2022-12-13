@@ -85,33 +85,36 @@ function toSignForgot() {
   document.getElementById("forgot-formm").style.display = "block";
 }
 
-function validate() {
-  const pass = document.getElementById("floatingPassword").value;
-  const email = document.getElementById("floatingInput").value;
-  const form = document.getElementById("form-sign");
-  // && email.search(/\B@\B/) != -1
-  if (pass != "" && email != "") {
-    // api works and enter the if but it retrns true i dont know why
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-      if (this.responseText.localeCompare("false")) {
-        return false;
-      } else {
-        return true;
-      }
-    };
-    // This is to call the api
-    // First we define the request
-    xhttp.open("POST", "api.php", false);
-    // set the header
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // set the request bidy since it is a post request.
-    xhttp.send("emailIn=" + email + "&passIn=" + pass + '"');
-  } else {
-    form.classList.add("was-validated");
-    return false;
-  }
-}
+document
+  .getElementById("login-submit")
+  .addEventListener("click", function (event) {
+    const pass = document.getElementById("floatingPassword").value;
+    const email = document.getElementById("floatingInput").value;
+    const form = document.getElementById("form-sign");
+    // && email.search(/\B@\B/) != -1
+    if (pass != "" && email != "") {
+      // api works and enter the if but it retrns true i dont know why
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function () {
+        if (parseInt(this.responseText) === 0) {
+          document.getElementById("incorrect-password").style.display = "block";
+          event.preventDefault();
+        } else {
+          form.submit();
+        }
+      };
+      xhttp.open("POST", "api.php", false);
+      xhttp.setRequestHeader(
+        "Content-type",
+        "application/x-www-form-urlencoded"
+      );
+      xhttp.send("emailIn=" + email + "&passIn=" + pass);
+    } else {
+      form.classList.add("was-validated");
+      event.preventDefault();
+    }
+  });
+function validate() {}
 function validateUp() {
   const pass = document.getElementById("floatingPassword1").value;
   const firstName = document.getElementById("floatingInput1").value;
@@ -146,7 +149,17 @@ function validateForgot() {
   }
 }
 
-//sign out
-function out_form() {
-  document.getElementById("outForm").submit();
-}
+document.addEventListener("DOMContentLoaded", function () {
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 60) {
+      document.getElementById("navbar_top").classList.add("fixed-top");
+      // add padding top to show content behind navbar
+      navbar_height = document.querySelector(".navbar").offsetHeight;
+      document.body.style.paddingTop = navbar_height + "px";
+    } else {
+      document.getElementById("navbar_top").classList.remove("fixed-top");
+      // remove padding top from body
+      document.body.style.paddingTop = "0";
+    }
+  });
+});

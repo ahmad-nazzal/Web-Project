@@ -2,7 +2,7 @@
 
 
 $host="localhost";
-$dbname="web_project_agar";
+$dbname="web_project_agarr";
 $passwordDb="";
 $usernameRoot="root";
 
