@@ -1,6 +1,9 @@
 <?php
-
 session_start();
+if(isset($_GET['destroy_session'])){
+  session_destroy();
+  header('location: index.php');
+}
 use LDAP\Result;
 require 'database.php';
 require 'functions.php';
@@ -23,7 +26,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
   }
 }
 
-if ( isset($_POST['email']) && isset($_POST['email']) ) {
+if ( isset($_POST['email']) && isset($_POST['password']) ) {
   $user_email=$_POST['email'];
   $user_pass=$_POST['password'];
   $query= "select * from users where email = '".$user_email."'";
@@ -44,8 +47,14 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
 
   }
   
+
   
-  
+}
+elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
+  $isuser=true;
+  $userName=$_SESSION['username'];
+  $user_email=$_SESSION['useremail'];
+
 }
 
 ?>
@@ -76,13 +85,14 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
       href="../node_modules/swiper/swiper-bundle.min.css"
     />
 
+    <script src="../js/general.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script> <!-- for dropmenu it must included -->
     <script src="../js/cards.js"></script>
     <link href="../css/cards.css" rel="stylesheet"/>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link href="../css/Header-sectionHero.css" rel="stylesheet" />
     <link href="../css/general.css" rel="stylesheet" />
     <script defer src="../js/header-sectionHero.js"></script>
-    <script src="../js/general.js"></script>
     <title>آجار</title>
   </head>
 
@@ -381,30 +391,31 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                   }
                   else{
                   ?>
-                  <a href="profile.php" id="avatar" >
-                    <i class="bi bi-person-circle btn btn-primary signin-nav icons">
+                <div class="dropdown">
+                  <button class="dropdown-toggle btn btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle arr-down signin-nav icons">
                       <span class="fs-6">
                         <?php
                         echo $userName;
                         ?>
-                      </span></i>
+                      </span>
+                    </i>
+                  </button>
+                  <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="profile.php">حسابي</a></li>
+                    <li><a class="dropdown-item" href="#">مقتنياتي</a></li>
+                    <li>
+                      <a class="dropdown-item log-out" href="index.php?destroy_session=1">
+                          تسجيل الخروج
+                     </a>
+                    </li>
+                  </ul>
+                </div>
                     <?php
                     }
                     ?>
-                  </a>
                   
               </li>
-              <?php
-              if($isuser){
-              ?>
-              <form action="index.php" id="outForm">
-                <li class="nav-item" onclick="out_form()">
-                  <i class="bi bi-box-arrow-left icons" ></i>
-                </li>
-              </form>
-              <?php
-              }
-              ?>
             </ul>
           </div>
         </nav>

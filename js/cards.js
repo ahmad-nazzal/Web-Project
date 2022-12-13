@@ -9,8 +9,6 @@ function toggleIcon(icon, itemId) {
     icon.style.color = "#333";
   }
 
-  console.log(itemId);
-  const itemId = document.getElementById("item-id");
   const xhttpLike = new XMLHttpRequest();
   xhttpLike.onload = function () {};
   xhttp.open("POST", "storeLikesApi.php", false);

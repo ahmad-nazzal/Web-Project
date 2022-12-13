@@ -149,11 +149,6 @@ function validateForgot() {
   }
 }
 
-//sign out
-function out_form() {
-  document.getElementById("outForm").submit();
-}
-
 document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("scroll", function () {
     if (window.scrollY > 60) {

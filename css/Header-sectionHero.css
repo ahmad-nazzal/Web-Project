@@ -151,4 +151,20 @@ body.modal-open .bg,
 .bi-box-arrow-left {
   padding-right: 1rem;
 }
+.arr-down::after {
+  display: inline-block;
+  margin-right: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-left: 0.3em solid transparent;
+  border-bottom: 0;
+  border-right: 0.3em solid transparent;
+}
+.dropdown-toggle::after {
+  display: none;
+}
+.log-out:hover {
+  color: red;
+}
 /* ///////////////////////////////////////////////// */

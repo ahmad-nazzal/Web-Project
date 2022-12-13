@@ -80,7 +80,10 @@ i {
   background-color: #fb8260;
   border-color: #fb8260;
 }
-.btn-primary {
+.btn-primary,
+.btn.show,
+.btn:active,
+.btn:first-child:active {
   background-color: #fa6338;
   border-color: #fa6338;
 }
