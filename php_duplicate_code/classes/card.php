@@ -1,44 +1,47 @@
 <?php
-include_once("rating.php");
 include_once("render_interface.php");
 
 
-class Card implements ElementsMethods{
+class MiniCard implements ElementsMethods{
 
-  public $row;
-  function __construct($row) {
-    $this->row = $row;
+  public $stars, $image_url, $title, $price, $size, $heart_visible, $href;
+  function __construct( $heart_visible = true, $rating_visible = true, $stars, $image_url, $title, $price, $size, $href) {
+    $this->stars = $stars;
+    $this->image_url = $image_url;
+    $this->title = $title;
+    $this->price = $price;
+    $this->size = $size;
+    $this->heart_visible = $heart_visible;
+    $this->rating_visible = $rating_visible;
+    $this->href = $href;
+    
   }
   public function render()
   {
 ?>
-<div class="card mb-2 ">
-          <div class="row">
-            <div class="col-auto">
-              <img src="https://picsum.photos/200" alt="" class="rounded-start">
-            </div>
-            <div class="col-9 ">
-              <div class="card-body">
-                <div class="item-info">
-                  <div>
-                    <h4 class="card-title"><?php echo $this->row->title; ?></h4>
-                    
-                    <?php
-                      $rating = new Rating($this->row->stars);
-                      $rating->render();
-                    ?>
-                  </div>
-                  <p class="price"><strong><?php echo $this->row->price ?>$</strong></p>
-                </div>
-                
-                <p class="card-text"><?php echo $this->row->description ?></p>
-                <p class="card-text"><small><?php echo $this->row->shipping ?></small></p>
-                <p class="card-text"><small><?php echo $this->row->location ?></small></p>
-              </div>
-              
-            </div>
-          </div>
-        </div>
+<div class="card swiper-slide"  style="width: <?php echo $this->size;?>rem;">
+          <?php if ($this->rating_visible === true) {   ?>
+                      <span class="ratig-card">
+                        <i class="bi bi-star-fill star-icon">
+                          <span style="font-size:0.8rem;"><?php echo number_format($this->stars, 1, '.', '');?></span>
+                        </i>
+                      </span>
+          <?php }?>           
+                        <img src="<?php echo $this->image_url;?>"  onclick="location.href='<?php echo $this->href;?>'" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title text-center"><?php echo $this->title;?></h5>
+                          <div class="card-content">
+                            <div class="price">
+                              <p class="card-text text-muted mb-1"><small>لكل يوم</small></p>
+                              <p class="card-text "><strong>$<?php echo $this->price;?></strong></p>
+                            </div>
+                            
+                            
+                            
+          <?php if($this->heart_visible === true) { ?> <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i> <?php }?>
+                          </div>
+                        </div>
+                      </div>
 <?php  
   }
 

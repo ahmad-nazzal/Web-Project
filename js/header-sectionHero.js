@@ -100,8 +100,12 @@ function validate() {
         return true;
       }
     };
+    // This is to call the api
+    // First we define the request
     xhttp.open("POST", "api.php", false);
+    // set the header
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // set the request bidy since it is a post request.
     xhttp.send("emailIn=" + email + "&passIn=" + pass + '"');
   } else {
     form.classList.add("was-validated");

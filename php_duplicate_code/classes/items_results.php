@@ -1,6 +1,6 @@
 <?php
 include_once("render_interface.php");
-include_once("card.php");
+include_once("horizontal_card.php");
 include_once("pagination.php");
 
 
@@ -29,7 +29,7 @@ class SearchResults implements ElementsMethods{
           {
             $row = $result->fetch_object();
 
-            $card =  new Card($row);
+            $card =  new HorizontalCard($row->title,$row->stars, $row->price, $row->description, $row->shipping, $row->location);
             $card->render();
             unset($card);
          }
