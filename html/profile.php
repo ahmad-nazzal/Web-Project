@@ -74,8 +74,7 @@ require 'database.php';
                   <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                       <div id="sign-up-form">
                         <?php 
-                        $fisrtName=$_SESSION['username'];
-                        $secondName=$_SESSION['username'];
+                        $fullname=explode(" ",$_SESSION['username']);
                         
                         ?>
                         <h1 class="text-center bold pb-3">إنشاء حساب في آجار</h1>
@@ -94,6 +93,7 @@ require 'database.php';
                                 id="floatingInput1"
                                 placeholder="name@example.com"
                                 name="upFirstName"
+                                value="<?php echo $fullname[0] ?>"
                                 required
                               />
                               <label for="floatingInput1" class="color-333"
@@ -104,6 +104,7 @@ require 'database.php';
                               <input
                                 type="text"
                                 class="form-control"
+                                value="<?php echo $fullname[0] ?>"
                                 id="floatingInput2"
                                 name="upLastName"
                                 placeholder="name@example.com"
