@@ -47,7 +47,6 @@ require 'database.php';
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0  userMenu" >
                 <div class="d-flex flex-column align-items-sm-start px-3 pt-2  min-vh-100">
                   <div class="user-information">
-
                     <i class="bi bi-person-circle" style="font-size: 8rem" ></i>
                     <h3 class=" nameUser"><?php echo $_SESSION['username']; ?></h3>
                     <h5 class=" nameUser"><?php echo $_SESSION['userPhone']; ?></h5>

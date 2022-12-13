@@ -85,29 +85,36 @@ function toSignForgot() {
   document.getElementById("forgot-formm").style.display = "block";
 }
 
-function validate() {
-  const pass = document.getElementById("floatingPassword").value;
-  const email = document.getElementById("floatingInput").value;
-  const form = document.getElementById("form-sign");
-  // && email.search(/\B@\B/) != -1
-  if (pass != "" && email != "") {
-    // api works and enter the if but it retrns true i dont know why
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-      if (this.responseText.localeCompare("false")) {
-        return false;
-      } else {
-        return true;
-      }
-    };
-    xhttp.open("POST", "api.php", false);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("emailIn=" + email + "&passIn=" + pass + '"');
-  } else {
-    form.classList.add("was-validated");
-    return false;
-  }
-}
+document
+  .getElementById("login-submit")
+  .addEventListener("click", function (event) {
+    const pass = document.getElementById("floatingPassword").value;
+    const email = document.getElementById("floatingInput").value;
+    const form = document.getElementById("form-sign");
+    // && email.search(/\B@\B/) != -1
+    if (pass != "" && email != "") {
+      // api works and enter the if but it retrns true i dont know why
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function () {
+        if (parseInt(this.responseText) === 0) {
+          document.getElementById("incorrect-password").style.display = "block";
+          event.preventDefault();
+        } else {
+          form.submit();
+        }
+      };
+      xhttp.open("POST", "api.php", false);
+      xhttp.setRequestHeader(
+        "Content-type",
+        "application/x-www-form-urlencoded"
+      );
+      xhttp.send("emailIn=" + email + "&passIn=" + pass);
+    } else {
+      form.classList.add("was-validated");
+      event.preventDefault();
+    }
+  });
+function validate() {}
 function validateUp() {
   const pass = document.getElementById("floatingPassword1").value;
   const firstName = document.getElementById("floatingInput1").value;

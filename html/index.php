@@ -113,10 +113,10 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                 </h1>
                 <form
                   method="post"
-                  onsubmit="return validate()"
                   action="index.php"
                   id="form-sign"
                   novalidate
+                  
                 >
                   <div class="form-floating mb-3 form-group">
                     <input
@@ -146,12 +146,13 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                     <label for="floatingPassword" class="color-333"
                       >كلمة المرور</label
                     >
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback" id="incorrect-password">
                       كلمة السر التي أدخلتها غير صحيحة.
                     </div>
                   </div>
                   <input
                     type="submit"
+                    id="login-submit"
                     class="btn sign-in-btnn"
                     value="تسجيل الدخول"
                   />
@@ -511,7 +512,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                   <div class="card-wrapper swiper-wrapper">
                     <?php
                       $cate=$tagsData['category'];
-                      $queryCard="SELECT Title, price_per_day,avgRate,image_url from ( (items INNER JOIN (SELECT AVG(rating) as
+                      $queryCard="SELECT Distinct Title, price_per_day,avgRate,image_url,items_tags.item_id from ( (items INNER JOIN (SELECT AVG(rating) as
                        avgRate,item_id from reviews GROUP BY item_id) rate ON id=item_id ) INNER JOIN images 
                        ON images.item_id=items.ID),items_tags where items.ID= items_tags.item_id and items_tags.tag_category='$cate'";
                       $resultt=$con->query($queryCard);
@@ -531,7 +532,7 @@ if ( isset($_POST['email']) && isset($_POST['email']) ) {
                               <p class="card-text">$<?php echo $cardData['price_per_day'];?></p>
                               <p class="card-text every-day">لكل يوم</p>
                             </div>
-                            <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
+                            <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this,<?php echo $cardData['item_id'] ?>)"></i>
                           </div>
                         </div>
                       </div>
