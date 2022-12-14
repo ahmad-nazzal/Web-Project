@@ -1,6 +1,19 @@
 <?php 
 session_start();
 require 'database.php';
+
+if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['upEmail']) && isset($_POST['upPhone'])){
+  $updateQuery= "update users set first_name='".$_POST['upFirstName']."' , last_name='"
+  .$_POST['upLastName']."' , Email='".$_POST['upEmail']."' , phone=".$_POST['upPhone']." where Email='".$_SESSION['useremail']."'";
+  $con->query($updateQuery);
+  $_SESSION['useremail']=$_POST['upEmail'];
+  $_SESSION['username']=$_POST['upFirstName']." ".$_POST['upLastName'];
+  $_SESSION['userPhone']=$_POST['upPhone'];
+}
+
+
+
+
 ?> 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -30,6 +43,7 @@ require 'database.php';
     />
 
     <script src="../js/cards.js"></script>
+    <script src="../js/profie.js"></script>
     <script src="../js/header-sectionHero.js"></script>
     <link href="../css/cards.css" rel="stylesheet" />
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -42,7 +56,9 @@ require 'database.php';
   <body>
 
       <main>
-
+        <a href="index.php">
+          <i class="bi bi-arrow-left-circle-fill back-arrow"></i>
+        </a>
       <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0  userMenu" >
@@ -50,21 +66,17 @@ require 'database.php';
                   <div class="user-information">
                     <i class="bi bi-person-circle" style="font-size: 8rem" ></i>
                     <h3 class=" nameUser"><?php echo $_SESSION['username']; ?></h3>
-                    <h5 class=" nameUser"><?php echo $_SESSION['userPhone']; ?></h5>
                   </div>
                     <ul class="nav nav-tabs " id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fs-5 bi-house gap-2">حسابي</i></button>
+                        <button class="nav-link nav-link-impl active one" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fs-5 bi-house gap-2">حسابي</i></button>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="my-order" data-bs-toggle="tab" data-bs-target="#order" type="button" role="tab" aria-controls="order" aria-selected="false">تغيير كلمة السر</button>
+                        <button class="nav-link nav-link-impl two" id="my-order" data-bs-toggle="tab" data-bs-target="#order" type="button" role="tab" aria-controls="order" aria-selected="false">تغيير كلمة السر</button>
                       </li>
                       <!-- <li class="nav-item" role="presentation"> 
                         <button class="nav-link" id="my-items-tab" data-bs-toggle="tab" data-bs-target="#my-items" type="button" role="tab" aria-controls="my-items" aria-selected="false">أغراضي</button>
                       </li> -->
-                      <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="index.php" >الخروج</a>
-                      </li>
                     </ul>
                 </div>
             </div>
@@ -77,10 +89,10 @@ require 'database.php';
                         $fullname=explode(" ",$_SESSION['username']);
                         
                         ?>
-                        <h1 class="text-center bold pb-3">إنشاء حساب في آجار</h1>
+                        <h1 class="text-center bold pb-3">معلوماتي</h1>
                         <form
                           onsubmit="return validateUp()"
-                          action="index.php"
+                          action="profile.php"
                           id="form-signUp"
                           method="POST"
                           novalidate
@@ -104,7 +116,7 @@ require 'database.php';
                               <input
                                 type="text"
                                 class="form-control"
-                                value="<?php echo $fullname[0] ?>"
+                                value="<?php echo $fullname[1] ?>"
                                 id="floatingInput2"
                                 name="upLastName"
                                 placeholder="name@example.com"
@@ -121,6 +133,7 @@ require 'database.php';
                               class="form-control"
                               id="floatingInput3"
                               name="upEmail"
+                              value="<?php echo $_SESSION['useremail'] ?>"
                               placeholder="name@example.com"
                               required
                             />
@@ -135,9 +148,9 @@ require 'database.php';
                               class="form-control"
                               id="floatingInput4"
                               maxlength="10"
+                              value="<?php echo $_SESSION['userPhone']?>"
                               minlength="10"
                               name="upPhone"
-                              placeholder="name@example.com"
                               required
                             />
                             <label for="floatingInput4" class="color-333"
@@ -150,123 +163,82 @@ require 'database.php';
                           <input
                             type="submit"
                             class="btn sign-in-btnn"
-                            value="إنشاء حساب"
+                            value="تعديل"
                           />
                         </form>
+                        
 
-                        <p class="text-black-50 pt-4 text-center have-acount">
-                          هل لديك حساب بالفعل؟
-                          <a href="#" class="sign-up-btnn" onclick=" return toSignIn()"
-                            >تسجيل الدخول</a
-                          >
-                        </p>
                       </div>
                       </div>
+
+
+                      
                       <div class="tab-pane" id="order" role="tabpanel" aria-labelledby="my-order">
                       <div id="sign-up-form">
-                        <h1 class="text-center bold pb-3">إنشاء حساب في آجار</h1>
-                        <form
-                          onsubmit="return validateUp()"
-                          action="index.php"
-                          id="form-signUp"
-                          method="POST"
-                          novalidate
-                        >
-                          <div class="d-flex name-container">
-                            <div class="form-floating mb-3 flex-fill">
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="floatingInput1"
-                                placeholder="name@example.com"
-                                name="upFirstName"
-                                required
-                              />
-                              <label for="floatingInput1" class="color-333"
-                                >الاسم الأول</label
-                              >
-                            </div>
-                            <div class="form-floating mb-3 flex-fill">
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="floatingInput2"
-                                name="upLastName"
-                                placeholder="name@example.com"
-                                required
-                              />
-                              <label for="floatingInput2" class="color-333"
-                                >اسم العائلة</label
-                              >
-                            </div>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input
-                              type="email"
-                              class="form-control"
-                              id="floatingInput3"
-                              name="upEmail"
-                              placeholder="name@example.com"
-                              required
-                            />
-                            <label for="floatingInput3" class="color-333"
-                              >البريد الإلكتروني</label
-                            >
+                       
+                        <h1 class="text-center bold pb-3">تغيير كلمة السر</h1>
 
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input
-                              type="tel"
-                              class="form-control"
-                              id="floatingInput4"
-                              maxlength="10"
-                              minlength="10"
-                              name="upPhone"
-                              placeholder="name@example.com"
-                              required
-                            />
-                            <label for="floatingInput4" class="color-333"
-                              >رقم الهاتف المحمول</label
-                            >
-                            <div class="invalid-feedback">
-                              الرجاء ادخال رقم مكون من 10 خانات
-                            </div>
-                          </div>
-
-                          <div class="form-floating">
-                            <input
-                              type="password"
-                              class="form-control password-field"
-                              id="floatingPassword1"
-                              name="upPassword"
-                              placeholder="Password"
-                              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                              required
-                            />
-                            <label for="floatingPassword1" class="color-333"
-                              >كلمة السر الجديدة</label>
-                              <div class="invalid-feedback">
-                              الرجاء ادخال رقم يحتوي على 8 أحرف أو أكثر بحيث تتكون من رقم واحد على الأقل ، وحرف واحد كبير و صغير
-                            </div>
-                          </div>
+                        
+                        <div class="form-floating pb-3">
                           <input
-                            type="submit"
-                            class="btn sign-in-btnn"
-                            value="إنشاء حساب"
+                            type="password"
+                            class="form-control password-field form-group "
+                            id="floatingPassword"
+                            name="password"
+                            placeholder="Password"
+                            required
                           />
-                        </form>
-
-                        <p class="text-black-50 pt-4 text-center have-acount">
-                          هل لديك حساب بالفعل؟
-                          <a href="#" class="sign-up-btnn" onclick=" return toSignIn()"
-                            >تسجيل الدخول</a
+                          <label for="floatingPassword" class="color-333"
+                            >كلمة االسر القديمة</label
                           >
-                        </p>
+                          <div class="invalid-feedback" id="incorrect-passwordw">
+                            كلمة السر التي أدخلتها غير صحيحة.
+                          </div>
+                        </div>
+                        <div class="form-floating pb-3">
+                        <input
+                          type="password"
+                          class="form-control password-field form-group"
+                          id="floatingPassword11"
+                          name="password"
+                          placeholder="Password"
+                          required
+                        />
+                        <label for="floatingPassword11" class="color-333"
+                          >كلمة السر الجديدة</label
+                        >
+                      
+                      </div>
+                      <div class="form-floating">
+                        <input
+                          type="password"
+                          class="form-control password-field form-group"
+                          id="floatingPassword22"
+                          name="password"
+                          placeholder="Password"
+                          required
+                        />
+                        <label for="floatingPassword22" class="color-333"
+                          >تأكيد كلمة السر الجديدة</label
+                        >
+                      </div>
+                      
+                      <button
+                      onclick="changePass('<?php echo $_SESSION['useremail'] ?>' )"
+                            id="submit_changePass"
+                            class="btn sign-in-btnn"
+                          >تعديل
+                      </button>
+                      <div class="valid-feedback" id="correct-passwordw">
+                          تم تغيير كلمة السر
+                        </div>
+                        
+
                       </div>
                       </div>
   
   
-  
+                  </div>
   
   
                       

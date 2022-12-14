@@ -403,7 +403,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                   </button>
                   <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="profile.php">حسابي</a></li>
-                    <li><a class="dropdown-item" href="#">مقتنياتي</a></li>
+                    <li><a class="dropdown-item" href="item_rented.php">مقتنياتي</a></li>
                     <li>
                       <a class="dropdown-item log-out" href="index.php?destroy_session=1">
                           تسجيل الخروج

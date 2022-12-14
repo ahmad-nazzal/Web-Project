@@ -1,7 +1,26 @@
+.flex-nowrap {
+  height: 100vh;
+  background: linear-gradient(rgb(233, 234, 233), #ffc88070);
+}
 #nav-pills {
   height: 100vh;
   position: sticky;
 }
+.nav-tabs .nav-link-impl.active,
+.nav-link-impl {
+  background-color: #fbfbfb;
+  border: white;
+  position: relative;
+}
+.nav-link-impl.active {
+  border-right: 4px solid rgba(27, 117, 253, 0.705) !important;
+}
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link {
+  border: white;
+}
+
 .container-fluid {
   width: 100%;
 }
@@ -21,9 +40,8 @@
 }
 .userMenu {
   z-index: 0;
-  margin-left: 4rem;
   position: fixed;
-  top: 10%;
+  top: 5%;
 }
 .grid-container {
   display: grid;
@@ -34,6 +52,8 @@
   width: 240px;
 }
 .tab-content {
+  width: 76%;
+  margin: auto;
   padding: 1rem;
   border-radius: 25px;
   background-color: #fbfbfb;
@@ -62,6 +82,7 @@
 #sign-up-form,
 #sign-in-form,
 #forgot-formm,
+#correct-passwordw,
 .invalid-feedback {
   animation: opicity 1s;
 }
@@ -76,4 +97,22 @@
 }
 .nav-item > .nav-link {
   color: #333;
+}
+#submit_changePass {
+  margin-top: 2rem;
+}
+#correct-passwordw {
+  margin-top: 1rem;
+  color: #1b77fd;
+  text-align: center;
+}
+.back-arrow::before {
+  position: fixed;
+  left: 20px;
+  top: 30px;
+  background-color: #333;
+  border-radius: 50%;
+  box-shadow: 0px 8px 7.8px -8px #777;
+  color: #fbfbfb;
+  font-size: 3rem;
 }
