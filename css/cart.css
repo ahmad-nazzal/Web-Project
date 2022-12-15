@@ -1,0 +1,87 @@
+.cart {
+  width: 850px;
+  margin: 2rem auto;
+  border: 2px solid #333;
+}
+.rent-days p {
+  margin-bottom: 0;
+}
+.card {
+  border-radius: 0;
+}
+.rent-days i {
+  font-size: 1.6rem;
+  color: #777;
+}
+.total-price-text {
+  margin-right: auto;
+  font-size: 0.9rem;
+}
+.bi-trash {
+  color: #999;
+  width: 45px;
+  height: 45px;
+  border-radius: 100px;
+  margin-right: 30px;
+}
+.modal-first {
+  border-bottom: 1px solid #999;
+}
+.element-price {
+  font-size: 1.2rem !important;
+  font-weight: 500;
+}
+.modal-dialog {
+  width: 300px;
+}
+.modal .total-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.modal-header .btn-close {
+  margin-left: 0;
+  margin-right: 0;
+}
+.modal-header p {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-bottom: 0;
+}
+.bi-trash:hover {
+  /* background-color: rgb(181, 0, 0, 0.05); */
+  color: rgb(208, 0, 0);
+}
+.total-price {
+  font-weight: 600;
+  font-size: 1.2rem;
+  border-bottom: 2px solid rgb(239, 170, 79);
+}
+.cart-content {
+  height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.days-number {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.cart-btn button {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #eee;
+  background-color: #111;
+  border: #111 3px solid;
+  width: 100%;
+  padding: 1rem 0;
+}
+.price-per-day {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #555;
+}
+
+[class*="text"] {
+  color: #777;
+}

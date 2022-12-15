@@ -17,11 +17,15 @@
     "url": "https://github.com/ahmad-nazzal/Web-Project/issues"
   },
   "dependencies": {
+    "@prettier/plugin-php": "0.14.3",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
     "bootstrap-scss": "^5.2.2",
     "sass": "^1.56.1",
     "swiper": "^8.4.5"
   },
-  "homepage": "https://github.com/ahmad-nazzal/Web-Project#readme"
+  "homepage": "https://github.com/ahmad-nazzal/Web-Project#readme",
+  "devDependencies": {
+    "prettier": "^2.8.1"
+  }
 }
