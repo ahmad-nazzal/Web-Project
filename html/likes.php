@@ -16,6 +16,7 @@ include_once "../php_duplicate_code/classes/horizontal_card.php";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Likes</title>
   <?php getStyles(); ?>
+  <link rel="stylesheet" href="../css/search-results.css">
 </head>
 
 <body>
@@ -25,7 +26,7 @@ include_once "../php_duplicate_code/classes/horizontal_card.php";
   unset($nav);
   ?>
   <div class=" container mt-5">
-
+    <h2 class=" mb-3">المفضلة:</h2>
     <?php
     for ($i = 0; $i < 9; $i++) {
       (new HorizontalCard("aslah item", 4, 20.0, "loremloremlorem lorem", "", ""))->render();

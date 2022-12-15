@@ -156,3 +156,13 @@ i {
   color: #555;
   font-size: 1.2rem;
 }
+.bi-star-fill {
+  color: rgb(239, 170, 79);
+}
+.bi-star {
+  color: rgb(239, 170, 79);
+}
+.stars-value {
+  color: rgb(239, 170, 79);
+  margin-left: 2px;
+}
