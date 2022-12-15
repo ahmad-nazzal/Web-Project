@@ -7,9 +7,8 @@ $passwordDb="";
 $usernameRoot="root";
 
 
+$con=mysqli_connect($host,$usernameRoot,$passwordDb,$dbname);
 
-
-if(!$con=mysqli_connect($host,$usernameRoot,$passwordDb,$dbname) ){
+if(!$con){
   die("failed to connect");
 }
-?>

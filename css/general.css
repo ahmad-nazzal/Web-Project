@@ -1,5 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap");
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 100px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
 /* 
 test
   color: #fa6338
@@ -65,7 +87,8 @@ i {
 }
 .btn,
 .btn:hover {
-  color: white;
+  /* color: white; */
+  border-radius: 7px;
 }
 
 .nav-item {
@@ -137,4 +160,14 @@ i {
 }
 .textShadow {
   text-shadow: 2px 2px 4px #00000043;
+}
+.bi-star-fill {
+  color: rgb(239, 170, 79);
+}
+.bi-star {
+  color: rgb(239, 170, 79);
+}
+.stars-value {
+  color: rgb(239, 170, 79);
+  margin-left: 2px;
 }

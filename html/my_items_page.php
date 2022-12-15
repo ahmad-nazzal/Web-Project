@@ -10,10 +10,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../css/my-items.css" rel="stylesheet">
-  <link href="../css/cards.css" rel="stylesheet"/>
   <?php
     getStyles();
   ?>
+  <link href="../css/cards.css" rel="stylesheet"/>
+
   <title>my items</title>
 </head>
 <body>

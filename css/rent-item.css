@@ -1,0 +1,123 @@
+body {
+  color: #333;
+}
+.item-header {
+  display: flex;
+  margin-top: 4.5rem;
+}
+.status {
+  justify-self: flex-end;
+  margin-bottom: 0;
+}
+.item-title {
+  font-size: 1.2rem;
+}
+.price {
+  font-size: 2.6rem;
+  color: #333;
+  font-weight: 500;
+}
+.price-text {
+  color: #555;
+  font-size: 1rem;
+}
+.rent-info-box {
+  width: 100%;
+  height: 270px;
+  /* background-color: lightgray; */
+}
+[class*="text"] {
+  color: #777;
+}
+.rent-info-box > p {
+  color: #777;
+}
+.rent-days p {
+  margin-bottom: 0;
+}
+.total-price {
+  border-bottom: solid rgb(239, 170, 79) 3px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.status {
+  font-size: 1.5rem;
+  color: rgb(8, 175, 8);
+  margin-right: auto;
+}
+.days-number {
+  font-size: 2.2rem;
+  color: #333;
+  font-weight: 600;
+}
+.control-btn {
+  font-size: 2.4rem;
+  stroke-width: 0.5px;
+  font-weight: 100 !important;
+  color: #333;
+}
+
+[class^="section"] {
+  margin-bottom: 9.2rem;
+}
+
+.btn,
+.btn:hover {
+  border-radius: 4px;
+}
+
+.rent-btn {
+  height: 50px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.cart-btn {
+  height: 48px;
+}
+
+.heart-icon {
+  font-size: 1.8rem;
+}
+.item-text-box {
+  overflow-y: scroll;
+  height: 500px;
+}
+.item-text {
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+.item-data-col {
+  /* height: 500px; */
+  flex-basis: 600px;
+}
+.reviews-box {
+}
+.reviews {
+  overflow-y: scroll;
+  height: 548px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  /* color: var(--bs-nav-pills-link-active-color); */
+  background-color: #333;
+}
+.commenter-name {
+  font-size: 0.8rem;
+}
+.bi-star-fill {
+  color: rgb(239, 170, 79);
+}
+.bi-star {
+  color: rgb(239, 170, 79);
+}
+.stars-value {
+  color: rgb(239, 170, 79);
+  margin-left: 2px;
+}
+.star-container {
+  gap: 2px;
+}
+/* .rent-btn {
+  font-size: 1.8rem;
+} */
