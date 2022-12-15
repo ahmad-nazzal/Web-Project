@@ -7,7 +7,10 @@ if(isset($_GET['destroy_session'])){
 use LDAP\Result;
 require 'database.php';
 require 'functions.php';
+require '../php_duplicate_code/classes/nav_barAll.php';
 $isuser=false;
+$user_email='';
+$userName='';
 if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['upEmail']) && isset($_POST['upPassword']) && isset($_POST['upPhone']))
 {
   $upFirstName=$_POST['upFirstName'];
@@ -97,329 +100,12 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
   </head>
 
   <body>
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="sign-in-modal"
-      tabindex="-1"
-      aria-labelledby="head-label"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header remove-separator-modal">
-            <button
-              type="button"
-              class="btn-close sign-in-btn"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="tab-content" id="myTabContent">
-              <div id="sign-in-form">
-                <h1 class="color-333 text-center bold pb-3 bold">
-                  تسجيل الدخول إلى آجار
-                </h1>
-                <form
-                  method="post"
-                  action="index.php"
-                  id="form-sign"
-                  novalidate
-                  
-                >
-                  <div class="form-floating mb-3 form-group">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="floatingInput"
-                      name="email"
-                      placeholder="name@example.com"
-                      required
-                    />
-                    <label for="floatingInput" class="color-333"
-                      >البريد الإلكتروني</label
-                    >
-                    <div class="invalid-feedback">
-                      البريد الإلكتروني الذي أدخلته غير مرتبط بحساب.
-                    </div>
-                  </div>
-                  <div class="form-floating">
-                    <input
-                      type="password"
-                      class="form-control password-field form-group"
-                      id="floatingPassword"
-                      name="password"
-                      placeholder="Password"
-                      required
-                    />
-                    <label for="floatingPassword" class="color-333"
-                      >كلمة المرور</label
-                    >
-                    <div class="invalid-feedback" id="incorrect-password">
-                      كلمة السر التي أدخلتها غير صحيحة.
-                    </div>
-                  </div>
-                  <input
-                    type="submit"
-                    id="login-submit"
-                    class="btn sign-in-btnn"
-                    value="تسجيل الدخول"
-                  />
-                </form>
-                <p class="text-center pt-3">
-                  <a
-                    class="forgot-password"
-                    href="#"
-                    onclick=" return toSignForgot()"
-                    >نسيت كلمة السر؟</a
-                  >
-                </p>
-                <p class="text-black-50 text-center">
-                  ليس لديك حساب؟
-                  <a
-                    href="#"
-                    class="sign-up-btnn"
-                    id="tasjel"
-                    onclick=" return toSignUp()"
-                    >تسجيل</a
-                  >
-                </p>
-              </div>
-
-              <div id="sign-up-form">
-                <h1 class="text-center bold pb-3">إنشاء حساب في آجار</h1>
-                <form
-                  onsubmit="return validateUp()"
-                  action="index.php"
-                  id="form-signUp"
-                  method="POST"
-                  novalidate
-                >
-                  <div class="d-flex name-container">
-                    <div class="form-floating mb-3 flex-fill">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="floatingInput1"
-                        placeholder="name@example.com"
-                        name="upFirstName"
-                        required
-                      />
-                      <label for="floatingInput1" class="color-333"
-                        >الاسم الأول</label
-                      >
-                    </div>
-                    <div class="form-floating mb-3 flex-fill">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="floatingInput2"
-                        name="upLastName"
-                        placeholder="name@example.com"
-                        required
-                      />
-                      <label for="floatingInput2" class="color-333"
-                        >اسم العائلة</label
-                      >
-                    </div>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="floatingInput3"
-                      name="upEmail"
-                      placeholder="name@example.com"
-                      required
-                    />
-                    <label for="floatingInput3" class="color-333"
-                      >البريد الإلكتروني</label
-                    >
-
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input
-                      type="tel"
-                      class="form-control"
-                      id="floatingInput4"
-                      maxlength="10"
-                      minlength="10"
-                      name="upPhone"
-                      placeholder="name@example.com"
-                      required
-                    />
-                    <label for="floatingInput4" class="color-333"
-                      >رقم الهاتف المحمول</label
-                    >
-                    <div class="invalid-feedback">
-                      الرجاء ادخال رقم مكون من 10 خانات
-                    </div>
-                  </div>
-
-                  <div class="form-floating">
-                    <input
-                      type="password"
-                      class="form-control password-field"
-                      id="floatingPassword1"
-                      name="upPassword"
-                      placeholder="Password"
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      required
-                    />
-                    <label for="floatingPassword1" class="color-333"
-                      >كلمة السر الجديدة</label>
-                      <div class="invalid-feedback">
-                      الرجاء ادخال رقم يحتوي على 8 أحرف أو أكثر بحيث تتكون من رقم واحد على الأقل ، وحرف واحد كبير و صغير
-                    </div>
-                  </div>
-                  <input
-                    type="submit"
-                    class="btn sign-in-btnn"
-                    value="إنشاء حساب"
-                  />
-                </form>
-
-                <p class="text-black-50 pt-4 text-center have-acount">
-                  هل لديك حساب بالفعل؟
-                  <a href="#" class="sign-up-btnn" onclick=" return toSignIn()"
-                    >تسجيل الدخول</a
-                  >
-                </p>
-              </div>
-              <div id="forgot-formm">
-                <h1 class="color-333 text-center bold pb-3 bold">
-                  تغيير كلمة المرور
-                </h1>
-                <form
-                  onsubmit="return validateForgot()"
-                  action="index.php"
-                  id="form-forgot"
-                  novalidate
-                >
-                  <div class="form-floating mb-3 form-group">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="floatingInput11"
-                      placeholder="name@example.com"
-                      required
-                    />
-                    <label for="floatingInput11" class="color-333"
-                      >البريد الإلكتروني</label
-                    >
-                    <div class="invalid-feedback">
-                      البريد الإلكتروني الذي أدخلته غير مرتبط بحساب.
-                    </div>
-                  </div>
-
-                  <input type="submit" class="btn sign-in-btnn" value="إرسال" />
-                </form>
-                <p class="text-center pt-3">
-                  <a
-                    class="forgot-password"
-                    href="#"
-                    onclick="return toSignIn()"
-                    >تسجيل الدخول</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- main page -->
+    <?php 
+    new NavBarAll($isuser,$con,$user_email,$userName);
+    ?>
+      <!-- main page -->
     <div class="base-container bg">
-      <header>
-        <nav id="navbar_top"class="navbar navbar-expand-sm">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">
-              <h3>آجار</h3>
-            </a>
-            <form action="search-results.php" method="get" class="form-search">
-              <input
-                class="form-control search-bar"
-                type="text"
-                placeholder="بحث..."
-                name="search-field"
-              />
-              <!-- <input type="submit" class="search-btn btn" title="بحث" /> -->
-            </form>
-            <ul class="navbar-nav ">
-              <li class="nav-item">
-                <a class="nav-link" href="#"><i class="bi bi-cart2 icons">
-                  <span class="small-grey-text">
-                    <?php
-                    if($isuser)
-                    {
-                      $query_action="select likes.numOfLiksRows,carts.numOfCartRows from ((select count(item_id) as numOfLiksRows from action where user_email='$user_email' and type='l') likes
-                      , (select count(item_id) as numOfCartRows from action where user_email='$user_email' and type='c') carts);";
-                      $result_action=$con->query($query_action);
-                      $data_action=mysqli_fetch_assoc($result_action);
-                    }
-                    if(!$isuser){echo 0;}
-                    else echo $data_action['numOfLiksRows'];
-                    ?>                    
-                  </span>
-                </i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"> <i class="bi bi-heart icons" >
-                  <span class="small-grey-text">
-                    <?php
-                    if(!$isuser){echo 0;}
-                    else echo $data_action['numOfCartRows'];
-                    ?>
-                  </span>
-                </i></a>
-              </li>
-              <li class="nav-item ">
-                <?php
-                  if (!$isuser){
-                ?>
-                <i
-                  class="bi bi-person-fill btn btn-primary signin-nav icons"
-                  data-bs-toggle="modal"
-                  data-bs-target="#sign-in-modal"
-                  >
-                  <span class="fs-6">
-                      تسجيل الدخول
-                    </span>
-                </i>
-                <?php 
-                  }
-                  else{
-                  ?>
-                <div class="dropdown">
-                  <button class="dropdown-toggle btn btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle arr-down signin-nav icons">
-                      <span class="fs-6">
-                        <?php
-                        echo $userName;
-                        ?>
-                      </span>
-                    </i>
-                  </button>
-                  <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="profile.php">حسابي</a></li>
-                    <li><a class="dropdown-item" href="item_rented.php">مقتنياتي</a></li>
-                    <li>
-                      <a class="dropdown-item log-out" href="index.php?destroy_session=1">
-                          تسجيل الخروج
-                     </a>
-                    </li>
-                  </ul>
-                </div>
-                    <?php
-                    }
-                    ?>
-                  
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
+      
       <main class="main-container">
         <section class="section-hero">
           <div
@@ -452,39 +138,36 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
               <div class="carousel-item active" id="first-page">
                 <img
                   id="img1"
-                  src="../assets/imgs/web images/table 1457 360.png "
+                  src="../assets/imgs/web images/static web images/bicycle.jpg "
                   alt="Los Angeles"
                   class="d-block img"
                   style="width: 100%"
                 />
-                <div class="carousel-caption">
-                  <h3>Los Angeles</h3>
+                <div class="carousel-caption mt-5 textShadow ms-5">
                   <h1>اجعل منتجاتك قابلة للإستئجار في دقائق</h1>
                 </div>
               </div>
               <div class="carousel-item" id="second-page">
                 <img
                   id="img2"
-                  src="../assets/imgs/web images/shoes fv.png"
+                  src="../assets/imgs/web images/static web images/dreses.webp"
                   alt="Chicago"
                   class="d-block img"
                   style="width: 100%"
                 />
-                <div class="carousel-caption">
-                  <h3>Chicago</h3>
+                <div class="carousel-caption mt-5 textShadow ms-5">
                   <h1>آجار هو منصة لبيع وتأجير أي شيء في أي مكان</h1>
                 </div>
               </div>
               <div class="carousel-item" id="third-page">
                 <img
                   id="img3"
-                  src="../assets/imgs/web images/table 1457 360.png"
+                  src="../assets/imgs/web images/static web images/camera.jpg"
                   alt="New York"
                   class="d-block img"
                   style="width: 100%"
                 />
-                <div class="carousel-caption">
-                  <h3>New York</h3>
+                <div class="carousel-caption mt-5 textShadow ms-5">
                   <h1>يمكنك عرض منتجاتك عبر الانترنت والاستفادة من مقتنياتك</h1>
                 </div>
               </div>
@@ -562,7 +245,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                           <span style="font-size:0.8rem;">4.7</span>
                         </i>
                       </span>
-                        <img src="../assets/imgs/web images/shoes240.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="../client_images/dum.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title text-center">Shoes</h5>
                           <div class="card-content">
@@ -580,7 +263,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                           <span style="font-size:0.8rem;">4.7</span>
                         </i>
                       </span>
-                        <img src="../assets/imgs/web images/shoes240.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="../client_images/dum.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title text-center">Shoes</h5>
                           <div class="card-content">
@@ -598,7 +281,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                           <span style="font-size:0.8rem;">4.7</span>
                         </i>
                       </span>
-                        <img src="../assets/imgs/web images/shoes240.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="../client_images/dum.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title text-center">Shoes</h5>
                           <div class="card-content">
@@ -616,7 +299,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                           <span style="font-size:0.8rem;">4.7</span>
                         </i>
                       </span>
-                        <img src="../assets/imgs/web images/shoes240.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="../client_images/dum.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title text-center">Shoes</h5>
                           <div class="card-content">
@@ -634,7 +317,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                           <span style="font-size:0.8rem;">4.7</span>
                         </i>
                       </span>
-                        <img src="../assets/imgs/web images/shoes240.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="../client_images/dum.webp"  onclick="location.href='#'" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title text-center">Shoes</h5>
                           <div class="card-content">
@@ -701,9 +384,69 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
 
         </section>
       </main>
-      <footer></footer>
+      <div class=" footer-container">
+      <footer class="container py-5">
+        <div class="row">
+
+          <div class="col-6 discription-ajar mb-3">
+            <h5>حول آجار</h5>
+            <p>آجار هو موقع تجاري يمنح المستخدمين الفرصة لتحقيق أقصى استفادة من مقتنياتهم من خلال إضافة المقتنيات غير المستخدمة ليستأجرها الآخرون.</p>
+          </div>
+
+          <div class="col-2 mb-3">
+            <h5>الاقسام</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-muted">الصفحة الرئيسية</a>
+              </li>
+              <li class="nav-item mb-2">
+                <a href="search-results.php" class="nav-link p-0 text-muted">البحث</a>
+              </li>
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-muted">العناوين</a>
+              </li>
+              
+            </ul>
+          </div>
+
+          <div class="col-2  mb-3">
+            <h5>تواصل معنا</h5>
+                <a href="#" class="nav-link p-0 text-muted">ajar2022@gmail.com</a>
+          </div>
+
+         
+
+          
+        </div>
+
+        <div
+          class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top"
+        >
+          <p class="text-center">&copy; حـقـوق الـنـشـر مـحـفـوظـة لـدى مـوقـع آجار 2022</p>
+          <ul class="list-unstyled d-flex">
+            <li class="ms-3">
+              <a class="link-dark" href="#"
+                ><svg class="bi" width="24" height="24">
+                  <use xlink:href="#twitter" /></svg
+              ></a>
+            </li>
+            <li class="ms-3">
+              <a class="link-dark" href="#"
+                ><svg class="bi" width="24" height="24">
+                  <use xlink:href="#instagram" /></svg
+              ></a>
+            </li>
+            <li class="ms-3">
+              <a class="link-dark" href="#"
+                ><svg class="bi" width="24" height="24">
+                  <use xlink:href="#facebook" /></svg
+              ></a>
+            </li>
+          </ul>
+        </div>
+      </footer>
+    </div>
     </div>
           
-      <?php $con->close(); ?>
   </body>
 </html>

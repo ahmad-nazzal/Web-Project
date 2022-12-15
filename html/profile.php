@@ -64,15 +64,18 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0  userMenu" >
                 <div class="d-flex flex-column align-items-sm-start px-3 pt-2  min-vh-100">
                   <div class="user-information">
-                    <i class="bi bi-person-circle" style="font-size: 8rem" ></i>
+                    <img src="../client_images/97.jpg" class="rounded-image" style="font-size: 8rem">
                     <h3 class=" nameUser"><?php echo $_SESSION['username']; ?></h3>
                   </div>
                     <ul class="nav nav-tabs " id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
-                        <button class="nav-link nav-link-impl active one" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fs-5 bi-house gap-2">حسابي</i></button>
+                        <button class="nav-link nav-link-impl active " id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fs-5 bi-info-circle gap-2">حسابي</i></button>
                       </li>
                       <li class="nav-item" role="presentation">
-                        <button class="nav-link nav-link-impl two" id="my-order" data-bs-toggle="tab" data-bs-target="#order" type="button" role="tab" aria-controls="order" aria-selected="false">تغيير كلمة السر</button>
+                        <button class="nav-link nav-link-impl " id="bank" data-bs-toggle="tab" data-bs-target="#bank-account" type="button" role="tab" aria-controls="bank-account" aria-selected="false"><i class="fs-6 bi-bank gap-2">حسابي البنكي</i></button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link nav-link-impl " id="my-order" data-bs-toggle="tab" data-bs-target="#order" type="button" role="tab" aria-controls="order" aria-selected="false"><i class="fs-6 bi-shield-lock gap-2">تغيير كلمة السر</i></button>
                       </li>
                       <!-- <li class="nav-item" role="presentation"> 
                         <button class="nav-link" id="my-items-tab" data-bs-toggle="tab" data-bs-target="#my-items" type="button" role="tab" aria-controls="my-items" aria-selected="false">أغراضي</button>
@@ -89,7 +92,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                         $fullname=explode(" ",$_SESSION['username']);
                         
                         ?>
-                        <h1 class="text-center bold pb-3">معلوماتي</h1>
+                        <p class="bold pb-3 fs-3"><i class="bi bi-pencil-square gap-2"> معلوماتي</i></p>
                         <form
                           onsubmit="return validateUp()"
                           action="profile.php"
@@ -171,12 +174,62 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                       </div>
                       </div>
 
+                      <div class="tab-pane " id="bank-account" role="tabpanel" aria-labelledby="bank">
+                      <div id="sign-up-form">
+                       
+                       <p class="bold pb-3 fs-3">معلوماتي البنكية</p>
+
+                       
+                       <div class="form-floating pb-3">
+                         <input
+                           type="text"
+                           class="form-control  form-group "
+                           id="bankName"
+                           name="bankName"
+                           placeholder="bankName"
+                           required
+                         />
+                         <label for="bankName" class="color-333"
+                           >اسم البنك</label
+                         >
+
+                       </div>
+                       <div class="form-floating pb-3">
+                       <input
+                         type="text"
+                         class="form-control  form-group"
+                         id="bankNumber"
+                         name="bankNumber"
+                         placeholder="bankNumber"
+                         required
+                       />
+                       <label for="bankNumber" class="color-333"
+                         >رقم الحساب البنكي</label
+                       >
+                     
+                     </div>
+                     
+                     
+                     <button
+                     onclick="changePass('<?php echo $_SESSION['useremail'] ?>' )"
+                           id="submit_changePass"
+                           class="btn sign-in-btnn"
+                         >تعديل
+                     </button>
+                     <div class="valid-feedback" id="correct-passwordw">
+                         تم تغيير كلمة السر
+                       </div>
+                       
+
+                     </div>
+                      </div>
+
 
                       
                       <div class="tab-pane" id="order" role="tabpanel" aria-labelledby="my-order">
                       <div id="sign-up-form">
                        
-                        <h1 class="text-center bold pb-3">تغيير كلمة السر</h1>
+                        <p class="bold pb-3 fs-3">تغيير كلمة السر</p>
 
                         
                         <div class="form-floating pb-3">

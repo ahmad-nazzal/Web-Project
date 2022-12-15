@@ -80,7 +80,9 @@ i {
   background-color: #333;
   border-color: #333;
 }
-
+.rounded-image {
+  border-radius: 50%;
+}
 .btn-primary,
 .btn.show,
 .btn:active,
@@ -132,4 +134,7 @@ i {
 .small-grey-text {
   color: #555;
   font-size: 1.2rem;
+}
+.textShadow {
+  text-shadow: 2px 2px 4px #00000043;
 }
