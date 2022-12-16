@@ -40,10 +40,29 @@ body {
   font-size: 2rem;
   font-weight: 700;
 }
+.date-text {
+  color: #555;
+}
+#return-date {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.days-number-text {
+  margin-right: -20px;
+  color: #555;
+}
+.total-price-text {
+  margin-right: 20px;
+}
 .status {
   font-size: 1.5rem;
-  color: rgb(8, 175, 8);
   margin-right: auto;
+}
+.status-available {
+  color: rgb(8, 175, 8);
+}
+.status-not-available {
+  color: rgb(246, 47, 16);
 }
 .days-number {
   font-size: 2.2rem;
@@ -73,6 +92,10 @@ body {
 }
 .cart-btn {
   height: 48px;
+  color: #333;
+}
+.cart-btn:hover {
+  color: white;
 }
 
 .heart-icon {
@@ -82,9 +105,22 @@ body {
   overflow-y: scroll;
   height: 500px;
 }
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 35px;
+  height: 35px;
+  border-radius: 100px;
+  /* color: black; */
+  background-color: rgb(0 0 0 / 52%);
+  /* padding: 15px;*/
+}
 .item-text {
   font-size: 1.05rem;
   line-height: 1.4;
+  border-bottom: 0.5px #999 solid;
+  margin-bottom: 1rem;
 }
 .item-data-col {
   /* height: 500px; */
@@ -103,7 +139,7 @@ body {
   background-color: #333;
 }
 .commenter-name {
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 .bi-star-fill {
   color: rgb(239, 170, 79);

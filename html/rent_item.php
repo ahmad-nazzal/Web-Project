@@ -3,6 +3,76 @@ include_once "../php_duplicate_code/stylesheets_import.php";
 include_once "../php_duplicate_code/classes/nav_bar.php";
 include_once "../php_duplicate_code/classes/carousel.php";
 include_once "../php_duplicate_code/classes/rating.php";
+include_once "database.php";
+
+$item_id = 0;
+global $con;
+function get_item_comments_from_database($item_id)
+{
+  global $con;
+  $query =
+    "
+  SELECT users.first_name, reviews.comment_text, reviews.rating, reviews.item_id from users INNER JOIN reviews on users.Email = reviews.user_email WHERE reviews.item_id = ?;
+  ";
+  $statement = $con->prepare($query);
+  $statement->bind_param("i", $item_id);
+  $statement->execute();
+  return ($statement->get_result());
+}
+function get_item_images_from_database($item_id)
+{
+  global $con;
+  $query =
+    "
+    SELECT images.image_url from images where item_id = ?;
+    ";
+  $statement = $con->prepare($query);
+  $statement->bind_param("i", $item_id);
+  $statement->execute();
+  return ($statement->get_result());
+}
+
+function get_item_info_from_database($item_id)
+{
+  global $con;
+  $query =
+    "
+    SELECT 
+    owner_info.first_name, owner_info.last_name, owner_info.phone,
+    item_rating.stars,
+    comments.first_name as commenter_name, comments.rating as comment_rating, comments.comment_text,
+    returned_item.*
+    FROM
+    (select DISTINCT users.first_name, users.last_name, users.phone , items.ID as item_id from users INNER JOIN items on items.user_email = users.Email where items.ID = ?) owner_info
+    INNER JOIN
+    (SELECT users.first_name, reviews.comment_text, reviews.rating, reviews.item_id from users INNER JOIN reviews on users.Email = reviews.user_email) comments
+    ON owner_info.item_id = comments.item_id
+    INNER JOIN 
+    (select avg(reviews.rating) as stars, item_id from reviews GROUP BY reviews.item_id) item_rating
+    ON comments.item_id = item_rating.item_id
+    INNER JOIN
+    (select * from items) returned_item
+    ON returned_item.id = item_rating.item_id;
+    ";
+  $statement = $con->prepare($query);
+  $statement->bind_param("i", $item_id);
+
+  $statement->execute();
+  return ($statement->get_result());
+}
+
+if (isset($_GET['item']) && 0 != $_GET['item']) {
+  $item_id = $_GET['item'];
+}
+$item_id = 2;
+$result_info = get_item_info_from_database($item_id);
+$result_images = get_item_images_from_database($item_id);
+$result_comments = get_item_comments_from_database($item_id);
+$item_info = $result_info->fetch_object();
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -15,6 +85,40 @@ include_once "../php_duplicate_code/classes/rating.php";
   <?php getStyles(); ?>
   <link rel="stylesheet" href="../css/rent-item.css">
   <script defer>
+    function calculateVars() {
+      calculateDate(1);
+    }
+
+    function calculateDate(num) {
+      let element = document.querySelector("#return-date");
+      let date = new Date(Date.now() + (num * 24 * 60 * 60 * 1000));
+      // date.toLocaleString();
+      element.innerText = date.toLocaleString().split(',')[0];
+    }
+
+    function calculateTotal(num) {
+      let element = document.querySelector("#price_total");
+      let dayPrice = document.querySelector('#day_price');
+
+      element.innerText = (num * dayPrice.innerText.split('$')[0]) + '$';
+    }
+
+    function increaseDays() {
+
+      let element = document.querySelector("#num_days");
+      element.innerText = parseInt(element.innerText) + 1;
+      // alert(typeof(parseInt(element.innerText)));
+      calculateTotal(parseInt(element.innerText));
+      calculateDate(parseInt(element.innerText));
+    }
+
+    function decreaseDays() {
+      let element = document.querySelector("#num_days");
+      element.innerText = (element.innerText) -= 1;
+      calculateTotal(parseInt(element.innerText));
+      calculateDate(parseInt(element.innerText));
+    }
+
     function fillIcon(element) {
       element.classList.remove("bi-plus-circle");
       element.classList.add("bi-plus-circle-fill");
@@ -27,7 +131,7 @@ include_once "../php_duplicate_code/classes/rating.php";
   </script>
 </head>
 
-<body>
+<body onload="calculateVars()">
   <?php
   $nav = new Navbar();
   $nav->render();
@@ -40,48 +144,92 @@ include_once "../php_duplicate_code/classes/rating.php";
         <div class="row mt-5">
           <div class="col-6">
             <?php
-            $images = [
-              "https://picsum.photos/300/300",
-              "https://picsum.photos/550/650",
-              "https://picsum.photos/550/650",
-              "https://picsum.photos/500/700",
-              "https://picsum.photos/500/700",
-            ];
-
+            $images = [];
+            for ($i = 0; $i < $result_images->num_rows; $i++) {
+              $image = $result_images->fetch_object();
+              array_push($images, $image->image_url);
+            }
             (new Carousel(550, 650, "", "", $images))->render();
             ?>
           </div>
 
           <div class="col-6">
             <div class="item-header">
-              <h2 class="item-title "> الأخرى إضافة إلى زيادة عدد الحروف التى يولدها </h2>
-              <p class="status">متاح</p>
+              <h2 class="item-title "><?php echo $item_info->Title; ?> </h2>
+
+              <?php
+              if (!$item_info->stat) {
+                echo '<p class="status status-available">متاح</p>';
+              } else {
+                echo '<p class="status status-not-available">غير متاح</p>';
+              }
+              ?>
+
+
             </div>
-            <?php (new Rating(4))->render(); ?>
+            <?php (new Rating(round($item_info->stars, 2)))->render(); ?>
             <div class="price-box mt-3">
-              <p class="price d-inline"><strong>0.99$</strong></p>
+              <p class="price d-inline" id="day_price"><strong><?php echo $item_info->price_per_day; ?>$</strong></p>
               <p class="price-text d-inline">ليوم واحد</p>
             </div>
             <div class="rent-info-box mt-5 ps-3">
 
-              <p class="location-text">نابلس</p>
-              <p class="shipping-text">امكانية التوصيل</p>
-              <p class="shipping-price-text">2.99$</p>
-              <p class="cash-method-text">الدفع بالكاش</p>
-              <p class="credit-method-text">لا بطاقة ائتمان</p>
+              <p class="location-text"><?php echo $item_info->location; ?></p>
+              <p class="shipping-text">
+                <?php
+                $flag = false;
+                if ($item_info->shipping == 1) {
+                  $flag = true;
+                  echo " متاح للتوصيل" . $item_info->shipping_cost . '$';
+                ?>
+                  <!-- <p class="shipping-price-text"><!-?php echo $item_info->shipping_cost ?>$</p> -->
+              </p>
+            <?php
+                } else {
+                  echo "غير متاح للتوصيل";
+                }
+            ?>
+            <!-- <?php if (!$flag) { ?> </p> <?php } ?> -->
 
-              <div class="rent-days d-flex align-items-center gap-4 mt-5">
-                <i class=" bi bi-plus-circle control-btn"></i>
-                <p class="days-number">6</p>
-                <i class=" bi bi-dash-circle control-btn"></i>
-                <p class="total-price-text">المجموع: </p>
-                <p class="total-price">19.99$</p>
-              </div>
+            <p class="cash-method-text">
+              <?php if ($item_info->cash_method == 1) {
+                echo "يمكن الدفع كاش";
+              } else {
+                echo "لا يمكن الدفع كاش";
+              }
+              ?>
+            </p>
+            <p class="credit-method-text">
+              <?php if ($item_info->credit_method == 1) {
+                echo "يمكن الدفع ببطاقة الأئتمان";
+              } else {
+                echo "لا يمكن الدفع ببطاقة الأئتمان";
+              }
+              ?>
+            </p>
+
+            <div class="rent-days d-flex align-items-center gap-4 mt-5">
+              <i class=" bi bi-plus-circle control-btn" onclick="increaseDays();"></i>
+              <span class="days-number" id="num_days">1</span>
+              <span class="days-number-text mt-2">يوم </span>
+              <i class=" bi bi-dash-circle control-btn" onclick="decreaseDays();"></i>
+
+              <p class="total-price-text">المجموع: </p>
+              <p class="total-price" id="price_total">19.99$</p>
+
+            </div>
+            <div class=" d-flex gap-2 mt-4 align-items-center">
+              <p class="date-text">تاريخ التسليم: </p>
+              <p id="return-date" class=" ">12-8-2022</p>
+            </div>
+
             </div>
             <div class="cta-box d-flex gap-0 align-items-center justify-content-between mt-3">
               <div class="like-btn"><i class=" bi-heart icons heart-icon"></i></div>
               <button class="btn btn-dark w-75 rent-btn">استأجر الآن</button>
-              <button class=" btn btn-outline-dark w-auto cart-btn">الى العربة</button>
+              <button class=" btn btn-outline-dark w-auto cart-btn">
+                <i class=" bi bi-cart gap-1">الى العربة</i>
+              </button>
 
             </div>
           </div>
@@ -105,26 +253,16 @@ include_once "../php_duplicate_code/classes/rating.php";
             </nav>
             <div class="item-text-box" data-bs-spy="scroll" data-bs-target="#item-text-nav">
               <p class="item-text" id="description">
-                ا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
-                إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.
-                ومن هنا وجب على المصمم أن يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا علاقة له بالموضوع الذى يتحدث عنه التصميم فيظهر بشكل لا يليق.
-                هذا النص يمكن أن يتم تركيبه على أي تصميم دون مشكلة فلن يبدو وكأنه نص منسوخ، غير منظم، غير منسق، أو حتى غير مفهوم. لأنه مازال نصاً بديلاً ومؤقتاً.
+                <?php echo $item_info->Description; ?>
 
-                هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
-                إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.
-                ومن هنا وجب على المصمم أن يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا علاقة له بالموضوع الذى يتحدث عنه التصميم فيظهر بشكل لا يليق.
-                هذا النص يمكن أن يتم تركيبه على أي تصميم دون مشكلة فلن يبدو وكأنه نص منسوخ، غير منظم، غير منسق، أو حتى غير مفهوم. لأنه مازال نصاً بديلاً ومؤقتاً.</p>
-              <br>
               <p class="item-text" id="owner-details">
-                ا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
-                إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.
-                ومن هنا وجب على المصمم أن يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا علاقة له بالموضوع الذى يتحدث عنه التصميم فيظهر بشكل لا يليق.
-                هذا النص يمكن أن يتم تركيبه على أي تصميم دون مشكلة فلن يبدو وكأنه نص منسوخ، غير منظم، غير منسق، أو حتى غير مفهوم. لأنه مازال نصاً بديلاً ومؤقتاً.
+              <p>
 
-                هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
-                إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.
-                ومن هنا وجب على المصمم أن يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا علاقة له بالموضوع الذى يتحدث عنه التصميم فيظهر بشكل لا يليق.
-                هذا النص يمكن أن يتم تركيبه على أي تصميم دون مشكلة فلن يبدو وكأنه نص منسوخ، غير منظم، غير منسق، أو حتى غير مفهوم. لأنه مازال نصاً بديلاً ومؤقتاً.</p>
+                <?php echo $item_info->first_name . ' ' . $item_info->last_name; ?>
+              </p>
+              <p>
+                <?php echo $item_info->phone; ?>
+              </p>
             </div>
           </div>
 
@@ -133,15 +271,25 @@ include_once "../php_duplicate_code/classes/rating.php";
             <h4 class=" mb-3">التقييمات</h4>
             <div class="reviews">
 
-              <?php for ($i = 0; $i < 10; $i++) { ?>
+              <?php for ($i = 0; $i < $result_comments->num_rows; $i++) {
+                $row = $result_comments->fetch_object();
+              ?>
                 <div class=" card">
                   <div class=" card-body">
 
-                    <p class="commenter-name">م***د</p>
+                    <p class="commenter-name">
+                      <?php
+                      $first_char = ($row->first_name)[0];
+                      $last_char = ($row->first_name)[strlen($row->first_name) - 1];
+                      echo ($first_char . '***' . $last_char);
+                      ?>
+                    </p>
 
 
-                    <?php (new Rating(4))->render(); ?>
-                    <p>يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا </p>
+                    <?php (new Rating($row->rating))->render(); ?>
+                    <p>
+                      <?php echo $row->comment_text; ?>
+                    </p>
                   </div>
                 </div>
 

@@ -162,12 +162,12 @@ i {
   text-shadow: 2px 2px 4px #00000043;
 }
 .bi-star-fill {
-  color: rgb(239, 170, 79);
+  /* color: rgb(239, 170, 79); */
 }
 .bi-star {
-  color: rgb(239, 170, 79);
+  /* color: rgb(239, 170, 79); */
 }
 .stars-value {
-  color: rgb(239, 170, 79);
+  /* color: rgb(239, 170, 79); */
   margin-left: 2px;
 }
