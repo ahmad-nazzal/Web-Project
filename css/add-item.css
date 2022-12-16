@@ -29,10 +29,16 @@
 [class^="section"]:last-child {
   margin-bottom: 3.2rem;
 }
-
+.item-img {
+  width: 100px;
+  height: 100px;
+}
+#price-input {
+  width: 10% !important;
+}
 #big-img {
-  width: 600px;
-  height: 350px;
+  width: 700px;
+  height: 450px;
 }
 .img-selected {
   border: 2px #333 solid;
