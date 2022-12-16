@@ -46,7 +46,7 @@ class SearchResults implements ElementsMethods
     if (isset($db)) {
       $query =
         ' 
-          select title, price_per_day as price, rate.stars, description, shipping,local_pickup, cash_method, credit_method, location
+          select item_id ,title, price_per_day as price, rate.stars, description, shipping,local_pickup, cash_method, credit_method, location
           from items
           inner join (select avg(rating) as stars, item_id from reviews group by item_id) rate on items.id = rate.item_id
           
