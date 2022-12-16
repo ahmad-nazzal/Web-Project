@@ -44,3 +44,7 @@
   justify-items: center;
   row-gap: 24px;
 }
+.card,
+.card-body {
+  cursor: pointer !important ;
+}

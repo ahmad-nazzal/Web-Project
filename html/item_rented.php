@@ -67,10 +67,12 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+          <div id="id-hiedden-modal" style="display: none;" ></div>
           <div class="modal-header remove-separator-modal">
             <button
               type="button"
               class="btn-close sign-in-btn"
+              id="review-close-btn"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
@@ -78,9 +80,20 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
 
           </div>
           <div class="modal-body">
-              <?php (new Rating(4))->render(); ?>
+
+          <div class="d-flex star-container mb-2 align-items-center" style="color: rgb(239, 170, 79); cursor:pointer;">      
+            <i class="bi bi-star-fill star1" id="star1" onclick="calculateRating(this)"></i>
+            <i class="bi bi-star star2" id="star2" onclick="calculateRating(this)"></></i>
+            <i class="bi bi-star star3" id="star3" onclick="calculateRating(this)"></></i>
+            <i class="bi bi-star star4" id="star4" onclick="calculateRating(this)"></></i>
+            <i class="bi bi-star star5" id="star5" onclick="calculateRating(this)"></></i>
+          </div>
+
+
+
+
               <textarea id="w3review" name="w3review" placeholder="اكتب تعليقك هنا ..." rows="4" cols="50"></textarea>
-              <input type="submit" value="تم" class="btn btn-primary">
+              <input type="submit" value="تم" onclick="userRating('<?php echo $user_email ?>')" class="btn btn-primary">
 
 
 
@@ -94,22 +107,62 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
     </div>
 <!-- /////////////////////////////////////// -->
 
-
       <div class="tab-pane fade show active" id="nav-oldItem" role="tabpanel" aria-labelledby="nav-oldItem-tab">
+      <?php 
+      $itemQuery="SELECT DISTINCT status,rent.item_id,start_date,end_date,image_url,Title from
+        ((rent INNER JOIN images on images.item_id=rent.item_id)
+         INNER JOIN items on rent.item_id=items.ID)
+          where rent.user_email='$user_email' and (status=0 or status=1)";
+      $nowItemResult=$con->query($itemQuery);
+      while($nowItemData=mysqli_fetch_assoc($nowItemResult)){
+
+        $date1 = date("Y-m-d");
+        $date2 = $nowItemData['end_date'];
+        $diff = abs(strtotime($date2) - strtotime($date1));
+
+        $years = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+      ?>
+
       <div class="card mb-2 ">
           <div class="row">
             <div class="col-auto ">
-              <img src="https://picsum.photos/200" alt="" class="rounded-start">
+              <img src="<?php echo $nowItemData['image_url'] ?>" alt="" class="rounded-start">
             </div>
             <div class="col-9 ">
               <div class="card-body">
                 <div class="item-info">
                   <div>
-                    <h4 class="card-title">salah item</h4>
+                    <h4 class="card-title"><?php echo $nowItemData['Title'] ?></h4>
                     
                   </div>
-                  <p class="price">7 أيام للتسليم </p>
-                  <input type="button" class="btn btn-primary btn-done activ" id="doneBtn"  data-bs-toggle="modal" data-bs-target="#commentModal" value="تسليم" onclick="toggleInput()">
+                  <p class="price"><?php echo $days?>  أيام للتسليم </p>
+                  <input type="button" class="btn btn-primary btn-done activ"
+                   id="doneBtn"  data-bs-toggle="modal" data-bs-target="#commentModal"
+                   <?php 
+                    if($nowItemData['status']==0){
+                      ?>
+                      value="تسليم" 
+
+                      <?php
+                      
+                    }
+                    elseif($nowItemData['status']==1){
+                      ?>
+                      style="color: #f7f7f7; background-color: #333;"
+                      value="تم التسليم"
+                      disabled
+                      <?php
+
+                    }
+                    
+                    
+                    ?>
+                    
+                    
+                    onclick="toggleInput(<?php echo $nowItemData['item_id'] ?>)">
 
                 </div>
                 
@@ -118,26 +171,50 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
             </div>
           </div>
         </div>
-
+      <?php 
+      }
+      ?>
 
       </div>
 
 
       <div class="tab-pane fade show active" id="nav-ownItem" role="tabpanel" aria-labelledby="nav-ownItem-tab">
-      <div class="card mb-2 ">
+
+      <?php 
+        $itemQueryPending="SELECT DISTINCT status,rent.item_id,start_date,end_date,image_url,Title from
+          ((rent INNER JOIN images on images.item_id=rent.item_id)
+          INNER JOIN items on rent.item_id=items.ID)
+          where rent.user_email='$user_email' and status=1";
+        $pendingItemResult=$con->query($itemQueryPending);
+        while($PendingItemData=mysqli_fetch_assoc($pendingItemResult)){
+      
+      
+      
+      ?>
+
+
+      
+      <div class="card mb-2 lqlq">
           <div class="row">
             
             <div class="col-auto  " >
-              <img src="https://picsum.photos/200" alt="" class="rounded-start">
+              <img src="<?php  echo $PendingItemData['image_url'] ?>" alt="" class="rounded-start">
             </div>
             <div class="col-9 ">
               <div class="card-body">
                 <div class="item-info">
                   <div>
-                    <h4 class="card-title">salah item</h4>
+                    <h4 class="card-title"><?php echo $PendingItemData['Title'] ?></h4>
                   </div>
-                  <p class="price">تاريخ الاستلام: 19/12/2022  </p>
-                  <input type="button" class="btn btn-primary btn-done" value="تم الاستلام">
+                  <p class="price flex-row gap-2 align-items-center"><span class="fs-6" style="color: #777;">تاريخ الاستلام:</span> <?php echo $PendingItemData['end_date'] ?>  </p>
+                  <input type="button" class="btn btn-primary btn-done"
+                  onclick="recivedItem(this,<?php echo $user_email?>, <?php echo $PendingItemData['item_id'] ?>)"
+                  value="تم الاستلام"
+                  
+                  
+                  
+                  >
+                  
                 </div>
 
               </div>
@@ -147,7 +224,9 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
 
           </div>
         </div>
-
+            <?php
+        } 
+            ?>
 
       </div>
 
