@@ -207,13 +207,11 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
                     <h4 class="card-title"><?php echo $PendingItemData['Title'] ?></h4>
                   </div>
                   <p class="price flex-row gap-2 align-items-center"><span class="fs-6" style="color: #777;">تاريخ الاستلام:</span> <?php echo $PendingItemData['end_date'] ?>  </p>
-                  <input type="button" class="btn btn-primary btn-done"
-                  onclick="recivedItem(this,<?php echo $user_email?>, <?php echo $PendingItemData['item_id'] ?>)"
-                  value="تم الاستلام"
-                  
-                  
-                  
+                  <button type="button" class="btn btn-primary btn-done"
+                  onclick="recivedItem(this,'<?php echo $user_email?>', <?php echo $PendingItemData['item_id'] ?>)"
                   >
+                    تم الاستلام
+                  </button>
                   
                 </div>
 
@@ -232,18 +230,31 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
 
 
       <div class="tab-pane fade" id="nav-newItem" role="tabpanel" aria-labelledby="nav-newItem-tab">
+
+      <?php 
+      
+      
+      $itemQueryOld="SELECT DISTINCT rent.item_id,start_date,end_date,image_url,Title from
+          ((rent INNER JOIN images on images.item_id=rent.item_id)
+          INNER JOIN items on rent.item_id=items.ID)
+          where rent.user_email='$user_email' and status=2";
+        $oldItemResult=$con->query($itemQueryOld);
+        while($OldItemData=mysqli_fetch_assoc($oldItemResult)){
+      
+      
+      ?>
       <div class="card mb-2 ">
           <div class="row">
             <div class="col-auto">
-              <img src="https://picsum.photos/200" alt="" class="rounded-start">
+              <img src="<?php echo $OldItemData['image_url']?>" alt="" class="rounded-start">
             </div>
             <div class="col-9 ">
               <div class="card-body">
                 <div class="item-info">
                   <div>
-                    <h4 class="card-title">salah item</h4>
+                    <h4 class="card-title"><?php echo $OldItemData['Title']?></h4>
                   </div>
-                  <p class="price">15/12/2022 - 29/12/2022</p>
+                  <p class="price"><?php echo $OldItemData['start_date']?>- <?php echo $OldItemData['end_date']?></p>
                 </div>
                 
                 <p class="card-text"><small></small></p>
@@ -253,6 +264,10 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
             </div>
           </div>
         </div>
+        <?php
+        
+         }
+        ?>
 
 
       </div>

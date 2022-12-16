@@ -21,7 +21,8 @@ function getStyles()
 
     <script src="../js/general.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script> <!-- for dropmenu it must included -->
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script> 
+    <!-- for dropmenu it must included -->
     <script src="../js/cards.js"></script>
     <link href="../css/cards.css" rel="stylesheet"/>
     <link href="../css/Header-sectionHero.css" rel="stylesheet" />
