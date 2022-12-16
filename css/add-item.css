@@ -33,6 +33,9 @@
   width: 100px;
   height: 100px;
 }
+#price-input {
+  width: 10% !important;
+}
 #big-img {
   width: 700px;
   height: 450px;

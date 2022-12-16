@@ -32,29 +32,29 @@ class AddItemTemplate
         <img src="<?php echo $this->item_images[0]; ?>" alt="image" id="big-img">
 
       </div>
-      <form action="my_items_page.php" method="post" id="main-form">
-
-        <!-- <!?php renderToast(); ?> -->
-        <input type="text" name="create" value="<?php echo $this->item_id; ?>" style="display: none;">
-        <!-- <label for="file" style="cursor: pointer;">اضف صور</label> -->
 
 
+      <!-- <!?php renderToast(); ?> -->
+      <input type="text" name="create" value="<?php echo $this->item_id; ?>" style="display: none;">
+      <!-- <label for="file" style="cursor: pointer;">اضف صور</label> -->
 
 
 
-        <input class="form-control mb-2" type="file" id="formFileMultiple" onchange="loadFile(event)" multiple>
-        <span>
 
-          <div class="available-imgs">
-            <?php
-            for ($i = 0; $i < count($this->item_images); $i++) {
-            ?>
-              <img onclick="selectPhoto(this)" src="<?php echo $this->item_images[$i]; ?>" alt="image" class="item-img">
-            <?php
-            } ?>
 
-          </div>
-        </span>
+      <input class="form-control mb-2" type="file" id="formFileMultiple" onchange="loadFile(event)" multiple>
+      <span>
+
+        <div class="available-imgs">
+          <?php
+          for ($i = 0; $i < count($this->item_images); $i++) {
+          ?>
+            <img onclick="selectPhoto(this)" src="<?php echo $this->item_images[$i]; ?>" alt="image" class="item-img">
+          <?php
+          } ?>
+
+        </div>
+      </span>
     </section>
 
     <section class="section-info">
@@ -66,7 +66,7 @@ class AddItemTemplate
       </div>
       <h5 class="text-description mb-e">الوصف</h5>
       <div class="form-group">
-        <textarea form="main-form" class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="اكتب وصفًا لغرضك"><?php echo $this->Description; ?></textarea>
+        <textarea form="main-form" class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="اكتب وصفًا لغرضك" name="desc"><?php echo $this->Description; ?></textarea>
       </div>
     </section>
     <section class="section-accordion">
@@ -81,8 +81,16 @@ class AddItemTemplate
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
               <div class="price">
-                <h3 class=" d-inline"><strong contenteditable="true"><?php echo $this->price_per_day; ?></strong><strong>$</strong></h3>
+                <h5 class=" d-inline">السعر</h5>
                 <p class="price-tag d-inline">ليوم واحد</p>
+                <div class=" d-flex align-items-center gap-1">
+
+                  <strong>$</strong>
+                  <input id="price-input" class="form-control d-inline" type="text" value="<?php echo $this->price_per_day; ?>" name="price">
+                </div>
+
+
+
 
               </div>
               <div class="form-check w-50">
@@ -184,11 +192,11 @@ class AddItemTemplate
                 if ($this->stat == 1) {
 
                 ?>
-                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="status" value="1" checked>
                 <?php
                 } else {
                 ?>
-                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="status" value="1">
                 <?php
                 }
                 ?>

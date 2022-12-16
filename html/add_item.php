@@ -82,7 +82,8 @@ if ($item_id == 0) {
   <?php
   getStyles();
   ?>
-  <link rel="stylesheet" href="../node_modules/swiper/swiper-bundle.min.css" />
+
+  <!-- <link rel="stylesheet" href="../node_modules/swiper/swiper-bundle.min.css" /> -->
   <script src="../js/cards.js"></script>
 
   <link href="../css/cards.css" rel="stylesheet" />
@@ -184,19 +185,19 @@ if ($item_id == 0) {
 
 
   <div class="container ">
+    <form action="my_items_page.php" method="post" id="main-form">
+      <?php
+      if ($create_flag == false) {
+        (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat))->render();
+      } else {
+        $arr = [];
+        (new AddItemTemplate(null, $arr, "", "", 0, 0, 0, 0, 0, 1))->render();
+      }
+      ?>
+      <div class="d-flex justify-content-center">
 
-    <?php
-    if ($create_flag == false) {
-      (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat))->render();
-    } else {
-      $arr = [];
-      (new AddItemTemplate(null, $arr, "", "", 0, 0, 0, 0, 0, 1))->render();
-    }
-    ?>
-    <div class="d-flex justify-content-center">
-
-      <button type="submit" class="btn btn-primary my-4 col-4" id="update-btn" onclick="storeItem()">حفظ</button>
-    </div>
+        <button type="submit" class="btn btn-primary my-4 col-4" id="update-btn" onclick="storeItem()">حفظ</button>
+      </div>
     </form>
 
 
