@@ -205,7 +205,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                         <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this,<?php echo $cardData['item_id'] ?>)"></i>
                       </div>
                       <script src="../node_modules/swiper/swiper-bundle.min.js"></script>
-
+                    </div>
 
                       <?php
                       }
@@ -314,103 +314,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                   <script src="../node_modules/swiper/swiper-bundle.min.js"></script>
 
 
-                <!-- <?php
-                // }
-                ?> -->
 
 
 
-                <div class="card swiper-slide" style="width: 18rem;">
-                  <span class="ratig-card">
-                    <i class="bi bi-star-fill star-icon">
-                      <span style="font-size:0.8rem;">4.7</span>
-                    </i>
-                  </span>
-                  <img src="../assets/imgs/web images/shoes240.webp" onclick="location.href='#'" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">Shoes</h5>
-                    <div class="card-content">
-                      <div class="price">
-                        <p class="card-text">$99.9</p>
-                        <p class="card-text every-day">لكل يوم</p>
-                      </div>
-                      <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card swiper-slide" style="width: 18rem;">
-                  <span class="ratig-card">
-                    <i class="bi bi-star-fill star-icon">
-                      <span style="font-size:0.8rem;">4.7</span>
-                    </i>
-                  </span>
-                  <img src="../assets/imgs/web images/shoes240.webp" onclick="location.href='#'" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">Shoes</h5>
-                    <div class="card-content">
-                      <div class="price">
-                        <p class="card-text">$99.9</p>
-                        <p class="card-text every-day">لكل يوم</p>
-                      </div>
-                      <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card swiper-slide" style="width: 18rem;">
-                  <span class="ratig-card">
-                    <i class="bi bi-star-fill star-icon">
-                      <span style="font-size:0.8rem;">4.7</span>
-                    </i>
-                  </span>
-                  <img src="../assets/imgs/web images/shoes240.webp" onclick="location.href='#'" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">Shoes</h5>
-                    <div class="card-content">
-                      <div class="price">
-                        <p class="card-text">$99.9</p>
-                        <p class="card-text every-day">لكل يوم</p>
-                      </div>
-                      <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card swiper-slide" style="width: 18rem;">
-                  <span class="ratig-card">
-                    <i class="bi bi-star-fill star-icon">
-                      <span style="font-size:0.8rem;">4.7</span>
-                    </i>
-                  </span>
-                  <img src="../assets/imgs/web images/shoes240.webp" onclick="location.href='#'" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">Shoes</h5>
-                    <div class="card-content">
-                      <div class="price">
-                        <p class="card-text">$99.9</p>
-                        <p class="card-text every-day">لكل يوم</p>
-                      </div>
-                      <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="card swiper-slide" style="width: 18rem;">
-                  <span class="ratig-card">
-                    <i class="bi bi-star-fill star-icon">
-                      <span style="font-size:0.8rem;">4.7</span>
-                    </i>
-                  </span>
-                  <img src="../assets/imgs/web images/shoes240.webp" onclick="location.href='#'" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title text-center">Shoes</h5>
-                    <div class="card-content">
-                      <div class="price">
-                        <p class="card-text">$99.9</p>
-                        <p class="card-text every-day">لكل يوم</p>
-                      </div>
-                      <i class="bi bi-heart" id="icon-to-toggle" onclick="toggleIcon(this)"></i>
-                    </div>
-                  </div>
-                </div>
 
+            
 
 
 
@@ -418,13 +326,14 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
 
               </div>
+            
 
             </div>
             <div class="swiper-button-next<?php echo $numSliders ?> swiper-button-next swiper-navBtn"></div>
             <div class="swiper-button-prev<?php echo $numSliders ?> swiper-button-prev swiper-navBtn"></div>
             <div class="swiper-pagination<?php echo $numSliders ?> swiper-pagination"></div>
           </div>
-
+          
           <script>
             var swiper = new Swiper(".slide-content<?php echo $numSliders  ?>", {
               slidesPerView: 4,
@@ -463,7 +372,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         }
       
         ?>
-
+          
         </section>
       </main>
       <div class=" footer-container">
