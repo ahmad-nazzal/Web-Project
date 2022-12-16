@@ -312,6 +312,7 @@ class NavBarAll{
                   <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="profile.php">حسابي</a></li>
                     <li><a class="dropdown-item" href="<?php echo "item_rented.php?isUser=$isuser &userEmail=$user_email&userName=$userName" ?>">مقتنياتي</a></li>
+                    <li><a class="dropdown-item" href="<?php echo "my_items_page.php?isUser=$isuser &userEmail=$user_email&userName=$userName" ?>">أغراضي</a></li>
                     <li>
                       <a class="dropdown-item log-out" href="index.php?destroy_session=1">
                           تسجيل الخروج

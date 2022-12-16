@@ -1,15 +1,17 @@
 <?php 
 session_start();
 require 'database.php';
+require '../php_duplicate_code/classes/toast.php';
 
 if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['upEmail']) && isset($_POST['upPhone'])){
   $updateQuery= "update users set first_name='".$_POST['upFirstName']."' , last_name='"
-  .$_POST['upLastName']."' , Email='".$_POST['upEmail']."' , phone=".$_POST['upPhone']." where Email='".$_SESSION['useremail']."'";
+  .$_POST['upLastName']."' , Email='".$_POST['upEmail']."' , phone='".$_POST['upPhone']."' where Email='".$_SESSION['useremail']."'";
   $con->query($updateQuery);
   $_SESSION['useremail']=$_POST['upEmail'];
   $_SESSION['username']=$_POST['upFirstName']." ".$_POST['upLastName'];
   $_SESSION['userPhone']=$_POST['upPhone'];
 }
+
 
 
 
@@ -47,6 +49,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
     <script src="../js/header-sectionHero.js"></script>
     <link href="../css/cards.css" rel="stylesheet" />
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link href="../css/Header-sectionHero.css" rel="stylesheet" />
     <link href="../css/profile.css" rel="stylesheet"/>
     <link href="../css/general.css" rel="stylesheet" />
@@ -168,6 +171,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                             class="btn sign-in-btnn"
                             value="تعديل"
                           />
+
                         </form>
                         
 
@@ -177,8 +181,13 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                       <div class="tab-pane " id="bank-account" role="tabpanel" aria-labelledby="bank">
                       <div id="sign-up-form">
                        
-                       <p class="bold pb-3 fs-3">معلوماتي البنكية</p>
+                      <p class="bold pb-3 fs-3"><i class="bi bi-pencil-square gap-2"> معلوماتي البنكية</i></p>
+                        <?php  
+                        $bankQuery="select bank_account_number,bank_name from users where email='".$_SESSION['useremail']."'";
+                        $bankResult=$con->query($bankQuery);
+                        $bankData=mysqli_fetch_assoc($bankResult);
 
+                        ?>
                        
                        <div class="form-floating pb-3">
                          <input
@@ -186,6 +195,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                            class="form-control  form-group "
                            id="bankName"
                            name="bankName"
+                           value="<?php echo $bankData['bank_name'] ?>"
                            placeholder="bankName"
                            required
                          />
@@ -200,6 +210,7 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                          class="form-control  form-group"
                          id="bankNumber"
                          name="bankNumber"
+                         value="<?php echo $bankData['bank_account_number'] ?>"
                          placeholder="bankNumber"
                          required
                        />
@@ -211,16 +222,13 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                      
                      
                      <button
-                     onclick="changePass('<?php echo $_SESSION['useremail'] ?>' )"
-                           id="submit_changePass"
+                     onclick="changeBank('<?php echo $_SESSION['useremail'] ?>' )"
+                           id="submit_changeBank"
                            class="btn sign-in-btnn"
                          >تعديل
                      </button>
-                     <div class="valid-feedback" id="correct-passwordw">
-                         تم تغيير كلمة السر
-                       </div>
-                       
 
+                     <?php new Toast('submit_changeBank','toast1','تم التعديل') ?>
                      </div>
                       </div>
 
@@ -280,8 +288,10 @@ if(isset($_POST['upFirstName']) && isset($_POST['upLastName']) && isset($_POST['
                       onclick="changePass('<?php echo $_SESSION['useremail'] ?>' )"
                             id="submit_changePass"
                             class="btn sign-in-btnn"
-                          >تعديل
+                          >تغيير
                       </button>
+                      <?php new Toast('submit_changePass','toast2','تم التغيير') ?>
+
                       <div class="valid-feedback" id="correct-passwordw">
                           تم تغيير كلمة السر
                         </div>

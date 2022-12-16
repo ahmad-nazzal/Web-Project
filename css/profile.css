@@ -48,7 +48,9 @@
   font-weight: 500;
   margin-right: 80%;
   width: 11rem;
+  color: white;
 }
+
 #form-signUp {
   display: flex;
   flex-direction: column;
@@ -138,3 +140,4 @@
   color: #fbfbfb;
   font-size: 3rem;
 }
+
