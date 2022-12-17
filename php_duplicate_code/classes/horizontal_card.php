@@ -20,7 +20,7 @@ class HorizontalCard implements ElementsMethods
   public function render()
   {
 ?>
-    <div class="card mb-2 ">
+    <div class="card mb-2 " onclick="location.href='rent_item.php?item=2'">
       <div class="row">
         <div class="col-auto">
           <img src="https://picsum.photos/200" alt="" class="rounded-start">

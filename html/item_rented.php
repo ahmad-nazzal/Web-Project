@@ -2,13 +2,15 @@
 require "../php_duplicate_code/classes/nav_barAll.php";
 require '../html/database.php';
 require '../php_duplicate_code/classes/rating.php';
+require '../php_duplicate_code/classes/footer.php';
+session_start();
 $isuser='';
 $user_email='';
 $userName='';
-if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'])){
-  $userName=$_GET['userName'];
-  $user_email=$_GET['userEmail'];
-  $isuser=$_GET['isUser'];
+if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])){
+  $userName=$_SESSION['username'];
+  $user_email=$_SESSION['useremail'];
+  $isuser=$_SESSION['isUser'];
 }
 ?>
 <!DOCTYPE html>
@@ -254,7 +256,7 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
                   <div>
                     <h4 class="card-title"><?php echo $OldItemData['Title']?></h4>
                   </div>
-                  <p class="price"><?php echo $OldItemData['start_date']?>- <?php echo $OldItemData['end_date']?></p>
+                  <p class="price"><?php echo $OldItemData['start_date']?> : <?php echo $OldItemData['end_date']?></p>
                 </div>
                 
                 <p class="card-text"><small></small></p>
@@ -275,5 +277,6 @@ if(isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'
 
     </div>
   </main>
+  <?php new Footer() ?> 
 </body>
 </html>

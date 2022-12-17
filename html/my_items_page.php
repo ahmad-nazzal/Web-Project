@@ -16,7 +16,6 @@ if (isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName
 
 
 
-if (isset($_POST['']))
 }
 
 ?>
