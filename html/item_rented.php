@@ -131,7 +131,7 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
       <div class="card mb-2 ">
           <div class="row">
             <div class="col-auto ">
-              <img src="<?php echo $nowItemData['image_url'] ?>" alt="" class="rounded-start">
+              <img src="<?php echo $nowItemData['image_url'] ?>" onclick="location.href='rent_item.php?item=<?php echo $nowItemData['item_id'] ?>'" alt="" class="rounded-start">
             </div>
             <div class="col-9 ">
               <div class="card-body">
@@ -200,7 +200,7 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
           <div class="row">
             
             <div class="col-auto  " >
-              <img src="<?php  echo $PendingItemData['image_url'] ?>" alt="" class="rounded-start">
+              <img src="<?php  echo $PendingItemData['image_url'] ?>" onclick="location.href='add_item.php?item=<?php echo $PendingItemData['item_id'] ?>'" alt="" class="rounded-start">
             </div>
             <div class="col-9 ">
               <div class="card-body">
@@ -248,7 +248,7 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
       <div class="card mb-2 ">
           <div class="row">
             <div class="col-auto">
-              <img src="<?php echo $OldItemData['image_url']?>" alt="" class="rounded-start">
+              <img src="<?php echo $OldItemData['image_url']?>" onclick="location.href='rent_item.php?item=<?php echo $OldItemData['item_id'] ?>'" alt="" class="rounded-start">
             </div>
             <div class="col-9 ">
               <div class="card-body">
