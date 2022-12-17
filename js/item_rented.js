@@ -134,4 +134,12 @@ function userRating(email) {
 }
 function recivedItem(button, email, itemId) {
   const httpp = new XMLHttpRequest();
+  httpp.onload = function () {
+    button.setAttribute("disabled", "");
+    button.innerHTML = "&#9745";
+    button.style.fontSize = "1rem";
+  };
+  httpp.open("POST", "recivedItemApi.php", false);
+  httpp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  httpp.send("itemId=" + itemId + "&email=" + email);
 }

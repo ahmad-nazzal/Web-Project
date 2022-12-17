@@ -4,9 +4,12 @@ include_once("../php_duplicate_code/classes/card.php");
 include_once("toast.php");
 include_once("database.php");
 include_once("../php_duplicate_code/classes/add_item_template.php");
+require "../php_duplicate_code/classes/nav_barAll.php";
+require '../php_duplicate_code/classes/footer.php';
+ 
 // 780px best width
 
-
+session_start();
 $item_id = 0;
 $create_flag = false;
 if (isset($_GET['item'])) {
@@ -69,7 +72,11 @@ if ($item_id == 0) {
     array_push($item_images, $img->image_url);
   }
 }
-
+if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])){
+  $userName=$_SESSION['username'];
+  $user_email=$_SESSION['useremail'];
+  $isuser=$_SESSION['isUser'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -85,6 +92,7 @@ if ($item_id == 0) {
 
   <!-- <link rel="stylesheet" href="../node_modules/swiper/swiper-bundle.min.css" /> -->
   <script src="../js/cards.js"></script>
+  <script src="../js/general.js"></script>
 
   <link href="../css/cards.css" rel="stylesheet" />
   <link href="../css//add-item.css" rel="stylesheet" />
@@ -183,6 +191,7 @@ if ($item_id == 0) {
 
 <body>
 
+<?php     new NavBarAll($isuser,$con,$user_email,$userName);?>
 
   <div class="container ">
     <form action="my_items_page.php" method="post" id="main-form">
@@ -203,5 +212,6 @@ if ($item_id == 0) {
 
   </div>
 </body>
+<?php new Footer() ?> 
 
 </html>

@@ -102,6 +102,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
 
   <body>
     <?php 
+    $_SESSION['isUser']=$isuser;
     new NavBarAll($isuser,$con,$user_email,$userName);
     ?>
       <!-- main page -->
@@ -219,7 +220,7 @@ elseif(isset($_SESSION['useremail']) && isset($_SESSION['username'])){
                           <span style="font-size:0.8rem;"><?php echo number_format($cardData['avgRate'], 1, '.', '');?></span>
                         </i>
                       </span>
-                        <img src="<?php echo $cardData['image_url'];?>"  onclick="location.href='#'" class="card-img-top" alt="...">
+                        <img src="<?php echo $cardData['image_url'];?>"  onclick="location.href='rent_item.php?item=<?php echo $cardData['item_id'] ?>'" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title text-center"><?php echo $cardData['Title'];?></h5>
                           <div class="card-content">

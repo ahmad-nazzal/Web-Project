@@ -9,6 +9,7 @@ a {
 }
 .rounded-start {
   width: 90px;
+  height: 90px;
 }
 .card-body {
   padding-bottom: 0px;

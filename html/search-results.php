@@ -1,8 +1,10 @@
 <?php
 include_once("../php_duplicate_code/classes/items_results.php");
 include_once("../php_duplicate_code/classes/nav_bar.php");
+include_once("../php_duplicate_code/classes/nav_barAll.php");
+include_once("../php_duplicate_code/classes/footer.php");
 include_once("../php_duplicate_code/stylesheets_import.php");
-
+session_start();
 // include_once("../php_duplicate_code/nav_bar.php");
 $flag = false;
 $user_input = "";
@@ -45,7 +47,11 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
 {
   $local_pickup = $_GET['local-pickup'];
 }
-
+if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])){
+  $userName=$_SESSION['username'];
+  $user_email=$_SESSION['useremail'];
+  $isuser=$_SESSION['isUser'];
+}
 
 ?>
 
@@ -66,10 +72,8 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
 
 <body>
   <?php
-  $navbar = new Navbar();
-  $navbar->render();
-  unset($navbar);
-  ?>
+    new NavBarAll($isuser,$con,$user_email,$userName);
+    ?>
   <main class="container mt-5">
     <div class="row">
 
@@ -107,7 +111,7 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="credit-method" checked>
                   <label class="form-check-label" for="flexCheckChecked">
-                    بطقاة ائتمان
+                    بطاقة ائتمان
                   </label>
                 </div>
 
@@ -129,7 +133,7 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
               </div>
               <div class="d-flex justify-content-end">
 
-                <button class="btn btn-primary justify-content-end" type="submit">افعل</button>
+                <button class="btn btn-primary justify-content-end" type="submit">ابحث</button>
 
               </div>
         </form>
@@ -150,7 +154,7 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
         }
         ?>
   </main>
-  <footer class="container">Footer</footer>
+  <?php new Footer();?>
 </body>
 
 </html>

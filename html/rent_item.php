@@ -3,11 +3,10 @@ include_once "../php_duplicate_code/stylesheets_import.php";
 include_once "../php_duplicate_code/classes/nav_bar.php";
 include_once "../php_duplicate_code/classes/carousel.php";
 include_once "../php_duplicate_code/classes/rating.php";
+include_once "../php_duplicate_code/classes/nav_barAll.php";
+require '../php_duplicate_code/classes/footer.php';
 include_once "database.php";
-
 session_start();
-// $_SESSION['useremail'] = "tanboursalah@gmail.com";
-
 $item_id = 0;
 global $con;
 function get_item_comments_from_database($item_id)
@@ -67,13 +66,17 @@ function get_item_info_from_database($item_id)
 if (isset($_GET['item']) && 0 != $_GET['item']) {
   $item_id = $_GET['item'];
 }
-// $item_id = 2;
 $result_info = get_item_info_from_database($item_id);
 
 $result_images = get_item_images_from_database($item_id);
 $result_comments = get_item_comments_from_database($item_id);
 $item_info = $result_info->fetch_object();
 
+if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])) {
+  $userName = $_SESSION['username'];
+  $user_email = $_SESSION['useremail'];
+  $isuser = $_SESSION['isUser'];
+}
 $available_flag = false;
 
 
@@ -171,9 +174,7 @@ $available_flag = false;
 
 <body onload="calculateVars()">
   <?php
-  $nav = new Navbar();
-  $nav->render();
-  unset($nav);
+  new NavBarAll($isuser, $con, $user_email, $userName);
   if ($result_info->num_rows < 1) {
     echo "<h1 class ='container text-center'>حصل عطل ما</h1>";
     exit(0);
@@ -383,6 +384,7 @@ $available_flag = false;
     </div>
 
   </main>
+  <?php new Footer(); ?>
 
 </body>
 
