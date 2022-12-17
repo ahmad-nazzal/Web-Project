@@ -17,7 +17,7 @@ function getStyles()
   <link href="../css/cards.css" rel="stylesheet" />
   <link href="../css/Header-sectionHero.css" rel="stylesheet" />
   <link href="../css/general.css" rel="stylesheet" />
-  <script defer src="../js/header-sectionHero.js"></script>
+  <!-- <script defer src="../js/header-sectionHero.js"></script> -->
 <?php
 }
 ?>

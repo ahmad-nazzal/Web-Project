@@ -62,7 +62,7 @@ class AddItemTemplate
       <h5 class="mb-3">العنوان</h5>
       <div class="form-group mb-3">
 
-        <input id="title-input" class="form-control" type="text" value="<?php echo $this->Title; ?>" placeholder="اكتب عنوانًا لغرضك">
+        <input id="title-input" class="form-control" type="text" value="<?php echo $this->Title; ?>" placeholder="اكتب عنوانًا لغرضك" name="">
       </div>
       <h5 class="text-description mb-e">الوصف</h5>
       <div class="form-group">
@@ -130,6 +130,36 @@ class AddItemTemplate
                   بطاقة ائتمان
                 </label>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefour" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+              الصنف
+            </button>
+          </h2>
+          <div id="panelsStayOpen-collapsefour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+              <div class="category">
+                <h5 class="mb-2">صنف الغرض</h5>
+                <!-- <p class="price-tag d-inline">ليوم واحد</p> -->
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                  <option selected>اختر الصنف</option>
+                  <?php
+                  global $con;
+                  $result = $con->query("select * from tags");
+                  for ($i = 0; $i < $result->num_rows; $i++) {
+
+                    $row = $result->fetch_object();
+                  ?>
+                    <option value="<?php echo $i + 1; ?>"><?php echo $row->category; ?></option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
+
             </div>
           </div>
         </div>

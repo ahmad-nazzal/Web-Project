@@ -6,8 +6,8 @@ include_once("render_interface.php");
 class HorizontalCard implements ElementsMethods
 {
 
-  public $title, $stars, $price, $description, $shipping, $location;
-  function __construct($title, $stars, $price, $description, $shipping, $location)
+  public $title, $stars, $price, $description, $shipping, $location, $image, $item_id;
+  function __construct($title, $stars, $price, $description, $shipping, $location, $image, $item_id)
   {
     $this->title = $title;
     $this->stars = $stars;
@@ -15,15 +15,20 @@ class HorizontalCard implements ElementsMethods
     $this->description = $description;
     $this->shipping = $shipping;
     $this->location = $location;
+    $this->image = $image;
+    $this->item_id = $item_id;
   }
 
   public function render()
   {
 ?>
-    <div class="card mb-2 ">
+    <div class="card mb-2 " onclick="location.href='rent_item.php?item=<?php echo $this->item_id; ?>'">
       <div class="row">
         <div class="col-auto">
-          <img src="https://picsum.photos/200" alt="" class="rounded-start">
+          <img src="<?php echo $this->image; ?>" alt="" class="rounded-start" style="
+    width: 200px;
+    height: 200px;
+">
         </div>
         <div class="col-9 ">
           <div class="card-body">

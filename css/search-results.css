@@ -10,7 +10,16 @@
   font-size: 1.6rem;
   font-weight: 700;
 }
-
+.bi-star-fill {
+  color: rgb(239, 170, 79);
+}
+.bi-star {
+  color: rgb(239, 170, 79);
+}
+.stars-value {
+  color: rgb(239, 170, 79);
+  margin-left: 2px;
+}
 a {
   border-radius: 100%;
 }

@@ -2,7 +2,7 @@
 include_once("render_interface.php");
 include_once("horizontal_card.php");
 include_once("pagination.php");
-
+include_once("/xampp/htdocs/Cloned_project/Web-Project/html/database.php");
 
 
 class SearchResults implements ElementsMethods
@@ -26,10 +26,12 @@ class SearchResults implements ElementsMethods
   {
     $result = $this->executeQuery();
 
+
     for ($i = 0; $i < $result->num_rows; $i++) {
       $row = $result->fetch_object();
-
-      $card =  new HorizontalCard($row->title, $row->stars, $row->price, $row->description, $row->shipping, $row->location);
+      $this->item_id = $row->item_id;
+      $image = $this->getCardImage();
+      $card =  new HorizontalCard($row->title, $row->stars, $row->price, $row->description, $row->shipping, $row->location, $image, $row->item_id);
       $card->render();
       unset($card);
     }
@@ -42,8 +44,9 @@ class SearchResults implements ElementsMethods
 
   public function executeQuery()
   {
-    $db = new mysqli("localhost", "root", "", "web_project_agarr");
-    if (isset($db)) {
+    global $con;
+    // $db = new mysqli("localhost", "root", "", "web_project_agarr");
+    if (isset($con)) {
       $query =
         ' 
           select item_id ,title, price_per_day as price, rate.stars, description, shipping,local_pickup, cash_method, credit_method, location
@@ -59,12 +62,28 @@ class SearchResults implements ElementsMethods
           or items.description like "%' . $this->user_input . '%"
            LIMIT 7 OFFSET ' . ($this->page_num * 7) . ';';
 
-      $result = $db->query($query);
+      $result = $con->query($query);
       if ($this->page_num > (int)$result->num_rows / 7) {
         $this->page_num = $result->num_rows / 7;
       }
       return $result;
     }
     return null;
+  }
+  public function getCardImage()
+  {
+    global $con;
+    $query =
+      " 
+    SELECT image_url from images where item_id = ? LIMIT 1;
+    ";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("i", $this->item_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_object();
+    $image = $row->image_url;
+
+    return $image;
   }
 }

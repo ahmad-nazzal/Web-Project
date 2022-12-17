@@ -13,11 +13,47 @@ if (isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName
   $userName = $_GET['userName'];
   $user_email = $_GET['userEmail'];
   $isuser = $_GET['isUser'];
-
-
-
-if (isset($_POST['']))
 }
+
+
+if (
+  isset($_POST['title'])
+  && isset($_POST['desc'])
+  && isset($_POST['price'])
+  && isset($_POST['cash-method'])
+  && isset($_POST['credit-method'])
+  && isset($_POST['self-pickup'])
+  && isset($_POST['shipping'])
+  && isset($_POST['status'])
+  && isset($_POST['create'])
+) {
+  $flag = false;
+
+  if ($_POST['create'] == 0) {
+    global $flag;
+    $flag = true;
+  }
+  global $con;
+  if ($flag == true) {
+  } else {
+
+
+    $query =
+      "
+    UPDATE items 
+    SET title = ?,
+    description = ?,
+    price_per_day = ?,
+    cash_method = ?,
+    credit_method = ?,
+    local_pickup = ?,
+    shipping = ?,
+    stat = ?
+    WHERE 
+  ";
+  }
+}
+
 
 ?>
 <!DOCTYPE html>

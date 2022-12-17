@@ -5,6 +5,9 @@ include_once "../php_duplicate_code/classes/carousel.php";
 include_once "../php_duplicate_code/classes/rating.php";
 include_once "database.php";
 
+session_start();
+// $_SESSION['useremail'] = "tanboursalah@gmail.com";
+
 $item_id = 0;
 global $con;
 function get_item_comments_from_database($item_id)
@@ -64,13 +67,14 @@ function get_item_info_from_database($item_id)
 if (isset($_GET['item']) && 0 != $_GET['item']) {
   $item_id = $_GET['item'];
 }
-$item_id = 2;
+// $item_id = 2;
 $result_info = get_item_info_from_database($item_id);
+
 $result_images = get_item_images_from_database($item_id);
 $result_comments = get_item_comments_from_database($item_id);
 $item_info = $result_info->fetch_object();
 
-
+$available_flag = false;
 
 
 ?>
@@ -84,7 +88,7 @@ $item_info = $result_info->fetch_object();
   <title>rent item</title>
   <?php getStyles(); ?>
   <link rel="stylesheet" href="../css/rent-item.css">
-  <script defer>
+  <script>
     function calculateVars() {
       calculateDate(1);
     }
@@ -92,8 +96,9 @@ $item_info = $result_info->fetch_object();
     function calculateDate(num) {
       let element = document.querySelector("#return-date");
       let date = new Date(Date.now() + (num * 24 * 60 * 60 * 1000));
-      // date.toLocaleString();
-      element.innerText = date.toLocaleString().split(',')[0];
+
+      let arr = (date.toLocaleString().split(',')[0]).split('/');
+      element.innerText = arr[1] + '/' + arr[0] + '/' + arr[2];
     }
 
     function calculateTotal(num) {
@@ -114,19 +119,52 @@ $item_info = $result_info->fetch_object();
 
     function decreaseDays() {
       let element = document.querySelector("#num_days");
-      element.innerText = (element.innerText) -= 1;
+      element.innerText = parseInt(element.innerText) - 1;
       calculateTotal(parseInt(element.innerText));
       calculateDate(parseInt(element.innerText));
     }
 
-    function fillIcon(element) {
-      element.classList.remove("bi-plus-circle");
-      element.classList.add("bi-plus-circle-fill");
-    }
+    // function fillIcon(element) {
+    //   element.classList.remove("bi-plus-circle");
+    //   element.classList.add("bi-plus-circle-fill");
+    // }
 
-    function unfillIcon(element) {
-      element.classList.remove("bi-plus-circle-fill");
-      element.classList.add("bi-plus-circle");
+    // function unfillIcon(element) {
+    //   element.classList.remove("bi-plus-circle-fill");
+    //   element.classList.add("bi-plus-circle");
+    // }
+
+    function rentItem() {
+      let xml = new XMLHttpRequest();
+      xml.onreadystatechange = function() {
+        if (xml.readyState == 4 && xml.status == 200) {
+          if (xml.responseText == "false") {
+            alert("قم بتسجيل الدخول");
+          }
+          //   document.querySelector(".rent-btn").innerHTML = "تم الايجار بنجاح";
+          // document.querySelector(".rent-btn").disabled = true;
+        }
+      }
+      xml.open("post", "store_item.php", true);
+      xml.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+      let rentingUser = document.querySelector("#user-email-hidden");
+      let rentedItem = document.querySelector("#item-id-hidden");
+
+      let returnDate = document.querySelector("#return-date");
+      let arr1 = returnDate.innerText.split('/');
+      let returnDateString = arr1[2] + '-' + arr1[1] + '-' + arr1[0];
+
+
+      let todaysDate = (new Date().toLocaleString()).split(',')[0];
+      let arr2 = todaysDate.split('/');
+      let todaysDateString = arr2[2] + '-' + arr2[0] + '-' + arr2[1];
+
+
+      xml.send("renting_user=" + '<?php echo $_SESSION['useremail']; ?>' + "&" +
+        "rented_item=" + '<?php echo $_GET['item']; ?>' + "&" +
+        "return_date=" + returnDateString + "&" +
+        "todays_date=" + todaysDateString);
     }
   </script>
 </head>
@@ -136,6 +174,10 @@ $item_info = $result_info->fetch_object();
   $nav = new Navbar();
   $nav->render();
   unset($nav);
+  if ($result_info->num_rows < 1) {
+    echo "<h1 class ='container text-center'>حصل عطل ما</h1>";
+    exit(0);
+  }
   ?>
   <main>
     <div class="container">
@@ -159,8 +201,10 @@ $item_info = $result_info->fetch_object();
 
               <?php
               if (!$item_info->stat) {
+                $available_flag = true;
                 echo '<p class="status status-available">متاح</p>';
               } else {
+                $available_flag = false;
                 echo '<p class="status status-not-available">غير متاح</p>';
               }
               ?>
@@ -172,6 +216,8 @@ $item_info = $result_info->fetch_object();
               <p class="price d-inline" id="day_price"><strong><?php echo $item_info->price_per_day; ?>$</strong></p>
               <p class="price-text d-inline">ليوم واحد</p>
             </div>
+            <!-- <div id="item-id-hidden" class=" d-none"><!?php echo $item_id; ?></div> -->
+            <!-- <div id="user-email-hidden" class=" d-none"><!?php echo $_SESSION['useremail']; ?></div> -->
             <div class="rent-info-box mt-5 ps-3">
 
               <p class="location-text"><?php echo $item_info->location; ?></p>
@@ -226,7 +272,8 @@ $item_info = $result_info->fetch_object();
             </div>
             <div class="cta-box d-flex gap-0 align-items-center justify-content-between mt-3">
               <div class="like-btn"><i class=" bi-heart icons heart-icon"></i></div>
-              <button class="btn btn-dark w-75 rent-btn">استأجر الآن</button>
+              <button class="btn btn-dark w-75 rent-btn" onclick="rentItem()" <?php if ($available_flag == false || !isset($_SESSION['isuser'])) echo "disabled"; ?>>
+                استأجر الآن</button>
               <button class=" btn btn-outline-dark w-auto cart-btn">
                 <i class=" bi bi-cart gap-1">الى العربة</i>
               </button>
