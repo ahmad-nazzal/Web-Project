@@ -186,11 +186,14 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
         $itemQueryPending="SELECT DISTINCT status,rent.item_id,start_date,end_date,image_url,Title from
           ((rent INNER JOIN images on images.item_id=rent.item_id)
           INNER JOIN items on rent.item_id=items.ID)
-          where rent.user_email='$user_email' and status=1";
+          where items.user_email='$user_email' and status=1";
         $pendingItemResult=$con->query($itemQueryPending);
         while($PendingItemData=mysqli_fetch_assoc($pendingItemResult)){
       
-      
+          $cousmterQuery="SELECT first_name,last_name,phone FROM (users INNER JOIN rent on rent.user_email=users.Email) 
+          where users.Email='".$user_email."' and status =1 and item_id=".$PendingItemData['item_id'];
+          $resCousm=$con->query($cousmterQuery);
+          $dataCousm=mysqli_fetch_assoc($resCousm);
       
       ?>
 
@@ -208,6 +211,7 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
                   <div>
                     <h4 class="card-title"><?php echo $PendingItemData['Title'] ?></h4>
                   </div>
+                  <p class="price  gap-2 fs-4 align-items-center"><span class="fs-6" style="color: #777;">اسم المستأجر: <?php echo $dataCousm['first_name']." ".$dataCousm['last_name'] ?></span> <?php echo $dataCousm['phone'] ?>  </p>
                   <p class="price flex-row gap-2 align-items-center"><span class="fs-6" style="color: #777;">تاريخ الاستلام:</span> <?php echo $PendingItemData['end_date'] ?>  </p>
                   <button type="button" class="btn btn-primary btn-done"
                   onclick="recivedItem(this,'<?php echo $user_email?>', <?php echo $PendingItemData['item_id'] ?>)"
