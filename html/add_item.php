@@ -72,6 +72,9 @@ if ($item_id == 0) {
     array_push($item_images, $img->image_url);
   }
 }
+$isuser=false;
+$user_email='';
+$userName='';
 if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])){
   $userName=$_SESSION['username'];
   $user_email=$_SESSION['useremail'];

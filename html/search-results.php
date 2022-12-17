@@ -47,7 +47,7 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
 {
   $local_pickup = $_GET['local-pickup'];
 }
-$isuser = '';
+$isuser = false;
 $user_email = '';
 $userName = '';
 if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])) {
