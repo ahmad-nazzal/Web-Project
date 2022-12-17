@@ -47,10 +47,13 @@ if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pick
 {
   $local_pickup = $_GET['local-pickup'];
 }
-if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])){
-  $userName=$_SESSION['username'];
-  $user_email=$_SESSION['useremail'];
-  $isuser=$_SESSION['isUser'];
+$isuser = '';
+$user_email = '';
+$userName = '';
+if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])) {
+  $userName = $_SESSION['username'];
+  $user_email = $_SESSION['useremail'];
+  $isuser = $_SESSION['isUser'];
 }
 
 ?>
@@ -72,8 +75,8 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
 
 <body>
   <?php
-    new NavBarAll($isuser,$con,$user_email,$userName);
-    ?>
+  new NavBarAll($isuser, $con, $user_email, $userName);
+  ?>
   <main class="container mt-5">
     <div class="row">
 
@@ -154,7 +157,7 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
         }
         ?>
   </main>
-  <?php new Footer();?>
+  <?php new Footer(); ?>
 </body>
 
 </html>

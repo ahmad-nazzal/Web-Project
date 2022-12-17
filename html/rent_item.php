@@ -72,6 +72,9 @@ $result_images = get_item_images_from_database($item_id);
 $result_comments = get_item_comments_from_database($item_id);
 $item_info = $result_info->fetch_object();
 
+$isuser = '';
+$user_email = '';
+$userName = '';
 if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])) {
   $userName = $_SESSION['username'];
   $user_email = $_SESSION['useremail'];
@@ -141,7 +144,7 @@ $available_flag = false;
       let xml = new XMLHttpRequest();
       xml.onreadystatechange = function() {
         if (xml.readyState == 4 && xml.status == 200) {
-          if (xml.responseText == "false") {
+          if (xml.responseText == "salah") {
             alert("قم بتسجيل الدخول");
           }
           //   document.querySelector(".rent-btn").innerHTML = "تم الايجار بنجاح";
@@ -174,7 +177,9 @@ $available_flag = false;
 
 <body onload="calculateVars()">
   <?php
+
   new NavBarAll($isuser, $con, $user_email, $userName);
+
   if ($result_info->num_rows < 1) {
     echo "<h1 class ='container text-center'>حصل عطل ما</h1>";
     exit(0);
@@ -201,7 +206,7 @@ $available_flag = false;
               <h2 class="item-title "><?php echo $item_info->Title; ?> </h2>
 
               <?php
-              if (!$item_info->stat) {
+              if ($item_info->stat == 1) {
                 $available_flag = true;
                 echo '<p class="status status-available">متاح</p>';
               } else {
@@ -224,10 +229,10 @@ $available_flag = false;
               <p class="location-text"><?php echo $item_info->location; ?></p>
               <p class="shipping-text">
                 <?php
-                $flag = false;
-                if ($item_info->shipping == 1) {
-                  $flag = true;
-                  echo " متاح للتوصيل" . $item_info->shipping_cost . '$';
+                if ($item_info->shipping >= 1) {
+
+                  echo " متاح للتوصيل" . '  <strong>$' . round($item_info->shipping_cost, 2) . '</strong>';
+
                 ?>
                   <!-- <p class="shipping-price-text"><!-?php echo $item_info->shipping_cost ?>$</p> -->
               </p>
@@ -236,7 +241,7 @@ $available_flag = false;
                   echo "غير متاح للتوصيل";
                 }
             ?>
-            <!-- <?php if (!$flag) { ?> </p> <?php } ?> -->
+
 
             <p class="cash-method-text">
               <?php if ($item_info->cash_method == 1) {
@@ -273,7 +278,9 @@ $available_flag = false;
             </div>
             <div class="cta-box d-flex gap-0 align-items-center justify-content-between mt-3">
               <div class="like-btn"><i class=" bi-heart icons heart-icon"></i></div>
-              <button class="btn btn-dark w-75 rent-btn" onclick="rentItem()" <?php if ($available_flag == false || !isset($_SESSION['isuser'])) echo "disabled"; ?>>
+              <button class="btn btn-dark w-75 rent-btn" onclick="rentItem()" <?php if (!isset($_SESSION['isUser']) || $available_flag == false) {
+                                                                                echo "disabled";
+                                                                              } ?>>
                 استأجر الآن</button>
               <button class=" btn btn-outline-dark w-auto cart-btn">
                 <i class=" bi bi-cart gap-1">الى العربة</i>
