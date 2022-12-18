@@ -5,14 +5,15 @@ include_once("../php_duplicate_code/classes/card.php");
 include_once("../php_duplicate_code/classes/footer.php");
 require "../php_duplicate_code/classes/nav_barAll.php";
 require '../html/database.php';
+session_start();
 
 $isuser = '';
 $user_email = '';
 $userName = '';
-if (isset($_GET['isUser']) && isset($_GET['userEmail']) && isset($_GET['userName'])) {
-  $userName = $_GET['userName'];
-  $user_email = $_GET['userEmail'];
-  $isuser = $_GET['isUser'];
+if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])) {
+  $userName = $_SESSION['username'];
+  $user_email = $_SESSION['useremail'];
+  $isuser = $_SESSION['isUser'];
 }
 
 
@@ -26,6 +27,7 @@ if (
   && isset($_POST['shipping'])
   && isset($_POST['status'])
   && isset($_POST['create'])
+  && isset($_POST['location'])
 ) {
   $flag = false;
 
@@ -35,10 +37,32 @@ if (
   }
   global $con;
   if ($flag == true) {
+    $insert =
+      "
+    INSERT INTO items(title,description,stat,price_per_day,cash_method,credit_method,local_pickup,shipping,location, user_email)
+    VALUES 
+    (?,?,?,?,?,?,?,?,?,?)
+    ";
+    $ps = $con->prepare($update);
+    $ps->bind_param(
+      "ssiiiiiiss",
+      $_POST['title'],
+      $_POST['desc'],
+      $_POST['price'],
+      $_POST['cash-method'],
+      $_POST['credit-method'],
+      $_POST['self-pickup'],
+      $_POST['shipping'],
+      $_POST['status'],
+      $_POST['location'],
+      $_SESSION['useremail']
+    );
+    $output = $ps->execute();
+    echo "<h1>" . $output . "</h1>";
   } else {
 
 
-    $query =
+    $update =
       "
     UPDATE items 
     SET title = ?,
@@ -48,9 +72,28 @@ if (
     credit_method = ?,
     local_pickup = ?,
     shipping = ?,
-    stat = ?
-    WHERE 
+    stat = ?,
+    location = ?,
+    WHERE id = ? AND user_email = ?
   ";
+    $ps = $con->prepare($update);
+    $ps->bind_param(
+      "ssiiiiiisis",
+      $_POST['title'],
+      $_POST['desc'],
+      $_POST['price'],
+      $_POST['cash-method'],
+      $_POST['credit-method'],
+      $_POST['self-pickup'],
+      $_POST['shipping'],
+      $_POST['status'],
+      $_POST['location'],
+      $_POST['create'],
+      $_SESSION['useremail']
+    );
+    $ps->execute();
+    $output = $ps->execute();
+    echo "<h1>" . $output . "</h1>";
   }
 }
 

@@ -2,8 +2,8 @@
 
 class AddItemTemplate
 {
-  public $item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat;
-  function __construct($item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat)
+  public $item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat, $location;
+  function __construct($item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat, $location)
   {
     $this->item_id = $item_id;
     $this->item_images = $item_images;
@@ -15,6 +15,7 @@ class AddItemTemplate
     $this->local_pickup = $local_pickup;
     $this->shipping = $shipping;
     $this->stat = $stat;
+    $this->location = $location;
   }
 
   public function render()
@@ -206,6 +207,13 @@ class AddItemTemplate
                   توصيل عادي
                 </label>
               </div>
+              <div class="d-flex align-items-center gap-1 w-50">
+
+                <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> -->
+                <label class="form-check-label" for="location-input">الموقع</label>
+                <input id="location-input" class="form-control d-inline" type="text" value="<?php echo $this->location; ?>" name="location">
+              </div>
+
             </div>
           </div>
         </div>
@@ -233,6 +241,7 @@ class AddItemTemplate
                 <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> -->
                 <label class="form-check-label" for="flexSwitchCheckChecked">متاح</label>
               </div>
+
             </div>
           </div>
         </div>

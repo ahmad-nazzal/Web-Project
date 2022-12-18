@@ -6,7 +6,7 @@ include_once("database.php");
 include_once("../php_duplicate_code/classes/add_item_template.php");
 require "../php_duplicate_code/classes/nav_barAll.php";
 require '../php_duplicate_code/classes/footer.php';
- 
+
 // 780px best width
 
 session_start();
@@ -72,13 +72,13 @@ if ($item_id == 0) {
     array_push($item_images, $img->image_url);
   }
 }
-$isuser=false;
-$user_email='';
-$userName='';
-if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])){
-  $userName=$_SESSION['username'];
-  $user_email=$_SESSION['useremail'];
-  $isuser=$_SESSION['isUser'];
+$isuser = false;
+$user_email = '';
+$userName = '';
+if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSION['username'])) {
+  $userName = $_SESSION['username'];
+  $user_email = $_SESSION['useremail'];
+  $isuser = $_SESSION['isUser'];
 }
 
 ?>
@@ -194,27 +194,27 @@ if(isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSIO
 
 <body>
 
-<?php     new NavBarAll($isuser,$con,$user_email,$userName);?>
+  <?php new NavBarAll($isuser, $con, $user_email, $userName); ?>
 
   <div class="container ">
     <form action="my_items_page.php" method="post" id="main-form">
       <?php
       if ($create_flag == false) {
-        (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat))->render();
+        (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat, $item_obj->location))->render();
       } else {
         $arr = [];
-        (new AddItemTemplate(null, $arr, "", "", 0, 0, 0, 0, 0, 1))->render();
+        (new AddItemTemplate(null, $arr, "", "", 0, 0, 0, 0, 0, 1, ""))->render();
       }
       ?>
       <div class="d-flex justify-content-center">
 
-        <button type="submit" class="btn btn-primary my-4 col-4" id="update-btn" onclick="storeItem()">حفظ</button>
+        <button type="submit" class="btn btn-primary my-4 col-4" id="update-btn" onclick="">حفظ</button>
       </div>
     </form>
 
 
   </div>
 </body>
-<?php new Footer() ?> 
+<?php new Footer() ?>
 
 </html>
