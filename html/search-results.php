@@ -106,7 +106,9 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
 
                 <h5 class="card-text">طرق الدفع</h5>
                 <div class="form-check">
+                  
                   <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="cash-method" checked>
+                  <input class="form-check-input" type="checkbox" value="<?php echo $user_input;?>" id="flexCheckDefault" name="search-field" checked style="display: none;">
                   <label class="form-check-label" for="flexCheckDefault">
                     كاش
                   </label>

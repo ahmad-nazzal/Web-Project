@@ -2,7 +2,7 @@
 include_once("render_interface.php");
 include_once("horizontal_card.php");
 include_once("pagination.php");
-include_once("/xampp/htdocs/Cloned_project/Web-Project/html/database.php");
+include_once("database.php");
 
 
 class SearchResults implements ElementsMethods
@@ -53,14 +53,15 @@ class SearchResults implements ElementsMethods
           from items
           inner join (select avg(rating) as stars, item_id from reviews group by item_id) rate on items.id = rate.item_id
           
-          where items.shipping =' . $this->shipping . '
+          where 
+          (items.title like "%' . $this->user_input . '%" or items.description like "%' . $this->user_input . '%")
+          and items.shipping =' . $this->shipping . '
           and items.local_pickup=' . $this->local_pickup . '
           and items.cash_method =' . $this->cash_method . '
           and items.credit_method=' . $this->credit_method . '
           and location like "%' . $this->city_input . '%"
-          and items.title like "%' . $this->user_input . '%"
-          or items.description like "%' . $this->user_input . '%"
            LIMIT 7 OFFSET ' . ($this->page_num * 7) . ';';
+
 
       $result = $con->query($query);
       if ($this->page_num > (int)$result->num_rows / 7) {
