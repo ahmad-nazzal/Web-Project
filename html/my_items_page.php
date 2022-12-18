@@ -73,9 +73,10 @@ if (
     local_pickup = ?,
     shipping = ?,
     stat = ?,
-    location = ?,
-    WHERE id = ? AND user_email = ?
+    location = ?
+    WHERE (id = ? AND user_email = ?);
   ";
+
     $ps = $con->prepare($update);
     $ps->bind_param(
       "ssiiiiiisis",
@@ -91,9 +92,8 @@ if (
       $_POST['create'],
       $_SESSION['useremail']
     );
-    $ps->execute();
     $output = $ps->execute();
-    echo "<h1>" . $output . "</h1>";
+    
   }
 }
 

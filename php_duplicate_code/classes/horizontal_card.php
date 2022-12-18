@@ -44,9 +44,18 @@ class HorizontalCard implements ElementsMethods
               <p class="price"><strong><?php echo $this->price ?>$</strong></p>
             </div>
 
-            <p class="card-text"><?php echo $this->description ?></p>
-            <p class="card-text"><small><?php echo $this->shipping ?></small></p>
-            <p class="card-text"><small><?php echo $this->location ?></small></p>
+            <p class="card-text desc"><?php echo $this->description ?></p>
+            <p class="card-text small-text"><small><?php
+            if ($this->shipping == 1)
+            {
+              echo "متاح للتوصيل"; 
+
+            } else {
+              echo "غير متاح للتوصيل"; 
+            }
+            ?>
+            </small></p>
+            <p class="card-text small-text"><small><?php echo $this->location ?></small></p>
           </div>
 
         </div>

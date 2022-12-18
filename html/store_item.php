@@ -10,8 +10,8 @@ $end_date = $_POST['return_date'];
 
 $query =
   '
-    INSERT INTO rent(user_email, item_id, start_date, end_date) 
-    VALUES ("' . $user_email . '",' . $item_id . ',date("' . $start_date . '"),date("' . $end_date . '"));
+    INSERT INTO rent(user_email, item_id, start_date, end_date,status) 
+    VALUES ("' . $user_email . '",' . $item_id . ',date("' . $start_date . '"),date("' . $end_date . '"),0);
   ';
 // $statement = $con->prepare($query);
 // $statement->bind_param("siss", $user_email, $item_id, $start_date, $end_date);

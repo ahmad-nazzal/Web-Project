@@ -12,10 +12,10 @@ $page_num = 0;
 $num_of_pages = 0;
 
 $city_input = "";
-$cash_method = 0;
-$credit_method = 0;
-$local_pickup = 0;
-$shipping = 0;
+$cash_method = 1;
+$credit_method = 1;
+$local_pickup = 1;
+$shipping = 1;
 
 if (isset($_GET['search-field']) &&  !empty($_GET['search-field'])) //for search bar
 {

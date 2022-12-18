@@ -63,7 +63,7 @@ class AddItemTemplate
       <h5 class="mb-3">العنوان</h5>
       <div class="form-group mb-3">
 
-        <input id="title-input" class="form-control" type="text" value="<?php echo $this->Title; ?>" placeholder="اكتب عنوانًا لغرضك" name="">
+        <input id="title-input" class="form-control" type="text" value="<?php echo $this->Title; ?>" placeholder="اكتب عنوانًا لغرضك" name="title">
       </div>
       <h5 class="text-description mb-e">الوصف</h5>
       <div class="form-group">

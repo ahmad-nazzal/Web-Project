@@ -61,6 +61,7 @@ class SearchResults implements ElementsMethods
           and items.credit_method=' . $this->credit_method . '
           and location like "%' . $this->city_input . '%"
            LIMIT 7 OFFSET ' . ($this->page_num * 7) . ';';
+           
 
 
       $result = $con->query($query);
