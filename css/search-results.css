@@ -26,3 +26,8 @@ a {
 .card-body {
   cursor: pointer;
 }
+.small-text {
+}
+[class*="small-text"] {
+  color: #777;
+}

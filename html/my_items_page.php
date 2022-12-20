@@ -22,13 +22,12 @@ function store_images($images_path, $item_id)
   $insert_images =
     "
     INSERT INTO images(item_id,image_url)
-    VALUES 
+    VALUES (?,?) WHERE item_id = ?;
     ";
+  $ps = $con->prepare($insert_images);
   for ($i = 0; $i < count($images_path); $i++) {
-    if ($i != 0) {
-      $insert_images = $insert_images . ",";
-    }
-    $insert_images = $insert_images . " (" . $item_id . ",'" . $images_path[$i] . "')";
+
+    $images_path[$i];
   }
   $insert_images = $insert_images . ";";
 
@@ -114,7 +113,9 @@ if (
     stat = ?,
     location = ?
     WHERE id = ? AND user_email = ?;
+
   ";
+
     $ps = $con->prepare($update);
     $ps->bind_param(
       "ssiiiiiisis",
@@ -130,9 +131,7 @@ if (
       $_POST['create'],
       $_SESSION['useremail']
     );
-    $ps->execute();
     $output = $ps->execute();
-    echo "<h1>" . $output . "</h1>";
 
     echo store_images($images_path, $_POST['create']);
   }
