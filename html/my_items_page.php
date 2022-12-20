@@ -46,7 +46,7 @@ function store_images($images_path, $item_id)
 $to = "../../client_images/";
 chmod($to, 0777);
 $images_path = [];
-if ($_FILES['images']['name'] != "") {
+if (isset($_POST['create']) && $_FILES['images']['name'] != "") {
 
 
   for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
@@ -188,33 +188,33 @@ if (
         avgRate,item_id from reviews GROUP BY item_id) rate ON items.id= rate.item_id ) INNER JOIN images 
         ON images.item_id=items.ID)) card where card.user_email='$user_email';";
 
-//       $queryCard =
-//         "
-//       SELECT DISTINCT
-//     items.ID,
-//     normal.stars,
-//     images.image_url,
-//     items.title,
-//     items.price_per_day
-// FROM
-//     (
-//         items,
-//         items AS i
-//     INNER JOIN images ON i.ID = images.item_id,
-//         (
-//         SELECT
-//             AVG(rating) as stars,
-//             reviews.item_id
-//         FROM
-//             items AS it
-//         INNER JOIN reviews ON it.ID = reviews.item_id Group by reviews.item_id
-//     ) normal
-//     )
-// WHERE
-//     items.user_email = '" . $user_email . "'
-// GROUP BY
-//     items.ID;
-//       ";
+      //       $queryCard =
+      //         "
+      //       SELECT DISTINCT
+      //     items.ID,
+      //     normal.stars,
+      //     images.image_url,
+      //     items.title,
+      //     items.price_per_day
+      // FROM
+      //     (
+      //         items,
+      //         items AS i
+      //     INNER JOIN images ON i.ID = images.item_id,
+      //         (
+      //         SELECT
+      //             AVG(rating) as stars,
+      //             reviews.item_id
+      //         FROM
+      //             items AS it
+      //         INNER JOIN reviews ON it.ID = reviews.item_id Group by reviews.item_id
+      //     ) normal
+      //     )
+      // WHERE
+      //     items.user_email = '" . $user_email . "'
+      // GROUP BY
+      //     items.ID;
+      //       ";
       $resultt = $con->query($queryCard);
 
       while ($cardData = mysqli_fetch_assoc($resultt)) {
