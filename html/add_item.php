@@ -33,7 +33,22 @@ function get_item_images_from_database($item_id)
   $result = $stmt->get_result();
   return $result;
 }
-
+function get_item_tag_from_database($item_id)
+{
+  global $con;
+  $query =
+    "
+    SELECT * 
+    FROM
+    items_tags 
+    WHERE item_id = ?;
+  ";
+  $stmt = $con->prepare($query);
+  $stmt->bind_param("i", $item_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  return ($result->fetch_object());
+}
 function get_item_object_from_database($item_id)
 {
   global $con;
@@ -53,6 +68,7 @@ function get_item_object_from_database($item_id)
 
 $item_obj = 0;
 $item_imgs = 0;
+$item_tag = '';
 $create_flag = true;
 if ($item_id == 0) {
   global $create_flag;
@@ -64,6 +80,7 @@ if ($item_id == 0) {
   $create_flag = false;
   $item_obj = get_item_object_from_database($item_id);
   $item_imgs_result = get_item_images_from_database($item_id);
+  $item_tag = get_item_tag_from_database($item_id);
 
   $item_images = [];
 
@@ -200,10 +217,10 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
     <form action="my_items_page.php" method="post" id="main-form" enctype="multipart/form-data">
       <?php
       if ($create_flag == false) {
-        (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat, $item_obj->location))->render();
+        (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat, $item_obj->location, $item_tag->tag_category))->render();
       } else {
         $arr = [];
-        (new AddItemTemplate(0, $arr, "", "", 0, 0, 0, 0, 0, 1, ""))->render();
+        (new AddItemTemplate(0, $arr, "", "", 0, 0, 0, 0, 0, 1, "", "اخرى"))->render();
       }
       ?>
       <div class="d-flex justify-content-center">

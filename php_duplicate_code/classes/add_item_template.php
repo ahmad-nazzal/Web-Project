@@ -2,8 +2,8 @@
 
 class AddItemTemplate
 {
-  public $item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat, $location;
-  function __construct($item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat, $location)
+  public $item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat, $location, $tag;
+  function __construct($item_id, $item_images, $Title, $Description, $price_per_day, $cash_method, $credit_method, $local_pickup, $shipping, $stat, $location, $tag)
   {
     $this->item_id = $item_id;
     $this->item_images = $item_images;
@@ -16,6 +16,7 @@ class AddItemTemplate
     $this->shipping = $shipping;
     $this->stat = $stat;
     $this->location = $location;
+    $this->tag = $tag;
   }
 
   public function render()
@@ -146,18 +147,21 @@ class AddItemTemplate
           <div id="panelsStayOpen-collapsefour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
               <div class="category">
-                <h5 class="mb-2">صنف الغرض</h5>
                 <!-- <p class="price-tag d-inline">ليوم واحد</p> -->
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                  <option selected>اختر الصنف</option>
+                <label for="tag-selector" class="form-check-label">الاصناف</label>
+                <select id="tag-selector" class="form-select form-select-sm" aria-label=".form-select-sm example" name="tag">
+                  <option <?php if ($this->tag == "اخرى") {
+                            echo "selected";
+                          } ?> value="اخرى">اختر الصنف</option>
                   <?php
                   global $con;
                   $result = $con->query("select * from tags");
                   for ($i = 0; $i < $result->num_rows; $i++) {
-
                     $row = $result->fetch_object();
                   ?>
-                    <option value="<?php echo $i + 1; ?>"><?php echo $row->category; ?></option>
+                    <option <?php if ($this->tag == $row->category) {
+                              echo "selected";
+                            } ?> value="<?php echo $row->category; ?>"><?php echo $row->category; ?></option>
                   <?php
                   }
                   ?>

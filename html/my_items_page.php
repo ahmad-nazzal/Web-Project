@@ -60,6 +60,102 @@ if (isset($_POST['create']) && $_FILES['images']['name'] != "") {
   }
 }
 
+function insert_item_into_database($images_path)
+{
+  global $con;
+  $insert =
+    "
+    INSERT INTO items(title,description,stat,price_per_day,cash_method,credit_method,local_pickup,shipping,location, user_email)
+    VALUES 
+    (?,?,?,?,?,?,?,?,?,?)
+    ";
+
+  $ps = $con->prepare($insert);
+  $ps->bind_param(
+    "ssiiiiiiss",
+    $_POST['title'],
+    $_POST['desc'],
+    $_POST['status'],
+    $_POST['price'],
+    $_POST['cash-method'],
+    $_POST['credit-method'],
+    $_POST['self-pickup'],
+    $_POST['shipping'],
+    $_POST['location'],
+    $_SESSION['useremail']
+  );
+  // insert a new item to items relation.
+  $ps->execute();
+  // get the last index of this insert statement.
+  $id = $ps->insert_id;
+
+  // insert tags 
+  if ($_POST['tag'] != "اخرى") {
+
+    $insert_into_tags =
+      " 
+    INSERT INTO items_tags (item_id, tag_category) values (" . $id . ", '" . $_POST['tag'] . "');
+    ";
+    $con->query($insert_into_tags);
+  }
+  // storing the images in images relation.
+  store_images($images_path, $id);
+
+  // insert empty review
+  $insert_into_reviews =
+    "
+    INSERT INTO REVIEWS(item_id, user_email) VALUES (" . $id . ",'" . $_SESSION['useremail'] . "');
+    ";
+  $con->query($insert_into_reviews);
+}
+function update_item_in_database($images_path)
+{
+  global $con;
+  $update =
+    "
+  UPDATE items 
+  SET title = ?,
+  description = ?,
+  price_per_day = ?,
+  cash_method = ?,
+  credit_method = ?,
+  local_pickup = ?,
+  shipping = ?,
+  stat = ?,
+  location = ?
+  WHERE id = ? AND user_email = ?;
+
+  ";
+
+  $ps = $con->prepare($update);
+  $ps->bind_param(
+    "ssiiiiiisis",
+    $_POST['title'],
+    $_POST['desc'],
+    $_POST['price'],
+    $_POST['cash-method'],
+    $_POST['credit-method'],
+    $_POST['self-pickup'],
+    $_POST['shipping'],
+    $_POST['status'],
+    $_POST['location'],
+    $_POST['create'],
+    $_SESSION['useremail']
+  );
+  // update item in database;
+  $ps->execute();
+
+  // update tags
+  if ($_POST['tag'] != "اخرى") {
+
+    $update_tags =
+      " UPDATE items_tags set tag_category = '" . $_POST['tag'] . "' WHERE item_id = " . $_POST['create'] . "
+  ";
+    $con->query($update_tags);
+  }
+  // insert new added images
+  store_images($images_path, $_POST['create']);
+}
 
 if (
   isset($_POST['title'])
@@ -72,85 +168,13 @@ if (
   && isset($_POST['status'])
   && isset($_POST['create'])
   && isset($_POST['location'])
+  && isset($_POST['tag'])
 ) {
 
-
-
-  global $con;
   if ($_POST['create'] == 0) {
-    $insert =
-      "
-    INSERT INTO items(title,description,stat,price_per_day,cash_method,credit_method,local_pickup,shipping,location, user_email)
-    VALUES 
-    (?,?,?,?,?,?,?,?,?,?)
-    ";
-
-    $ps = $con->prepare($insert);
-    $ps->bind_param(
-      "ssiiiiiiss",
-      $_POST['title'],
-      $_POST['desc'],
-      $_POST['status'],
-      $_POST['price'],
-      $_POST['cash-method'],
-      $_POST['credit-method'],
-      $_POST['self-pickup'],
-      $_POST['shipping'],
-      $_POST['location'],
-      $_SESSION['useremail']
-    );
-    // insert a new item to items relation.
-    $ps->execute();
-    // get the last index of this insert statement.
-    $id = $ps->insert_id;
-
-    // storing the images in images relation.
-    store_images($images_path, $id);
-
-    // insert empty review
-    $insert_into_reviews =
-      "
-    INSERT INTO REVIEWS(item_id, user_email) VALUES (" . $id . ",'" . $_SESSION['useremail'] . "');
-    ";
-    echo $id;
-    $con->query($insert_into_reviews);
+    insert_item_into_database($images_path);
   } else {
-
-
-    $update =
-      "
-    UPDATE items 
-    SET title = ?,
-    description = ?,
-    price_per_day = ?,
-    cash_method = ?,
-    credit_method = ?,
-    local_pickup = ?,
-    shipping = ?,
-    stat = ?,
-    location = ?
-    WHERE id = ? AND user_email = ?;
-
-  ";
-
-    $ps = $con->prepare($update);
-    $ps->bind_param(
-      "ssiiiiiisis",
-      $_POST['title'],
-      $_POST['desc'],
-      $_POST['price'],
-      $_POST['cash-method'],
-      $_POST['credit-method'],
-      $_POST['self-pickup'],
-      $_POST['shipping'],
-      $_POST['status'],
-      $_POST['location'],
-      $_POST['create'],
-      $_SESSION['useremail']
-    );
-    $output = $ps->execute();
-
-    store_images($images_path, $_POST['create']);
+    update_item_in_database($images_path);
   }
 }
 
