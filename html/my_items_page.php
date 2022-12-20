@@ -99,20 +99,20 @@ if (
       $_POST['location'],
       $_SESSION['useremail']
     );
-    $output = $ps->execute();
-
-
-    // $get_item_id_query =
-    //   "
-    // SELECT items.id from items order by items.id desc limit 1;
-    // ";
-    // $row = $con->query($get_item_id_query);
+    // insert a new item to items relation.
+    $ps->execute();
+    // get the last index of this insert statement.
     $id = $ps->insert_id;
-    // $id = $con->insert_id;
+
+    // storing the images in images relation.
+    store_images($images_path, $id);
+
+    // insert empty review
     $insert_into_reviews =
       "
-    INSERT INTO REVIEWS(item_id) VALUES (" . $id . ");
+    INSERT INTO REVIEWS(item_id, user_email) VALUES (" . $id . ",'" . $_SESSION['useremail'] . "');
     ";
+    echo $id;
     $con->query($insert_into_reviews);
   } else {
 

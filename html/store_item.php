@@ -13,6 +13,12 @@ $query =
     INSERT INTO rent(user_email, item_id, start_date, end_date,status) 
     VALUES ("' . $user_email . '",' . $item_id . ',date("' . $start_date . '"),date("' . $end_date . '"),0);
   ';
+
+$query_stat =
+  "
+UPDATE ITEMS SET STAT = 0 WHERE items.id = " . $item_id . ";
+";
+$con->query($query_stat);
 // $statement = $con->prepare($query);
 // $statement->bind_param("siss", $user_email, $item_id, $start_date, $end_date);
 
