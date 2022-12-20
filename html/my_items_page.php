@@ -184,41 +184,41 @@ if (
     <div class="items-gallery mt-5">
 
       <?php
-      // $queryCard = "select * from (SELECT Distinct Title, price_per_day,avgRate,image_url,items.user_email,items.ID from ( (items INNER JOIN (SELECT AVG(rating) as
-      //   avgRate,item_id from reviews GROUP BY item_id) rate ON items.id= rate.item_id ) INNER JOIN images 
-      //   ON images.item_id=items.ID)) card where card.user_email='$user_email';";
+      $queryCard = "select * from (SELECT Distinct Title, price_per_day,avgRate,image_url,items.user_email,items.ID from ( (items INNER JOIN (SELECT AVG(rating) as
+        avgRate,item_id from reviews GROUP BY item_id) rate ON items.id= rate.item_id ) INNER JOIN images 
+        ON images.item_id=items.ID)) card where card.user_email='$user_email';";
 
-      $queryCard =
-        "
-      SELECT DISTINCT
-    items.ID,
-    normal.stars,
-    images.image_url,
-    items.title,
-    items.price_per_day
-FROM
-    (
-        items,
-        items AS i
-    INNER JOIN images ON i.ID = images.item_id,
-        (
-        SELECT
-            AVG(rating) as stars,
-            reviews.item_id
-        FROM
-            items AS it
-        INNER JOIN reviews ON it.ID = reviews.item_id
-    ) normal
-    )
-WHERE
-    items.user_email = '" . $user_email . "'
-GROUP BY
-    items.ID;
-      ";
+//       $queryCard =
+//         "
+//       SELECT DISTINCT
+//     items.ID,
+//     normal.stars,
+//     images.image_url,
+//     items.title,
+//     items.price_per_day
+// FROM
+//     (
+//         items,
+//         items AS i
+//     INNER JOIN images ON i.ID = images.item_id,
+//         (
+//         SELECT
+//             AVG(rating) as stars,
+//             reviews.item_id
+//         FROM
+//             items AS it
+//         INNER JOIN reviews ON it.ID = reviews.item_id Group by reviews.item_id
+//     ) normal
+//     )
+// WHERE
+//     items.user_email = '" . $user_email . "'
+// GROUP BY
+//     items.ID;
+//       ";
       $resultt = $con->query($queryCard);
 
       while ($cardData = mysqli_fetch_assoc($resultt)) {
-        $card = new MiniCard(false, true, $cardData['stars'], $cardData['image_url'], $cardData['title'], $cardData['price_per_day'], 16.3, "add_item.php?item=" . $cardData['ID']);
+        $card = new MiniCard(false, true, $cardData['avgRate'], $cardData['image_url'], $cardData['Title'], $cardData['price_per_day'], 16.3, "add_item.php?item=" . $cardData['ID']);
         $card->render();
         unset($card);
       }
