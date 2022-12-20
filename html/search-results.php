@@ -17,7 +17,7 @@ $credit_method = 1;
 $local_pickup = 1;
 $shipping = 1;
 
-if (isset($_GET['search-field']) &&  !empty($_GET['search-field'])) //for search bar
+if (isset($_GET['search-field'])) //for search bar
 {
   $flag = true;
   $user_input = $_GET['search-field'];
@@ -27,23 +27,23 @@ if (isset($_GET['search-field']) &&  !empty($_GET['search-field'])) //for search
     $page_num = $_GET['page-num'];
   }
 }
-if (isset($_GET['credit-method']) &&  !empty($_GET['credit-method'])) // for credit card filters
+if (isset($_GET['credit-method'])) // for credit card filters
 {
   $credit_method = $_GET['credit-method'];
 }
-if (isset($_GET['cash-method']) &&  !empty($_GET['cash-method'])) // cash payment method
+if (isset($_GET['cash-method'])) // cash payment method
 {
   $cash_method = $_GET['cash-method'];
 }
-if (isset($_GET['city-input']) &&  !empty($_GET['city-input'])) // city filters
+if (isset($_GET['city-input'])) // city filters
 {
   $city_input = $_GET['city-input'];
 }
-if (isset($_GET['shipping']) &&  !empty($_GET['shipping'])) //shipping
+if (isset($_GET['shipping'])) //shipping
 {
   $shipping = $_GET['shipping'];
 }
-if (isset($_GET['local-pickup']) &&  !empty($_GET['local-pickup'])) //local-pickup filters
+if (isset($_GET['local-pickup'])) //local-pickup filters
 {
   $local_pickup = $_GET['local-pickup'];
 }
@@ -91,12 +91,16 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
                 <h5 class="card-text">خيارات التوصيل</h5>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="local-pickup" checked>
+                  <input class="form-check-input" type="hidden" value="0" name="local-pickup">
+
                   <label class="form-check-label" for="flexCheckDefault">
                     الاستلام الذاتي
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="shipping" checked>
+                  <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="shipping">
+
                   <label class="form-check-label" for="flexCheckChecked">
                     توصيل
                   </label>
@@ -106,15 +110,19 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
 
                 <h5 class="card-text">طرق الدفع</h5>
                 <div class="form-check">
-                  
+
                   <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="cash-method" checked>
-                  <input class="form-check-input" type="checkbox" value="<?php echo $user_input;?>" id="flexCheckDefault" name="search-field" checked style="display: none;">
+                  <input class="form-check-input" type="hidden" value="0" id="flexCheckDefault" name="cash-method">
+
+                  <input class="form-check-input" type="checkbox" value="<?php echo $user_input; ?>" id="flexCheckDefault" name="search-field" checked style="display: none;">
                   <label class="form-check-label" for="flexCheckDefault">
                     كاش
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="credit-method" checked>
+                  <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="credit-method">
+
                   <label class="form-check-label" for="flexCheckChecked">
                     بطاقة ائتمان
                   </label>

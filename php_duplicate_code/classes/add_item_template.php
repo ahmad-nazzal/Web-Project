@@ -43,7 +43,7 @@ class AddItemTemplate
 
 
 
-      <input class="form-control mb-2" type="file" id="formFileMultiple" onchange="loadFile(event)" name="images" multiple>
+      <input class="form-control mb-2" type="file" id="formFileMultiple" onchange="loadFile(event)" name="images[]" multiple>
       <span>
 
         <div class="available-imgs">

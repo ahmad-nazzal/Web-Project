@@ -19,30 +19,41 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
 function store_images($images_path, $item_id)
 {
   global $con;
-  $insert_images =
-    "
-    INSERT INTO images(item_id,image_url)
-    VALUES (?,?) WHERE item_id = ?;
-    ";
-  $ps = $con->prepare($insert_images);
+
+
+
+  // $first_image = $images_path[0];
+  // echo $images_path[0];
+  // $ps = $con->prepare($insert_images);
   for ($i = 0; $i < count($images_path); $i++) {
-
-    $images_path[$i];
+    $insert_images =
+      "
+    INSERT INTO images(item_id,image_url)
+    VALUES (" . $item_id . " ,'" . $images_path[$i] . "');
+    ";
+    $result = $con->query($insert_images);
+    // $s->bind_param("is", $item_id, $images_path[$i]);
+    // $first_image = $images_path[$i];
+    // $s->execute();
   }
-  $insert_images = $insert_images . ";";
+  // $s->close();
+  // $result = $con->query($insert_images);
 
-  $result = $con->query($insert_images);
-  return $result;
+  // return $ps->get_result();
 }
 
 // $_FILES['images']['name'][$i];
+$to = "../../client_images/";
+chmod($to, 0777);
 $images_path = [];
-if (isset($_FILES['images'])) {
+if ($_FILES['images']['name'] != "") {
 
-  $to = "/client_uploads/";
+
   for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
-    if (is_uploaded_file($_FILES['images']['name'][$i])) {
-      $tmp = $to . $_FILES['images']['name'];
+
+    if (is_uploaded_file($_FILES['images']['tmp_name'][$i])) {
+
+      $tmp = $to . $_FILES['images']['name'][$i];
       move_uploaded_file($_FILES['images']['tmp_name'][$i], $tmp);
       array_push($images_path, $tmp);
     }
@@ -62,7 +73,7 @@ if (
   && isset($_POST['create'])
   && isset($_POST['location'])
 ) {
-  $flag = false;
+
 
 
   global $con;
@@ -90,13 +101,19 @@ if (
     );
     $output = $ps->execute();
 
-    $get_item_id_query =
-      "
-    SELECT items.id from items order by items.id desc limit 1;
-    ";
-    $row = $con->query($get_item_id_query);
 
-    echo store_images($images_path, $row->ID);
+    // $get_item_id_query =
+    //   "
+    // SELECT items.id from items order by items.id desc limit 1;
+    // ";
+    // $row = $con->query($get_item_id_query);
+    $id = $ps->insert_id;
+    // $id = $con->insert_id;
+    $insert_into_reviews =
+      "
+    INSERT INTO REVIEWS(item_id) VALUES (" . $id . ");
+    ";
+    $con->query($insert_into_reviews);
   } else {
 
 
@@ -133,7 +150,7 @@ if (
     );
     $output = $ps->execute();
 
-    echo store_images($images_path, $_POST['create']);
+    store_images($images_path, $_POST['create']);
   }
 }
 

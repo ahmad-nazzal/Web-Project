@@ -197,7 +197,7 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
   <?php new NavBarAll($isuser, $con, $user_email, $userName); ?>
 
   <div class="container ">
-    <form action="my_items_page.php" method="post" id="main-form">
+    <form action="my_items_page.php" method="post" id="main-form" enctype="multipart/form-data">
       <?php
       if ($create_flag == false) {
         (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat, $item_obj->location))->render();
