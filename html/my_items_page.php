@@ -16,6 +16,40 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
   $isuser = $_SESSION['isUser'];
 }
 
+function store_images($images_path, $item_id)
+{
+  global $con;
+  $insert_images =
+    "
+    INSERT INTO images(item_id,image_url)
+    VALUES 
+    ";
+  for ($i = 0; $i < count($images_path); $i++) {
+    if ($i != 0) {
+      $insert_images = $insert_images . ",";
+    }
+    $insert_images = $insert_images . " (" . $item_id . ",'" . $images_path[$i] . "')";
+  }
+  $insert_images = $insert_images . ";";
+
+  $result = $con->query($insert_images);
+  return $result;
+}
+
+// $_FILES['images']['name'][$i];
+$images_path = [];
+if (isset($_FILES['images'])) {
+
+  $to = "/client_uploads/";
+  for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+    if (is_uploaded_file($_FILES['images']['name'][$i])) {
+      $tmp = $to . $_FILES['images']['name'];
+      move_uploaded_file($_FILES['images']['tmp_name'][$i], $tmp);
+      array_push($images_path, $tmp);
+    }
+  }
+}
+
 
 if (
   isset($_POST['title'])
@@ -31,34 +65,39 @@ if (
 ) {
   $flag = false;
 
-  if ($_POST['create'] == 0) {
-    global $flag;
-    $flag = true;
-  }
+
   global $con;
-  if ($flag == true) {
+  if ($_POST['create'] == 0) {
     $insert =
       "
     INSERT INTO items(title,description,stat,price_per_day,cash_method,credit_method,local_pickup,shipping,location, user_email)
     VALUES 
     (?,?,?,?,?,?,?,?,?,?)
     ";
-    $ps = $con->prepare($update);
+
+    $ps = $con->prepare($insert);
     $ps->bind_param(
       "ssiiiiiiss",
       $_POST['title'],
       $_POST['desc'],
+      $_POST['status'],
       $_POST['price'],
       $_POST['cash-method'],
       $_POST['credit-method'],
       $_POST['self-pickup'],
       $_POST['shipping'],
-      $_POST['status'],
       $_POST['location'],
       $_SESSION['useremail']
     );
     $output = $ps->execute();
-    echo "<h1>" . $output . "</h1>";
+
+    $get_item_id_query =
+      "
+    SELECT items.id from items order by items.id desc limit 1;
+    ";
+    $row = $con->query($get_item_id_query);
+
+    echo store_images($images_path, $row->ID);
   } else {
 
 
@@ -73,8 +112,8 @@ if (
     local_pickup = ?,
     shipping = ?,
     stat = ?,
-    location = ?,
-    WHERE id = ? AND user_email = ?
+    location = ?
+    WHERE id = ? AND user_email = ?;
   ";
     $ps = $con->prepare($update);
     $ps->bind_param(
@@ -94,6 +133,8 @@ if (
     $ps->execute();
     $output = $ps->execute();
     echo "<h1>" . $output . "</h1>";
+
+    echo store_images($images_path, $_POST['create']);
   }
 }
 
@@ -127,15 +168,41 @@ if (
     <div class="items-gallery mt-5">
 
       <?php
+      // $queryCard = "select * from (SELECT Distinct Title, price_per_day,avgRate,image_url,items.user_email,items.ID from ( (items INNER JOIN (SELECT AVG(rating) as
+      //   avgRate,item_id from reviews GROUP BY item_id) rate ON items.id= rate.item_id ) INNER JOIN images 
+      //   ON images.item_id=items.ID)) card where card.user_email='$user_email';";
 
-
-      $queryCard = "select * from (SELECT Distinct Title, price_per_day,avgRate,image_url,items.user_email,items.ID from ( (items INNER JOIN (SELECT AVG(rating) as
-        avgRate,item_id from reviews GROUP BY item_id) rate ON id=item_id ) INNER JOIN images 
-        ON images.item_id=items.ID)) card where card.user_email='$user_email'";
+      $queryCard =
+        "
+      SELECT DISTINCT
+    items.ID,
+    normal.stars,
+    images.image_url,
+    items.title,
+    items.price_per_day
+FROM
+    (
+        items,
+        items AS i
+    INNER JOIN images ON i.ID = images.item_id,
+        (
+        SELECT
+            AVG(rating) as stars,
+            reviews.item_id
+        FROM
+            items AS it
+        INNER JOIN reviews ON it.ID = reviews.item_id
+    ) normal
+    )
+WHERE
+    items.user_email = '" . $user_email . "'
+GROUP BY
+    items.ID;
+      ";
       $resultt = $con->query($queryCard);
 
       while ($cardData = mysqli_fetch_assoc($resultt)) {
-        $card = new MiniCard(false, true, $cardData['avgRate'], $cardData['image_url'], $cardData['Title'], $cardData['price_per_day'], 16.3, "add_item.php?item=" . $cardData['ID']);
+        $card = new MiniCard(false, true, $cardData['stars'], $cardData['image_url'], $cardData['title'], $cardData['price_per_day'], 16.3, "add_item.php?item=" . $cardData['ID']);
         $card->render();
         unset($card);
       }

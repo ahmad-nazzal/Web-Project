@@ -203,7 +203,7 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
         (new AddItemTemplate($item_id, $item_images, $item_obj->Title, $item_obj->Description, $item_obj->price_per_day, $item_obj->cash_method, $item_obj->credit_method, $item_obj->local_pickup, $item_obj->shipping, $item_obj->stat, $item_obj->location))->render();
       } else {
         $arr = [];
-        (new AddItemTemplate(null, $arr, "", "", 0, 0, 0, 0, 0, 1, ""))->render();
+        (new AddItemTemplate(0, $arr, "", "", 0, 0, 0, 0, 0, 1, ""))->render();
       }
       ?>
       <div class="d-flex justify-content-center">

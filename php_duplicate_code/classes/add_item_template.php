@@ -43,7 +43,7 @@ class AddItemTemplate
 
 
 
-      <input class="form-control mb-2" type="file" id="formFileMultiple" onchange="loadFile(event)" multiple>
+      <input class="form-control mb-2" type="file" id="formFileMultiple" onchange="loadFile(event)" name="images" multiple>
       <span>
 
         <div class="available-imgs">
@@ -63,7 +63,7 @@ class AddItemTemplate
       <h5 class="mb-3">العنوان</h5>
       <div class="form-group mb-3">
 
-        <input id="title-input" class="form-control" type="text" value="<?php echo $this->Title; ?>" placeholder="اكتب عنوانًا لغرضك" name="">
+        <input id="title-input" class="form-control" type="text" value="<?php echo $this->Title; ?>" placeholder="اكتب عنوانًا لغرضك" name="title">
       </div>
       <h5 class="text-description mb-e">الوصف</h5>
       <div class="form-group">
@@ -108,6 +108,8 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
+                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="cash-method">
+
                 <label class="form-check-label" for="flexCheckChecked">
                   كاش
                 </label>
@@ -126,6 +128,7 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
+                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="credit-method">
 
                 <label class="form-check-label" for="flexCheck">
                   بطاقة ائتمان
@@ -186,6 +189,8 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
+                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="self-pickup">
+
                 <label class="form-check-label" for="flexCheckChecked">
                   استلام شخصي
                 </label>
@@ -203,6 +208,8 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
+                <input class="form-check-input" type="hidden" value="0" id="flexCheck" name="shipping">
+
                 <label class="form-check-label" for="flexCheck">
                   توصيل عادي
                 </label>
@@ -238,6 +245,7 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
+                <input class="form-check-input" type="hidden" role="switch" id="flexSwitchCheckChecked" name="status" value="0">
                 <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> -->
                 <label class="form-check-label" for="flexSwitchCheckChecked">متاح</label>
               </div>
