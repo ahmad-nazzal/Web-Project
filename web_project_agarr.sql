@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2022 at 05:16 PM
+-- Generation Time: Dec 20, 2022 at 02:41 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -74,8 +74,6 @@ CREATE TABLE `images` (
 INSERT INTO `images` (`image_url`, `item_id`) VALUES
 ('../client_images/242.webp', 3),
 ('../client_images/dress1.webp', 5),
-('../client_images/dress2.jpg', 8),
-('../client_images/dress4.avif', 9),
 ('../client_images/equpym.jpg', 4),
 ('../client_images/gaming.jfif', 1),
 ('../client_images/gaming1.png', 6),
@@ -108,15 +106,13 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`ID`, `Description`, `Title`, `stat`, `price_per_day`, `user_email`, `location`, `shipping_cost`, `shipping`, `local_pickup`, `cash_method`, `credit_method`) VALUES
-(1, 'nice item', 'our item', 1, 20, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'hi', 'salah item', 1, 10, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(1, 'nice item', 'our item', 1, 20, 'nazzala8@gmail.com', NULL, 1, 1, 1, 1, 1),
+(2, 'hi', 'salah item', 1, 10, 'nazzala8@gmail.com', 'Nablus', NULL, 1, 1, 1, 1),
 (3, 'hi', 'salah item', 1, 101, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'hi', 'salah item', 1, 10, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'hi', 'lqlqlq', 1, 10, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
 (5, 'hi', 'salah item', 1, 5, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 'hi', 'salah item', 1, 10, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 'hi', 'salah item', 1, 3, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'hifdaf', 'salah item', 1, 10, 'tanboursalah@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'hi', 'salah item', 1, 8, 'tanboursalah@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL);
+(7, 'hi', 'salah item', 1, 3, 'nazzala8@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -140,9 +136,7 @@ INSERT INTO `items_tags` (`item_id`, `tag_category`) VALUES
 (4, 'أدوات رياضة'),
 (5, 'فساتين'),
 (6, 'العاب'),
-(7, 'العاب'),
-(8, 'فساتين'),
-(9, 'فساتين');
+(7, 'العاب');
 
 -- --------------------------------------------------------
 
@@ -153,7 +147,7 @@ INSERT INTO `items_tags` (`item_id`, `tag_category`) VALUES
 CREATE TABLE `rent` (
   `user_email` varchar(42) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `start_date` date DEFAULT NULL,
+  `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `status` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -164,6 +158,7 @@ CREATE TABLE `rent` (
 
 INSERT INTO `rent` (`user_email`, `item_id`, `start_date`, `end_date`, `status`) VALUES
 ('nazzala8@gmail.com', 2, '2022-12-15', '2022-12-23', 1),
+('nazzala8@gmail.com', 2, '2022-12-18', '2022-12-03', 0),
 ('nazzala8@gmail.com', 5, '2022-12-11', '2022-12-14', 2);
 
 -- --------------------------------------------------------
@@ -176,22 +171,21 @@ CREATE TABLE `reviews` (
   `user_email` varchar(42) NOT NULL,
   `item_id` int(11) NOT NULL,
   `comment_text` varchar(500) DEFAULT NULL,
-  `rating` int(1) DEFAULT NULL
+  `rating` int(1) DEFAULT NULL,
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`user_email`, `item_id`, `comment_text`, `rating`) VALUES
-('nazzala8@gmail.com', 2, 'dfdfdsg', 2),
-('nazzala8@gmail.com', 3, NULL, 4),
-('nazzala8@gmail.com', 4, NULL, 4),
-('nazzala8@gmail.com', 5, NULL, 4),
-('nazzala8@gmail.com', 6, NULL, 4),
-('nazzala8@gmail.com', 7, NULL, 4),
-('tanboursalah@gmail.com', 8, NULL, 4),
-('tanboursalah@gmail.com', 9, NULL, 4);
+INSERT INTO `reviews` (`user_email`, `item_id`, `comment_text`, `rating`, `id`) VALUES
+('nazzala8@gmail.com', 2, 'dfdfdsg', 2, 0),
+('nazzala8@gmail.com', 3, NULL, 5, 1),
+('nazzala8@gmail.com', 4, NULL, 3, 2),
+('nazzala8@gmail.com', 5, NULL, 5, 3),
+('nazzala8@gmail.com', 6, NULL, 4, 4),
+('nazzala8@gmail.com', 7, NULL, 4, 5);
 
 -- --------------------------------------------------------
 
@@ -235,7 +229,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`Email`, `first_name`, `last_name`, `pass`, `phone`, `bank_account_number`, `bank_name`, `image`) VALUES
 ('nazzala8@gmail.com', 'أحمد', 'نزال', '2438b3d7fdfb5f57c3ecebb4bdd61c365e31ab3a', '0595036181', '5185064654', 'فلسطين', NULL),
-('tanboursalah@gmail.com', 'salah', 'tanbour', '123456', NULL, NULL, NULL, NULL);
+('tanboursalah@gmail.com', 'صلاح ', 'طنبور', '7c222fb2927d828af22f592134e8932480637c0d', '0592605800', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -280,7 +274,7 @@ ALTER TABLE `items_tags`
 -- Indexes for table `rent`
 --
 ALTER TABLE `rent`
-  ADD PRIMARY KEY (`user_email`,`item_id`),
+  ADD PRIMARY KEY (`user_email`,`item_id`,`start_date`),
   ADD KEY `user_email` (`user_email`),
   ADD KEY `item_id` (`item_id`);
 
@@ -288,7 +282,7 @@ ALTER TABLE `rent`
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`user_email`,`item_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `user_email` (`user_email`),
   ADD KEY `item_id` (`item_id`);
 
@@ -322,47 +316,47 @@ ALTER TABLE `items`
 -- Constraints for table `action`
 --
 ALTER TABLE `action`
-  ADD CONSTRAINT `action_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `action_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `action_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `action_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `address`
 --
 ALTER TABLE `address`
-  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `images`
 --
 ALTER TABLE `images`
-  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `items`
 --
 ALTER TABLE `items`
-  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `items_tags`
 --
 ALTER TABLE `items_tags`
-  ADD CONSTRAINT `items_tags_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `items_tags_ibfk_2` FOREIGN KEY (`tag_category`) REFERENCES `tags` (`category`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `items_tags_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `items_tags_ibfk_2` FOREIGN KEY (`tag_category`) REFERENCES `tags` (`category`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rent`
 --
 ALTER TABLE `rent`
-  ADD CONSTRAINT `rent_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `rent_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `rent_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rent_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
