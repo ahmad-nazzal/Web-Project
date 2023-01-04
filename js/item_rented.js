@@ -138,6 +138,7 @@ function recivedItem(button, email, itemId) {
     button.setAttribute("disabled", "");
     button.innerHTML = "&#9745";
     button.style.fontSize = "1rem";
+    console.log(this.responseText);
   };
   httpp.open("POST", "recivedItemApi.php", false);
   httpp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -96,6 +96,8 @@ class AddItemTemplate
 
               </div>
               <div class="form-check w-50">
+                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="cash-method">
+
                 <?php
                 if ($this->cash_method == 1) {
 
@@ -109,7 +111,6 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
-                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="cash-method">
 
                 <label class="form-check-label" for="flexCheckChecked">
                   كاش
@@ -117,6 +118,8 @@ class AddItemTemplate
 
               </div>
               <div class="form-check w-50">
+                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="credit-method">
+
                 <?php
                 if ($this->credit_method == 1) {
 
@@ -129,7 +132,6 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
-                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="credit-method">
 
                 <label class="form-check-label" for="flexCheck">
                   بطاقة ائتمان
@@ -181,6 +183,8 @@ class AddItemTemplate
 
             <div class="accordion-body my-2">
               <div class="form-check w-50">
+                <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="self-pickup">
+
                 <?php
                 if ($this->local_pickup == 1) {
 
@@ -200,6 +204,8 @@ class AddItemTemplate
                 </label>
               </div>
               <div class="form-check w-50">
+                <input class="form-check-input" type="hidden" value="0" id="flexCheck" name="shipping">
+
                 <?php
                 if ($this->shipping == 1) {
 
@@ -212,7 +218,6 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
-                <input class="form-check-input" type="hidden" value="0" id="flexCheck" name="shipping">
 
                 <label class="form-check-label" for="flexCheck">
                   توصيل عادي
@@ -237,6 +242,7 @@ class AddItemTemplate
           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
               <div class="form-check form-switch">
+                <input class="form-check-input" type="hidden" role="switch" id="flexSwitchCheckChecked" name="status" value="0">
                 <?php
                 if ($this->stat == 1) {
 
@@ -249,7 +255,7 @@ class AddItemTemplate
                 <?php
                 }
                 ?>
-                <input class="form-check-input" type="hidden" role="switch" id="flexSwitchCheckChecked" name="status" value="0">
+
                 <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> -->
                 <label class="form-check-label" for="flexSwitchCheckChecked">متاح</label>
               </div>

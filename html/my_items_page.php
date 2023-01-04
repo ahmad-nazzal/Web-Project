@@ -20,26 +20,14 @@ function store_images($images_path, $item_id)
 {
   global $con;
 
-
-
-  // $first_image = $images_path[0];
-  // echo $images_path[0];
-  // $ps = $con->prepare($insert_images);
   for ($i = 0; $i < count($images_path); $i++) {
     $insert_images =
       "
     INSERT INTO images(item_id,image_url)
     VALUES (" . $item_id . " ,'" . $images_path[$i] . "');
     ";
-    $result = $con->query($insert_images);
-    // $s->bind_param("is", $item_id, $images_path[$i]);
-    // $first_image = $images_path[$i];
-    // $s->execute();
+    $con->query($insert_images);
   }
-  // $s->close();
-  // $result = $con->query($insert_images);
-
-  // return $ps->get_result();
 }
 
 // $_FILES['images']['name'][$i];
@@ -90,14 +78,13 @@ function insert_item_into_database($images_path)
   $id = $ps->insert_id;
 
   // insert tags 
-  if ($_POST['tag'] != "اخرى") {
 
-    $insert_into_tags =
-      " 
+
+  $insert_into_tags =
+    " 
     INSERT INTO items_tags (item_id, tag_category) values (" . $id . ", '" . $_POST['tag'] . "');
     ";
-    $con->query($insert_into_tags);
-  }
+  $con->query($insert_into_tags);
   // storing the images in images relation.
   store_images($images_path, $id);
 
@@ -210,7 +197,7 @@ if (
       <?php
       $queryCard = "select * from (SELECT Distinct Title, price_per_day,avgRate,image_url,items.user_email,items.ID from ( (items INNER JOIN (SELECT AVG(rating) as
         avgRate,item_id from reviews GROUP BY item_id) rate ON items.id= rate.item_id ) INNER JOIN images 
-        ON images.item_id=items.ID)) card where card.user_email='$user_email';";
+        ON images.item_id=items.ID )) card where card.user_email='$user_email';";
 
       //       $queryCard =
       //         "
@@ -241,7 +228,14 @@ if (
       //       ";
       $resultt = $con->query($queryCard);
 
+      $added_items = [];
+
       while ($cardData = mysqli_fetch_assoc($resultt)) {
+        if (in_array($cardData['ID'], $added_items)) {
+          continue;
+        }
+        array_push($added_items, $cardData['ID']);
+
         $card = new MiniCard(false, true, $cardData['avgRate'], $cardData['image_url'], $cardData['Title'], $cardData['price_per_day'], 16.3, "add_item.php?item=" . $cardData['ID']);
         $card->render();
         unset($card);

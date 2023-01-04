@@ -1,4 +1,7 @@
 <?php
+
+include_once "database.php";
+include_once "NavBarAll"
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +15,7 @@
 </head>
 
 <body>
-  <?php ?>
+  <?php new NavBarAll() ?>
   <div class=" container"></div>
 </body>
 

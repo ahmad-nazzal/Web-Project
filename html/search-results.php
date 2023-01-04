@@ -90,16 +90,18 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
 
                 <h5 class="card-text">خيارات التوصيل</h5>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="local-pickup" checked>
                   <input class="form-check-input" type="hidden" value="0" name="local-pickup">
+
+                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="local-pickup" checked>
 
                   <label class="form-check-label" for="flexCheckDefault">
                     الاستلام الذاتي
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="shipping" checked>
                   <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="shipping">
+
+                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="shipping" checked>
 
                   <label class="form-check-label" for="flexCheckChecked">
                     توصيل
@@ -111,8 +113,8 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
                 <h5 class="card-text">طرق الدفع</h5>
                 <div class="form-check">
 
-                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="cash-method" checked>
                   <input class="form-check-input" type="hidden" value="0" id="flexCheckDefault" name="cash-method">
+                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="cash-method" checked>
 
                   <input class="form-check-input" type="checkbox" value="<?php echo $user_input; ?>" id="flexCheckDefault" name="search-field" checked style="display: none;">
                   <label class="form-check-label" for="flexCheckDefault">
@@ -120,8 +122,8 @@ if (isset($_SESSION['isUser']) && isset($_SESSION['useremail']) && isset($_SESSI
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="credit-method" checked>
                   <input class="form-check-input" type="hidden" value="0" id="flexCheckChecked" name="credit-method">
+                  <input class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" name="credit-method" checked>
 
                   <label class="form-check-label" for="flexCheckChecked">
                     بطاقة ائتمان
